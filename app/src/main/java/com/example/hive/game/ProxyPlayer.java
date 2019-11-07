@@ -2,10 +2,10 @@ package com.example.hive.game;
 
 import android.util.Log;
 
-import edu.up.cs301.game.actionMsg.GameAction;
-import edu.up.cs301.game.infoMsg.BindGameInfo;
-import edu.up.cs301.game.infoMsg.GameInfo;
-import edu.up.cs301.game.util.NetworkObjectPasser;
+import com.example.hive.game.actionMessage.GameAction;
+import com.example.hive.game.infoMessage.BindGameInfo;
+import com.example.hive.game.infoMessage.GameInfo;
+import com.example.hive.game.utilities.NetworkObjectPasser;
 
 /**
  * A Player object that is used as a proxy for the real player that is on another

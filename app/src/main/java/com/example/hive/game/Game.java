@@ -1,6 +1,6 @@
 package com.example.hive.game;
 
-import edu.up.cs301.game.actionMsg.GameAction;
+import com.example.hive.game.actionMessage.GameAction;
 
 /**
  * To support remote play, this game framework has two types of Games: local

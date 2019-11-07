@@ -1,34 +1,39 @@
 package com.example.hive.game;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TabHost.TabSpec;
 
 import java.util.ArrayList;
 
-import edu.up.cs301.game.config.GameConfig;
-import edu.up.cs301.game.config.GamePlayerType;
-import edu.up.cs301.game.util.IPCoder;
-import edu.up.cs301.game.util.MessageBox;
+import com.example.hive.game.gameConfiguration.GameConfig;
+import com.example.hive.game.gameConfiguration.GamePlayerType;
+import com.example.hive.game.utilities.IPCoder;
+import com.example.hive.game.utilities.MessageBox;
+import com.example.hive.R;
 
 /**
  * class GameMainActivity

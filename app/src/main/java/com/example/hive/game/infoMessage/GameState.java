@@ -1,4 +1,4 @@
-package com.example.hive.game.infoMsg;
+package com.example.hive.game.infoMessage;
 
 /**
  * The state of the game. This class should be subclassed so that it holds
@@ -6,12 +6,13 @@ package com.example.hive.game.infoMsg;
  * example, if the game were chess, it would contain the contents of each
  * square on the board, which player's turn it was, etc.
  *
- * @author Steven R. Vegdahl 
+ * @author Steven R. Vegdahl
  * @version July 2013
  */
 public abstract class GameState extends GameInfo {
-
-	// to satisfy the Serializable interface
-	private static final long serialVersionUID = -5109179064333136954L;
+    //Tag for logging
+    private static final String TAG = "GameState";
+    // to satisfy the Serializable interface
+    private static final long serialVersionUID = -5109179064333136954L;
 
 }
