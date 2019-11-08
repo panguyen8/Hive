@@ -1,4 +1,6 @@
 package com.example.hive.Hive;
 
-public class HiveHumanPlayer {
+import com.example.hive.game.GameHumanPlayer;
+
+public class HiveHumanPlayer extends GameHumanPlayer {
 }

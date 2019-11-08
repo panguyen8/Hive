@@ -61,7 +61,7 @@ public class HiveMainActivity extends GameMainActivity {
      */
     @Override
     public LocalGame createLocalGame() {
-        return new PigLocalGame();
+        return new HiveLocalGame();
     }
 
 }
