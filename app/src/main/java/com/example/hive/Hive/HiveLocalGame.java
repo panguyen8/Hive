@@ -27,68 +27,97 @@ public class HiveLocalGame extends LocalGame {
         HiveGameState.piece[][] board = hgs.getBoard();
         // Check black bee
         if(hgs.getTurn() == 0) {
-            int occupiedSpaces = 0;
-            int pieceX = 0;
-            int pieceY = 0;
-            for(int row = 0; row < board.length; row++) {
-                // Iterates through entire board
-                for(int col =0; col < board[row].length; col++) {
-                    if(board[row][col] == HiveGameState.piece.BBEE) {
-                        pieceX = row;
-                        pieceY = col;
-                        // Check adjacent squares
-                        for(int i = row - 1; i < row + 1; i++) {
-                            for(int j = col - 1; j < col + 1; j++) {
-                                if(i < 0 || j < 0 || i > board.length || j > board.length) {
-                                    continue; // Goes to next iteration
-                                }
-                                if(board[i][j] == board[row][col]) {
-                                    // Do nothing
-                                }
-                                else if(board[i][j] != null) {
-                                    occupiedSpaces++;
-                                }
+            if (checkBee(0))
+            {
+                return "Player 0 wins.";
+            }
+        }
+
+        else
+        {
+            if (checkBee(1))
+            {
+                return "Player 1 wins.";
+            }
+        }
+
+        return null;
+    }
+
+
+
+
+    private boolean checkBee(int player)
+    {
+        HiveGameState.piece[][] board = hgs.getBoard();
+        HiveGameState.piece beeToCheck;
+
+        if (player == 0)
+        {
+            beeToCheck = HiveGameState.piece.BBEE;
+        }
+
+        else
+        {
+            beeToCheck = HiveGameState.piece.WBEE;
+        }
+
+        int occupiedSpaces = 0;
+        int pieceX = 0;
+        int pieceY = 0;
+
+        for(int row = 0; row < board.length; row++) {
+            for(int col =0; col < board[row].length; col++) {
+                if(board[row][col] == beeToCheck) {
+                    pieceX = row;
+                    pieceY = col;
+
+                    // Check adjacent squares
+                    for(int i = row - 1; i < row + 1; i++) {
+                        for(int j = col - 1; j < col + 1; j++) {
+                            //Error checking on array bounds
+                            if(i < 0 || j < 0 || i > board.length || j > board.length) {
+                                continue; // Goes to next iteration
+                            }
+
+                            if(board[i][j] == board[row][col]) {
+                                // Do nothing
+                            }
+
+                            else if(board[i][j] != null) {
+                                occupiedSpaces++;
                             }
                         }
                     }
                 }
             }
-            // Fix if necessary
-            if(pieceX == 0 || pieceX == board.length - 1 || pieceY == 0 ||
-                    pieceY == board.length - 1) {
-                if(occupiedSpaces == 3) {
-                    return "";
-                }
-
-                if((pieceX > 0 && pieceX < board.length - 1) ||
-                        (pieceY > 0 && pieceY < board.length - 1)) {
-                    if(occupiedSpaces == 5) {
-                        return "";
-                    }
-                }
-            }
-            else {
-                if(occupiedSpaces == 8) {
-                    return "";
-                }
-            }
-
-
-            return null;
         }
-        // Check white bee
-        else if(hgs.getTurn() == 1) {
-            int occupiedSpaces = 0;
-            for(int i = 0; i < board.length; i++) {
-                for(int j =0; j < board[i].length; j++) {
-                    if(board[i][j] == HiveGameState.piece.WBEE) {
-                        // Check adjacent squares
-                    }
+
+        // Fix if necessary
+        if(pieceX == 0 || pieceX == board.length - 1 || pieceY == 0 ||
+                pieceY == board.length - 1) {
+            if(occupiedSpaces == 3) {
+                return true;
+            }
+
+            if((pieceX > 0 && pieceX < board.length - 1) ||
+                    (pieceY > 0 && pieceY < board.length - 1)) {
+                if(occupiedSpaces == 5) {
+                    return true;
                 }
             }
         }
-        return "Game! Player... wins!";
+        else {
+            if(occupiedSpaces == 8) {
+                return true;
+            }
+        }
+
+        return false;
     }
+
+
+
 
     protected boolean makeMove(GameAction action) {
         // White to move
