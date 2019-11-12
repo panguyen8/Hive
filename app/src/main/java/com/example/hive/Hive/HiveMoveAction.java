@@ -5,8 +5,10 @@ import com.example.hive.game.actionMessage.GameAction;
 
 public class HiveMoveAction extends GameAction {
 
-    protected int row;
-    protected int col;
+    protected int startRow;
+    protected int startCol;
+    protected int endRow;
+    protected int endCol;
 
     /**
      *  consturctor for GameAction
@@ -14,18 +16,28 @@ public class HiveMoveAction extends GameAction {
      * @param player
      *      the player who created the action
      */
-    public HiveMoveAction(GamePlayer player, int r, int c) {
+    public HiveMoveAction(GamePlayer player, int startX, int startY, int endX, int endY) {
         super(player);
 
-        row = r;
-        col = c;
+        startRow = startX;
+        startCol = startY;
+        endRow = endX;
+        endCol = endY;
     }
 
-    public int getRow() {
-        return row;
+    public int getStartX() {
+        return startRow;
     }
 
-    public int getCol() {
-        return col;
+    public int getStartCol() {
+        return startCol;
+    }
+
+    public int getEndX() {
+        return endRow;
+    }
+
+    public int getEndCol() {
+        return endCol;
     }
 }
