@@ -375,4 +375,8 @@ public class HiveGameState {
     void setTurn(int id) {
         this.turn = id;
     }
+
+    piece[][] getBoard() {
+        return this.board;
+    }
 }
