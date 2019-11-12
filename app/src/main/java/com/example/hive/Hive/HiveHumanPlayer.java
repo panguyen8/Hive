@@ -71,10 +71,9 @@ public class HiveHumanPlayer extends GameHumanPlayer {
         // the screen; otherwise, create and send an action to
         // the game
         if (p == null) {
-            surfaceView.flash(Color.RED, 50);
+            //surfaceView.flash(Color.RED, 50);
         } else {
-            HiveMoveAction action = new HiveMoveAction(this, p.y, p.x);
-            Logger.log("onTouch", "Human player sending TTTMA ...");
+            HiveMoveAction action = new HiveMoveAction(this, x, y);
             game.sendAction(action);
             surfaceView.invalidate();
         }
@@ -84,6 +83,7 @@ public class HiveHumanPlayer extends GameHumanPlayer {
 
     }
 
+    /*
     public boolean onTouchEvent(MotionEvent e) {
             //gets the coordinates of mouse click
             float x = e.getX();
@@ -118,6 +118,8 @@ public class HiveHumanPlayer extends GameHumanPlayer {
             return true;
         }
 
+     */
+
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
@@ -145,6 +147,7 @@ public class HiveHumanPlayer extends GameHumanPlayer {
             for (int i = 0; i < 20; i++) {
                 for (int j = 0; j < 20; j++) {
                     //check the empty spots of the board
+                    /*
                     if (state.board[j][i] == 0) {
                         //if the board spot is empty, check surrounding spaces for certain move restrictions
                         if (board[j][i] == 1) {
@@ -152,6 +155,8 @@ public class HiveHumanPlayer extends GameHumanPlayer {
                             board[j][i] == 2;
                         }
                     }
+
+                     */
                 }
             }
         }
