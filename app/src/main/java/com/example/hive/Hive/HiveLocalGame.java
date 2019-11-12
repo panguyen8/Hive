@@ -93,20 +93,31 @@ public class HiveLocalGame extends LocalGame {
             }
         }
 
-        // Fix if necessary
-        if(pieceX == 0 || pieceX == board.length - 1 || pieceY == 0 ||
-                pieceY == board.length - 1) {
+        //Since squares have different amounts of adjacent spots,
+        //it is necessary to check where queen bee is, then
+        //check what the maximum number of adjacent squares is
+        //If # of full spots is equal to that maximum, return true
+        
+        //Checks the corners
+        if((pieceX == 0 && pieceY == 0) ||
+                (pieceX == board.length - 1 && pieceY == 0) ||
+                (pieceX == board.length - 1 && pieceY == board.length - 1) ||
+                (pieceY == board.length - 1 && pieceX == 0)) {
             if(occupiedSpaces == 3) {
                 return true;
             }
+        }
 
-            if((pieceX > 0 && pieceX < board.length - 1) ||
-                    (pieceY > 0 && pieceY < board.length - 1)) {
-                if(occupiedSpaces == 5) {
-                    return true;
-                }
+        //Make sure this edge checking is done
+        else if((pieceX > 0 && pieceX < board.length - 1) ||
+                (pieceY > 0 && pieceY < board.length - 1)
+                ) {
+            if(occupiedSpaces == 5) {
+                return true;
             }
         }
+
+        //Anywhere else
         else {
             if(occupiedSpaces == 8) {
                 return true;
