@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
@@ -25,6 +26,18 @@ public class HiveView extends SurfaceView {
     public void setState(HiveGameState state) {
         this.state = state;
     }
+
+    public Point mapPixelToSquare(int x, int y) {
+
+        // loop through each square and see if we get a "hit"; if so, return
+        // the corresponding Point in "square" coordinates
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                return new Point(i, j);
+            }
+        }
+        }
 
     public void onDraw(Canvas canvas)  {
         for(int i = 0; i < 12; i++) {
