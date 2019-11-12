@@ -3,7 +3,7 @@ package com.example.hive.Hive;
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.actionMessage.GameAction;
 
-public class HivePlacePieceAction extends GameAction {
+public class HiveSelectedPieceAction extends GameAction {
 
     protected int row;
     protected int col;
@@ -13,10 +13,8 @@ public class HivePlacePieceAction extends GameAction {
      * @param player
      *      the player who created the action
      */
-    public HivePlacePieceAction(GamePlayer player, int x, int y)
-    {
+    public HiveSelectedPieceAction(GamePlayer player, int x, int y) {
         super(player);
-
         row = x;
         col = y;
     }
