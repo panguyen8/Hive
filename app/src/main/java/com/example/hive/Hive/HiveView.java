@@ -15,6 +15,7 @@ public class HiveView extends SurfaceView {
 
     Paint hexagonalPaint = new Paint();
     Paint hexagonalTargetPaint = new Paint();
+    Paint HexagonalPaintOutline = new Paint();
 
     Path Hexagon = new Path();
     Point point1 = new Point();
@@ -29,7 +30,8 @@ public class HiveView extends SurfaceView {
         setWillNotDraw(false);
 
         hexagonalPaint.setColor(Color.WHITE);
-        hexagonalTargetPaint.setColor(Color.RED);
+        hexagonalTargetPaint.setColor(Color.BLACK);
+        HexagonalPaintOutline.setColor(Color.BLACK);
 
         hexagonalPaint.setStyle(Paint.Style.FILL);
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
@@ -71,14 +73,16 @@ public class HiveView extends SurfaceView {
     }
 
     public void drawHexagon(Canvas canvas, int startX, int startY) {
-        /*canvas.drawLine(startX, startY+33, startX+50, startY, hexagonalPaint);
-        canvas.drawLine(startX+50, startY, startX+100, startY+33, hexagonalPaint);
-        canvas.drawLine(startX+100, startY+33, startX+100, startY+66, hexagonalPaint);
-        canvas.drawLine(startX+100, startY+66, startX+50, startY+100, hexagonalPaint);
-        canvas.drawLine(startX+50, startY+100, startX, startY+66, hexagonalPaint);
-        canvas.drawLine(startX, startY+66, startX, startY+33, hexagonalPaint);*/
-
         canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+
+        canvas.drawLine(startX, startY+33, startX+50, startY, hexagonalTargetPaint);
+        canvas.drawLine(startX+50, startY, startX+100, startY+33, hexagonalTargetPaint);
+        canvas.drawLine(startX+100, startY+33, startX+100, startY+66, hexagonalTargetPaint);
+        canvas.drawLine(startX+100, startY+66, startX+50, startY+100, hexagonalTargetPaint);
+        canvas.drawLine(startX+50, startY+100, startX, startY+66, hexagonalTargetPaint);
+        canvas.drawLine(startX, startY+66, startX, startY+33, hexagonalTargetPaint);
+
     }
 
     public void drawTargetHexagon(Canvas canvas, int startX, int startY) {
@@ -109,6 +113,5 @@ public class HiveView extends SurfaceView {
         Hexagon.close();
 
         return Hexagon;
-
     }
 }

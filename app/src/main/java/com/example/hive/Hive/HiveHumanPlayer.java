@@ -1,6 +1,5 @@
 package com.example.hive.Hive;
 
-import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -9,8 +8,9 @@ import com.example.hive.game.GameHumanPlayer;
 import com.example.hive.game.GameMainActivity;
 import com.example.hive.game.infoMessage.GameInfo;
 import com.example.hive.game.infoMessage.IllegalMoveInfo;
+import com.example.hive.game.utilities.Logger;
 
-public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickListener{
+public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener{
 
     private final int QUEEN = 1;
     private final int GRASSHOPPER = 2;
@@ -102,6 +102,24 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
     }//receiveInfo
 
     public boolean onTouch(View v, MotionEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+        int divider = 0;
+        divider = (int)((y/66));
+        yStart =(int) y + 33*divider;
+        yStart = yStart/100;
+
+        if((divider%2) == 0) {
+            xStart = (int) x;
+            xStart = xStart/100;
+        } else {
+            x = x - 50;
+            xStart = (int) x;
+            xStart = xStart/100;
+        }
+
+
+        Logger.log("onTouch",xStart + " " + yStart);
         if (moveReady = false) {
             // ignore if not an "up" event
             if (event.getAction() != MotionEvent.ACTION_UP) return true;
@@ -168,7 +186,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
         activity.setContentView(R.layout.hive_layout);
 
         //Initialize the widget reference member variables
+        surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);
 
+        surfaceView.setOnTouchListener(this);
 
     }//setAsGui
 

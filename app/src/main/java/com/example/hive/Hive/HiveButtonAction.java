@@ -32,5 +32,4 @@ public class HiveButtonAction extends GameAction {
             gamePiece = HiveGameState.piece.WANT;
         }
     }
-
 }
