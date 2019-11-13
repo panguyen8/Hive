@@ -172,7 +172,23 @@ public class HiveLocalGame extends LocalGame {
 
         }
         else if (action instanceof HivePlacePieceAction) {
+            //Declare action
+            HivePlacePieceAction placement = (HivePlacePieceAction) action;
 
+            //Sets piece specified in place piece onto the board
+            HiveGameState.piece[][] board = hgs.getBoard();
+            if (board[placement.row][placement.col] == null)
+            {
+                board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+            }
+
+            else
+            {
+                //Print error message?
+                return false;
+            }
+
+            hgs.bugList.remove(((HivePlacePieceAction) action).piece);
         }
         else if (action instanceof HiveSelectedPieceAction) {
 

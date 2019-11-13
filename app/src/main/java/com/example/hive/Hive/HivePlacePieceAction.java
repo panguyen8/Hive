@@ -7,18 +7,20 @@ public class HivePlacePieceAction extends GameAction {
 
     protected int row;
     protected int col;
+    protected  HiveGameState.piece piece;
     /**
      * constructor for GameAction
      *
      * @param player
      *      the player who created the action
      */
-    public HivePlacePieceAction(GamePlayer player, int x, int y)
+    public HivePlacePieceAction(GamePlayer player, int x, int y, HiveGameState.piece piece)
     {
         super(player);
 
         row = x;
         col = y;
+        this.piece = piece;
     }
 
     public int getRow(){
