@@ -61,8 +61,8 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     public void availableMoves(GameState state) {
         if (chosenPiece == 2) {
             //iterate through the entire array
-            for (int i = 0; i < 20; i++) {
-                for (int j = 0; j < 20; j++) {
+            for (int i = 1; i < 20-1; i++) {
+                for (int j = 1; j < 20-1; j++) {
                     //check the empty spots of the board
                     /*
                     if (state.board[j][i] == 0) {
