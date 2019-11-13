@@ -49,7 +49,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
         switch(v.getId()) {
             //case
                 //condition
-            HivePlacePieceAction action = new HivePlacePieceAction(this, )
+            //HivePlacePieceAction action = new HivePlacePieceAction(this, )
         }
     }
 
