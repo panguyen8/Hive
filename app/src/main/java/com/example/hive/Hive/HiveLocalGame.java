@@ -12,8 +12,8 @@ public class HiveLocalGame extends LocalGame {
     }
 
     /**
-     *
-     * @param p
+     * Sends new GameState to the appropriate player
+     * @param p: the player receiving the info
      */
     protected void sendUpdatedStateTo(GamePlayer p) {
         HiveGameState copy = new HiveGameState(hgs);
@@ -21,10 +21,9 @@ public class HiveLocalGame extends LocalGame {
     }
 
     /**
-     *
-     * @param playerIdx
-     * 		the player's player-number (ID)
-     * @return
+     * Checks if a player can move
+     * @param playerIdx: the player's player-number (ID)
+     * @return true if their id matches that of who is to move, false otherwise
      */
     protected boolean canMove(int playerIdx) {
         if(playerIdx == hgs.getTurn()) {
