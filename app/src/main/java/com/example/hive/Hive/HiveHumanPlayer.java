@@ -85,11 +85,16 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
             xStart = (int) event.getX();
             yStart = (int) event.getY();
 
-            Point p = surfaceView.mapPixelToSquare(xStart, yStart);
+            //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
 
             // if the location did not map to a legal square, flash
             // the screen; otherwise, create and send an action to
             // the game
+            HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
+            game.sendAction(action);
+            surfaceView.invalidate();
+
+            /*
             if (p == null) {
                 //surfaceView.flash(Color.RED, 50);
             } else {
@@ -97,6 +102,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
                 game.sendAction(action);
                 surfaceView.invalidate();
             }
+             */
+
         } else {
             xEnd = (int) event.getX();
             yEnd = (int) event.getY();

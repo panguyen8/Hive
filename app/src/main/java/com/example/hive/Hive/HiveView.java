@@ -27,6 +27,7 @@ public class HiveView extends SurfaceView {
         this.state = state;
     }
 
+    /*
     public Point mapPixelToSquare(int x, int y) {
 
         // loop through each square and see if we get a "hit"; if so, return
@@ -37,7 +38,11 @@ public class HiveView extends SurfaceView {
                 return new Point(i, j);
             }
         }
-        }
+
+        return Point;
+    }
+
+     */
 
     public void onDraw(Canvas canvas)  {
         for(int i = 0; i < 12; i++) {
