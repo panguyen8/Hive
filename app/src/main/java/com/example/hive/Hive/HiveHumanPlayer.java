@@ -108,7 +108,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnClickList
             xEnd = (int) event.getX();
             yEnd = (int) event.getY();
 
-            Point p = surfaceView.mapPixelToSquare(xStart, yStart);
+            //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
 
             HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
             game.sendAction(action);
