@@ -7,6 +7,7 @@ public class HiveSelectedPieceAction extends GameAction {
 
     protected int row;
     protected int col;
+    protected HiveGameState.piece piece;
     /**
      * constructor for GameAction
      *

@@ -180,13 +180,13 @@ public class HiveLocalGame extends LocalGame {
 
             //Iterate through surrounding spots, ignoring the piece
             //and 2 spots due to the board design
-            for (int i = move.endRow - 1; i < move.endRow + 1; i++) {
-                for (int j = move.endCol - 1; j < move.endCol + 1; j++) {
+            for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
+                for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
 
                     //Ignore certain spots
                     if (board[i][j] == board[move.endRow][move.endCol] ||
-                            board[i][j] == board[move.endRow - 1][move.endCol] ||
-                            board[i][j] == board[move.endRow + 1][move.endCol]) {
+                            board[i][j] == board[move.endRow - 1][move.endCol - 1] ||
+                            board[i][j] == board[move.endRow + 1][move.endCol - 1]) {
                         // Do nothing
                     }
 
@@ -212,13 +212,13 @@ public class HiveLocalGame extends LocalGame {
 
             //Iterate through surrounding spots, ignoring the piece
             //and 2 spots due to the board design
-            for (int i = placement.row - 1; i < placement.col + 1; i++) {
-                for (int j = placement.col - 1; j < placement.col + 1; j++) {
+            for (int i = placement.row - 1; i < placement.col + 2; i++) {
+                for (int j = placement.col - 1; j < placement.col + 2; j++) {
 
                     //Ignore certain spots
                     if (board[i][j] == board[placement.row][placement.col] ||
-                            board[i][j] == board[placement.row - 1][placement.col] ||
-                            board[i][j] == board[placement.row + 1][placement.col]) {
+                            board[i][j] == board[placement.row - 1][placement.col - 1] ||
+                            board[i][j] == board[placement.row + 1][placement.col - 1]) {
                         // Do nothing
                     }
 
@@ -239,12 +239,20 @@ public class HiveLocalGame extends LocalGame {
                 //Print error message?
                 return false;
             }
-
             hgs.bugList.remove(((HivePlacePieceAction) action).piece);
         }
         
         else if (action instanceof HiveSelectedPieceAction) {
-
+            HiveSelectedPieceAction select = (HiveSelectedPieceAction) action;
+            HiveGameState.piece[][] board = hgs.getBoard();
+            for(int row = 0; row < board.length; row++) {
+                for(int col = 0; col < board.length; col++) {
+                    if(board[row][col] == select.piece) {
+                        // Insert highlight code here
+                 
+                    }
+                }
+            }
         }
 
         // White to move
