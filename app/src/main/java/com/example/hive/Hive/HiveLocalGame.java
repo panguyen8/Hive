@@ -242,14 +242,17 @@ public class HiveLocalGame extends LocalGame {
             hgs.bugList.remove(((HivePlacePieceAction) action).piece);
         }
         
-        else if (action instanceof HiveSelectedPieceAction) {
+        else if(action instanceof HiveSelectedPieceAction) {
+            // Declare the type of action
             HiveSelectedPieceAction select = (HiveSelectedPieceAction) action;
             HiveGameState.piece[][] board = hgs.getBoard();
+
+            // Iterate through board to find selected piece's location
             for(int row = 0; row < board.length; row++) {
                 for(int col = 0; col < board.length; col++) {
                     if(board[row][col] == select.piece) {
                         // Insert highlight code here
-                 
+
                     }
                 }
             }
