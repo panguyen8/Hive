@@ -1,6 +1,8 @@
 package com.example.hive.Hive;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +11,8 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
+import com.example.hive.R;
+
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state;
@@ -16,6 +20,12 @@ public class HiveView extends SurfaceView {
     Paint hexagonalPaint = new Paint();
     Paint hexagonalTargetPaint = new Paint();
     Paint HexagonalPaintOutline = new Paint();
+
+    Paint wBee = new Paint();
+    Paint wBeetle = new Paint();
+    Paint wSpider = new Paint();
+    Paint wAnt = new Paint();
+    Paint wGrasshopper = new Paint();
 
     Path Hexagon = new Path();
     Point point1 = new Point();
@@ -45,23 +55,6 @@ public class HiveView extends SurfaceView {
     public void setState(HiveGameState state) {
         this.state = state;
     }
-
-    /*
-    public Point mapPixelToSquare(int x, int y) {
-
-        // loop through each square and see if we get a "hit"; if so, return
-        // the corresponding Point in "square" coordinates
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                return new Point(i, j);
-            }
-        }
-
-        return Point;
-    }
-
-     */
 
     public void onDraw(Canvas canvas)  {
         for(int y = 0; y < 12; y++) {
@@ -140,7 +133,11 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
-
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wbee);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        wBee.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, wBee);
     }
 
     public void drawWBeetle(Canvas canvas, int startX, int startY) {
@@ -150,6 +147,12 @@ public class HiveView extends SurfaceView {
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wbeetle);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        wBeetle.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, wBeetle);
 
 
     }
@@ -162,7 +165,11 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
-
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wspider);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        wSpider.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, wBeetle);
     }
 
     public void drawWAnt(Canvas canvas, int startX, int startY) {
@@ -173,7 +180,11 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
-
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.want);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        wAnt.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, wAnt);
     }
 
     public void drawWGhopper (Canvas canvas, int startX, int startY) {
@@ -184,6 +195,11 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wgrasshopper);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        wGrasshopper.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, wGrasshopper);
 
     }
 
