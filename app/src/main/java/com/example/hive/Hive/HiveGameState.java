@@ -110,6 +110,8 @@ public class HiveGameState extends GameState {
         return this.board;
     }
 
+    public ArrayList<piece> getBugList() { return bugList;}
+
     public HiveGameState.piece getPiece(int x, int y) {
         return board[x][y];
     }
