@@ -96,15 +96,15 @@ public class HiveLocalGame extends LocalGame {
 //                            }
 
                             //Check if current iteration is the piece
-                            //DUe to how hexagon board is implemented, the
-                            //check looks like this
-
+                            //Due to how hexagon board is implemented, the
+                            //check looks like this, where the piece is the
+                            //center space
 
                             //---  ---  ---
                             //|X|  |*|  |*|
                             //---  ---  ---
                             //---  ---  ---
-                            //|*|  |*|  |*|
+                            //|*|  |X|  |*|
                             //---  ---  ---
                             //---  ---  ---
                             //|X|  |*|  |*|
