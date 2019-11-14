@@ -65,6 +65,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, BEETLE);
                 break;
         }
+        moveReady = true;
         game.sendAction(action);
     }
 
