@@ -65,7 +65,7 @@ public class HiveLocalGame extends LocalGame {
      * (i.e. if all adjacent spots are full)
      *
      * @param player: ID of player whose bee is being checked
-     * @return true of surrounded, false otherwise
+     * @return: True of surrounded, false otherwise
      */
     private boolean checkBee(int player) {
         HiveGameState.piece[][] board = hgs.getBoard();
@@ -167,7 +167,7 @@ public class HiveLocalGame extends LocalGame {
      * Makes a move based on whose turn it is
      *
      * @param action The move that the player has sent to the game
-     * @return true if successful, false otherwise
+     * @return
      */
     protected boolean makeMove(GameAction action) {
         // Checks which type of action is being taken
