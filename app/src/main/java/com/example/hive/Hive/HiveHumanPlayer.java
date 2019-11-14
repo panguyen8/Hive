@@ -19,7 +19,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     private final int BEETLE = 4;
     private final int ANT = 5;
 
+    private int pieceChosen = 0;
+
     protected boolean moveReady = false;
+    protected boolean piecePlacement = false;
     protected int xStart = 0;
     protected int yStart = 0;
     protected int xEnd = 0;
@@ -52,21 +55,27 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         switch(v.getId()) {
             case R.id.QueenButton:
                 action = new HiveButtonAction(this,QUEEN);
+                pieceChosen = 1;
                 break;
             case R.id.SpiderButton:
                 action = new HiveButtonAction(this, SPIDER);
+                pieceChosen = 3;
                 break;
             case R.id.GrasshopperButton:
                 action = new HiveButtonAction(this, GRASSHOPPER);
+                pieceChosen = 2;
                 break;
             case R.id.AntButton:
                 action = new HiveButtonAction(this, ANT);
+                pieceChosen = 5;
                 break;
             case R.id.BeetleButton:
                 action = new HiveButtonAction(this, BEETLE);
+                pieceChosen = 4;
                 break;
         }
         moveReady = true;
+        piecePlacement = true;
         game.sendAction(action);
     }
 
@@ -139,16 +148,34 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             surfaceView.invalidate();
 
             moveReady = true;
-        } else {
+        } else if (piecePlacement == true) {
             xEnd = xCoord;
             yEnd = yCoord;
-            //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
 
-            HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
+            HivePlacePieceAction action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.EMPTY);
+
+            if (pieceChosen == 1) {
+                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEE);
+            } else if (pieceChosen == 2) {
+                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WGHOPPER);
+            } else if (pieceChosen == 3) {
+                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WSPIDER);
+            } else if (pieceChosen == 4) {
+                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEETLE);
+            } else if (pieceChosen == 5) {
+                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WANT);
+            }
             game.sendAction(action);
-            surfaceView.invalidate();
+        
+        } else {
+                xEnd = xCoord;
+                yEnd = yCoord;
+                //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
+                HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
+                game.sendAction(action);
+                surfaceView.invalidate();
 
-            moveReady = false;
+                moveReady = false;
         }
 
         // register that we have handled the event
