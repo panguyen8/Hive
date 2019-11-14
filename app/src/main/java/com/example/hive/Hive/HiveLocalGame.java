@@ -193,7 +193,7 @@ public class HiveLocalGame extends LocalGame {
                         // Do nothing
                     }
 
-                    else if (board[i][j] != null) {
+                    else if (board[i][j] != HiveGameState.piece.EMPTY) {
                         legal = true;
                     }
                 }
@@ -225,7 +225,7 @@ public class HiveLocalGame extends LocalGame {
                         // Do nothing
                     }
 
-                    else if (board[i][j] != null) {
+                    else if (board[i][j] != HiveGameState.piece.EMPTY) {
                         legal = true;
                     }
                 }
