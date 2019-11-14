@@ -2,6 +2,7 @@ package com.example.hive.Hive;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 
 import com.example.hive.R;
 import com.example.hive.game.GameHumanPlayer;
@@ -10,7 +11,7 @@ import com.example.hive.game.infoMessage.GameInfo;
 import com.example.hive.game.infoMessage.IllegalMoveInfo;
 import com.example.hive.game.utilities.Logger;
 
-public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener{
+public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
 
     private final int QUEEN = 1;
     private final int GRASSHOPPER = 2;
@@ -49,19 +50,19 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     public void onClick(View v) {
         HiveButtonAction action = new HiveButtonAction(this, 0);
         switch(v.getId()) {
-            case R.id.Queen:
+            case R.id.QueenButton:
                 action = new HiveButtonAction(this,QUEEN);
                 break;
-            case R.id.Spider:
+            case R.id.SpiderButton:
                 action = new HiveButtonAction(this, SPIDER);
                 break;
-            case R.id.Grasshopper:
+            case R.id.GrasshopperButton:
                 action = new HiveButtonAction(this, GRASSHOPPER);
                 break;
-            case R.id.Ant:
+            case R.id.AntButton:
                 action = new HiveButtonAction(this, ANT);
                 break;
-            case R.id.Beetle:
+            case R.id.BeetleButton:
                 action = new HiveButtonAction(this, BEETLE);
                 break;
         }
@@ -175,6 +176,17 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);
+        ImageButton queenButton = (ImageButton) activity.findViewById(R.id.QueenButton);
+        ImageButton beetleButton = (ImageButton) activity.findViewById(R.id.BeetleButton);
+        ImageButton spiderButton = (ImageButton) activity.findViewById(R.id.SpiderButton);
+        ImageButton antButton = (ImageButton) activity.findViewById(R.id.AntButton);
+        ImageButton grasshopperButton = (ImageButton) activity.findViewById(R.id.AntButton);
+
+        queenButton.setOnClickListener(this);
+        beetleButton.setOnClickListener(this);
+        spiderButton.setOnClickListener(this);
+        antButton.setOnClickListener(this);
+        grasshopperButton.setOnClickListener(this);
 
         surfaceView.setOnTouchListener(this);
 

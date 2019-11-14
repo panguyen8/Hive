@@ -23,35 +23,35 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/Queen"
+                android:id="@+id/QueenButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wbee"
                 android:layout_weight="1"/>
 
             <ImageButton
-                android:id="@+id/Spider"
+                android:id="@+id/SpiderButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/wspider"/>
 
             <ImageButton
-                android:id="@+id/Grasshopper"
+                android:id="@+id/GrasshopperButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/wgrasshopper"/>
 
             <ImageButton
-                android:id="@+id/Ant"
+                android:id="@+id/AntButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/want"/>
 
             <ImageButton
-                android:id="@+id/Beetle"
+                android:id="@+id/BeetleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -68,14 +68,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Info" />
 
             <Button
                 android:id="@+id/Quit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Quit" />
         </LinearLayout>
     </LinearLayout>
 

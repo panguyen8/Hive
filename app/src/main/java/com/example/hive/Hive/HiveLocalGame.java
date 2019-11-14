@@ -199,7 +199,7 @@ public class HiveLocalGame extends LocalGame {
             if (legal)
             {
                 board[move.endRow][move.endCol] = board[move.startRow][move.startCol];
-                board[move.startRow][move.startCol] = null;
+                board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
             }
 
         }

@@ -15,17 +15,17 @@ import com.example.hive.R;
 
 public class HiveView extends SurfaceView {
 
-    protected HiveGameState state;
-
-    Paint hexagonalPaint = new Paint();
-    Paint hexagonalTargetPaint = new Paint();
-    Paint HexagonalPaintOutline = new Paint();
+    protected HiveGameState state = new HiveGameState();
 
     Paint wBee = new Paint();
     Paint wBeetle = new Paint();
     Paint wSpider = new Paint();
     Paint wAnt = new Paint();
     Paint wGrasshopper = new Paint();
+
+    Paint hexagonalPaint = new Paint();
+    Paint hexagonalTargetPaint = new Paint();
+    Paint HexagonalPaintOutline = new Paint();
 
     Path Hexagon = new Path();
     Point point1 = new Point();
@@ -45,6 +45,7 @@ public class HiveView extends SurfaceView {
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
 
+        wBee.setColor(Color.RED);
 
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
@@ -127,16 +128,15 @@ public class HiveView extends SurfaceView {
 
     public void drawWBee(Canvas canvas, int startX, int startY) {
 
+        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wbee);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(b, 100, 66, false);
+
         //draw filled hexagon
         canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
-        Bitmap b= BitmapFactory.decodeResource(getResources(), R.drawable.wbee);
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                b, 100, 66, false);
-        wBee.setColor(Color.RED);
         canvas.drawBitmap(resizedBitmap, startX, startY, wBee);
     }
 
