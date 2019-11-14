@@ -23,7 +23,7 @@ public class HiveGameState extends GameState {
     private final int WHITE_TURN = 1;
 
     //the declaration of the board
-    private piece[][] board = new piece[20][20];
+    public piece[][] board = new piece[20][20];
 
     //int variable to tell whose turn it is
     //If 1, white moves, if 0, black moves
@@ -37,7 +37,7 @@ public class HiveGameState extends GameState {
 
     public ArrayList<piece> bugList = new ArrayList<>();
     enum piece {
-        BBEE, BSPIDER, BANT, BGHOPPER, BBEETLE, WBEE, WSPIDER, WANT, WGHOPPER, WBEETLE;
+        BBEE, BSPIDER, BANT, BGHOPPER, BBEETLE, WBEE, WSPIDER, WANT, WGHOPPER, WBEETLE, EMPTY;
     }
 
     //Basic constructor
@@ -72,6 +72,14 @@ public class HiveGameState extends GameState {
         this.turn = WHITE_TURN; // White goes first?
         this.player0Pieces = 11;
         this.player1Pieces = 11;
+
+        for (int i = 0; i < board.length; i++)
+        {
+            for (int j = 0; j < board[i].length; j++)
+            {
+                board[i][j] = HiveGameState.piece.EMPTY;
+            }
+        }
     }
 
     //Copy constructor (Stephen)

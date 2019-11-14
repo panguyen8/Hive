@@ -26,36 +26,36 @@
                 android:id="@+id/Queen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@color/colorPrimary" />
+                android:src="@drawable/wbee"
+                android:layout_weight="1"/>
 
             <ImageButton
                 android:id="@+id/Spider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@color/colorPrimary" />
+                android:src="@drawable/wspider"/>
 
             <ImageButton
                 android:id="@+id/Grasshopper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@color/colorPrimary" />
+                android:src="@drawable/wgrasshopper"/>
 
             <ImageButton
                 android:id="@+id/Ant"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@color/colorPrimary" />
+                android:src="@drawable/want"/>
 
             <ImageButton
                 android:id="@+id/Beetle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@color/colorPrimary" />
+                android:src="@drawable/wbeetle"/>
         </LinearLayout>
 
         <LinearLayout

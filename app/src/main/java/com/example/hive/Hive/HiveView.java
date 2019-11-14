@@ -30,10 +30,12 @@ public class HiveView extends SurfaceView {
         setWillNotDraw(false);
 
         hexagonalPaint.setColor(Color.WHITE);
+        hexagonalPaint.setStyle(Paint.Style.FILL);
+
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
 
-        hexagonalPaint.setStyle(Paint.Style.FILL);
+
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
 
@@ -62,12 +64,58 @@ public class HiveView extends SurfaceView {
      */
 
     public void onDraw(Canvas canvas)  {
-        for(int i = 0; i < 12; i++) {
+        for(int y = 0; y < 12; y++) {
             for (int x = 0; x < 12; x++) {
-                if (i%2 == 0) {
-                    drawHexagon(canvas, x * 100, i * 66);
+                if (y%2 == 0) {
+                    if (state.board[x][y] == HiveGameState.piece.EMPTY) {
+                        drawHexagon(canvas, x * 100, y * 66);
+                    } else if (state.getPiece(x, y) == HiveGameState.piece.WBEE) {
+                        drawWBee(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WBEETLE) {
+                        drawWBeetle(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WGHOPPER) {
+                        drawWGhopper(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WSPIDER) {
+                        drawWSpider(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WANT) {
+                        drawWAnt(canvas, x*100, y*66);
+                    }
+                    if (state.getPiece(x, y) == HiveGameState.piece.BBEE) {
+                        drawBBee(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BBEETLE) {
+                        drawBBeetle(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BGHOPPER) {
+                        drawBGhopper(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BSPIDER) {
+                        drawBSpider(canvas, x*100, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BANT) {
+                        drawBAnt(canvas, x*100, y*66);
+                    }
                 } else {
-                    drawHexagon(canvas, x * 100 + 50, i * 66);
+                    if (state.board[x][y] == HiveGameState.piece.EMPTY) {
+                        drawHexagon(canvas, x * 100 + 50, y * 66);
+                    } else if (state.getPiece(x, y) == HiveGameState.piece.WBEE) {
+                        drawWBee(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WBEETLE) {
+                        drawWBeetle(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WGHOPPER) {
+                        drawWGhopper(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WSPIDER) {
+                        drawWSpider(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.WANT) {
+                        drawWAnt(canvas, x*100 + 50, y*66);
+                    }
+                    if (state.getPiece(x, y) == HiveGameState.piece.BBEE) {
+                        drawBBee(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BBEETLE) {
+                        drawBBeetle(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BGHOPPER) {
+                        drawBGhopper(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BSPIDER) {
+                        drawBSpider(canvas, x*100 + 50, y*66);
+                    } else if (state.getPiece(x,y) == HiveGameState.piece.BANT) {
+                        drawBAnt(canvas, x*100 + 50, y*66);
+                    }
                 }
             }
         }
@@ -84,19 +132,123 @@ public class HiveView extends SurfaceView {
 
     }
 
+    public void drawWBee(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawWBeetle(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawWSpider(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawWAnt(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawWGhopper (Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawBBee(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawBBeetle(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawBSpider(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawBAnt(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
+    public void drawBGhopper (Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
+
+
+    }
+
     public void drawTargetHexagon(Canvas canvas, int startX, int startY) {
 
         //draw red outlines
         canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
 
-
-        //Original hexagon drawing below//
-        /*canvas.drawLine(startX, startY+33, startX+50, startY, hexagonalTargetPaint);
-        canvas.drawLine(startX+50, startY, startX+100, startY+33, hexagonalTargetPaint);
-        canvas.drawLine(startX+100, startY+33, startX+100, startY+66, hexagonalTargetPaint);
-        canvas.drawLine(startX+100, startY+66, startX+50, startY+100, hexagonalTargetPaint);
-        canvas.drawLine(startX+50, startY+100, startX, startY+66, hexagonalTargetPaint);
-        canvas.drawLine(startX, startY+66, startX, startY+33, hexagonalTargetPaint);*/
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
     }
 
     /**

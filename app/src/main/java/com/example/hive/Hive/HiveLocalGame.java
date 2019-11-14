@@ -164,14 +164,15 @@ public class HiveLocalGame extends LocalGame {
      * Makes a move based on whose turn it is
      *
      * @param action The move that the player has sent to the game
-     * @return true if successful, false otherwise
+     * @return
      */
     protected boolean makeMove(GameAction action) {
         // Checks which type of action is being taken
         if (action instanceof HiveMoveAction) {
             HiveMoveAction move = (HiveMoveAction) action;
+
             HiveGameState.piece[][] board = hgs.getBoard();
-            HiveGameState.piece piece = board[move.startRow][move.startCol];
+
             //A piece can only be moved to a spot with at least
             //one full adjacent space
             //Assume false
@@ -197,7 +198,7 @@ public class HiveLocalGame extends LocalGame {
 
             if (legal)
             {
-                board[move.endRow][move.endCol] = piece;
+                board[move.endRow][move.endCol] = board[move.startRow][move.startCol];
                 board[move.startRow][move.startCol] = null;
             }
 
