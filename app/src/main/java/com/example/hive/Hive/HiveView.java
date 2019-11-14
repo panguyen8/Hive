@@ -60,7 +60,7 @@ public class HiveView extends SurfaceView {
         for(int y = 0; y < 12; y++) {
             for (int x = 0; x < 12; x++) {
                 if (y%2 == 0) {
-                    if (state.board[x][y] == HiveGameState.piece.EMPTY) {
+                    if (state.getPiece(x,y) == HiveGameState.piece.EMPTY) {
                         drawHexagon(canvas, x * 100, y * 66);
                     } else if (state.getPiece(x, y) == HiveGameState.piece.WBEE) {
                         drawWBee(canvas, x*100, y*66);
