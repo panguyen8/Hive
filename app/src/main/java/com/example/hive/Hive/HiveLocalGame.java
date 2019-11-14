@@ -232,7 +232,7 @@ public class HiveLocalGame extends LocalGame {
             }
 
             //Sets piece specified in place piece onto the board
-            if (board[placement.row][placement.col] == null && legal)
+            if (board[placement.row][placement.col] == HiveGameState.piece.EMPTY && legal)
             {
                 board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
             }
