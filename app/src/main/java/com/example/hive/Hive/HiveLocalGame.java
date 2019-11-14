@@ -169,15 +169,67 @@ public class HiveLocalGame extends LocalGame {
     protected boolean makeMove(GameAction action) {
         // Checks which type of action is being taken
         if (action instanceof HiveMoveAction) {
+            HiveMoveAction move = (HiveMoveAction) action;
+
+            HiveGameState.piece[][] board = hgs.getBoard();
+
+            //A piece can only be moved to a spot with at least
+            //one full adjacent space
+            //Assume false
+            boolean legal = false;
+
+            //Iterate through surrounding spots, ignoring the piece
+            //and 2 spots due to the board design
+            for (int i = move.endRow - 1; i < move.endRow + 1; i++) {
+                for (int j = move.endCol - 1; j < move.endCol + 1; j++) {
+
+                    //Ignore certain spots
+                    if (board[i][j] == board[move.endRow][move.endCol] ||
+                            board[i][j] == board[move.endRow - 1][move.endCol] ||
+                            board[i][j] == board[move.endRow + 1][move.endCol]) {
+                        // Do nothing
+                    }
+
+                    else if (board[i][j] != null) {
+                        legal = true;
+                    }
+                }
+            }
+
+            if (legal)
+            {
+                board[move.endRow][move.endCol] = move.piece;
+                board[move.startRow][move.startCol] = null;
+            }
 
         }
         else if (action instanceof HivePlacePieceAction) {
             //Declare action
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
 
-            //Sets piece specified in place piece onto the board
             HiveGameState.piece[][] board = hgs.getBoard();
-            if (board[placement.row][placement.col] == null)
+            boolean legal = false;
+
+            //Iterate through surrounding spots, ignoring the piece
+            //and 2 spots due to the board design
+            for (int i = placement.row - 1; i < placement.col + 1; i++) {
+                for (int j = placement.col - 1; j < placement.col + 1; j++) {
+
+                    //Ignore certain spots
+                    if (board[i][j] == board[placement.row][placement.col] ||
+                            board[i][j] == board[placement.row - 1][placement.col] ||
+                            board[i][j] == board[placement.row + 1][placement.col]) {
+                        // Do nothing
+                    }
+
+                    else if (board[i][j] != null) {
+                        legal = true;
+                    }
+                }
+            }
+
+            //Sets piece specified in place piece onto the board
+            if (board[placement.row][placement.col] == null && legal)
             {
                 board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
             }
@@ -190,6 +242,7 @@ public class HiveLocalGame extends LocalGame {
 
             hgs.bugList.remove(((HivePlacePieceAction) action).piece);
         }
+        
         else if (action instanceof HiveSelectedPieceAction) {
 
         }
