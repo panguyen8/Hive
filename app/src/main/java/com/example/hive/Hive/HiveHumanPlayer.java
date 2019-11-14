@@ -65,6 +65,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, BEETLE);
                 break;
         }
+        moveReady = true;
         game.sendAction(action);
     }
 
@@ -104,18 +105,20 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     public boolean onTouch(View v, MotionEvent event) {
         double x = event.getX();
         double y = event.getY();
+        int xCoord;
+        int yCoord;
         int divider = 0;
         divider = (int)((y/66));
-        yStart =(int) y + 33*divider;
-        yStart = yStart/100;
+        yCoord =(int) y + 33*divider;
+        yCoord = yStart/100;
 
         if((divider%2) == 0) {
-            xStart = (int) x;
-            xStart = xStart/100;
+            xCoord = (int) x;
+            xCoord = xStart/100;
         } else {
             x = x - 50;
-            xStart = (int) x;
-            xStart = xStart/100;
+            xCoord = (int) x;
+            xCoord = xStart/100;
         }
 
 
@@ -126,40 +129,25 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             // get the x and y coordinates of the touch-location;
             // convert them to square coordinates (where both
             // values are in the range 0..2)
-            xStart = (int) event.getX();
-            yStart = (int) event.getY();
 
-            xStart = xStart/100;
-            yStart = yStart/100;
-
-            //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
+            xStart = xCoord;
+            yStart = yCoord;
 
             HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
             game.sendAction(action);
             surfaceView.invalidate();
 
-            /*
-            if (p == null) {
-                //surfaceView.flash(Color.RED, 50);
-            } else {
-                HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
-                game.sendAction(action);
-                surfaceView.invalidate();
-            }
-             */
-
+            moveReady = true;
         } else {
-            xEnd = (int) event.getX();
-            yEnd = (int) event.getY();
-
-            xEnd = xEnd/100;
-            yEnd = yEnd/100;
-
+            xEnd = xCoord;
+            yEnd = yCoord;
             //Point p = surfaceView.mapPixelToSquare(xStart, yStart);
 
             HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
             game.sendAction(action);
             surfaceView.invalidate();
+
+            moveReady = false;
         }
 
         // register that we have handled the event

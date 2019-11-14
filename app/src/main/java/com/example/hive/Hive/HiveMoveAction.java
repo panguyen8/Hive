@@ -9,6 +9,7 @@ public class HiveMoveAction extends GameAction {
     protected int startCol;
     protected int endRow;
     protected int endCol;
+    protected HiveGameState.piece piece;
 
     /**
      *  consturctor for GameAction
@@ -16,13 +17,15 @@ public class HiveMoveAction extends GameAction {
      * @param player
      *      the player who created the action
      */
-    public HiveMoveAction(GamePlayer player, int startX, int startY, int endX, int endY) {
+    public HiveMoveAction(GamePlayer player, int startX, int startY, int endX, int endY,
+                          HiveGameState.piece piece) {
         super(player);
 
         startRow = startX;
         startCol = startY;
         endRow = endX;
         endCol = endY;
+        this.piece = piece;
     }
 
     public int getStartX() {

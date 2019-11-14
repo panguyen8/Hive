@@ -30,11 +30,12 @@ public class HiveView extends SurfaceView {
         setWillNotDraw(false);
 
         hexagonalPaint.setColor(Color.WHITE);
-        hexagonalTargetPaint.setColor(Color.BLACK);
+        hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
 
         hexagonalPaint.setStyle(Paint.Style.FILL);
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
+        HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
 
 
     }
@@ -73,29 +74,39 @@ public class HiveView extends SurfaceView {
     }
 
     public void drawHexagon(Canvas canvas, int startX, int startY) {
+
+        //draw filled hexagon
         canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
 
+        //draw black outlines
+        canvas.drawPath(drawHexagonLines(startX,startY), HexagonalPaintOutline);
 
-        canvas.drawLine(startX, startY+33, startX+50, startY, hexagonalTargetPaint);
-        canvas.drawLine(startX+50, startY, startX+100, startY+33, hexagonalTargetPaint);
-        canvas.drawLine(startX+100, startY+33, startX+100, startY+66, hexagonalTargetPaint);
-        canvas.drawLine(startX+100, startY+66, startX+50, startY+100, hexagonalTargetPaint);
-        canvas.drawLine(startX+50, startY+100, startX, startY+66, hexagonalTargetPaint);
-        canvas.drawLine(startX, startY+66, startX, startY+33, hexagonalTargetPaint);
 
     }
 
     public void drawTargetHexagon(Canvas canvas, int startX, int startY) {
+
+        //draw red outlines
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
+
+
+        //Original hexagon drawing below//
         /*canvas.drawLine(startX, startY+33, startX+50, startY, hexagonalTargetPaint);
         canvas.drawLine(startX+50, startY, startX+100, startY+33, hexagonalTargetPaint);
         canvas.drawLine(startX+100, startY+33, startX+100, startY+66, hexagonalTargetPaint);
         canvas.drawLine(startX+100, startY+66, startX+50, startY+100, hexagonalTargetPaint);
         canvas.drawLine(startX+50, startY+100, startX, startY+66, hexagonalTargetPaint);
         canvas.drawLine(startX, startY+66, startX, startY+33, hexagonalTargetPaint);*/
-
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
     }
 
+    /**
+     * Modifies the path object by setting six points around target point and connects each point with a line.
+     * @param x         x coordinate of hexagon origin
+     * @param y         y coordinate of hexagon origin
+     * @return Hexagon  modified path class in the shape of a hexagon
+     *
+     * *note* this method only draws lines, filling is done by paint
+     */
     private Path drawHexagonLines(int x, int y) {
         point1.set(x, y+33);
         point2.set(x+50, y);
