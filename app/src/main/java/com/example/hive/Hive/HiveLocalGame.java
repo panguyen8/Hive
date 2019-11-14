@@ -3,7 +3,10 @@ package com.example.hive.Hive;
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.LocalGame;
 import com.example.hive.game.actionMessage.GameAction;
-// Started by Samuel Nguyen, add your name if you edit this
+
+/**
+ * Represents a local game, which is responsible for enforcing rules
+ */
 public class HiveLocalGame extends LocalGame {
     private HiveGameState hgs;
 
