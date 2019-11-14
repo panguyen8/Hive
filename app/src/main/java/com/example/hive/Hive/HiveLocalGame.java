@@ -215,7 +215,7 @@ public class HiveLocalGame extends LocalGame {
 
             //Iterate through surrounding spots, ignoring the piece
             //and 2 spots due to the board design
-            for (int i = placement.row - 1; i < placement.col + 2; i++) {
+            for (int i = placement.row - 1; i < placement.row + 2; i++) {
                 for (int j = placement.col - 1; j < placement.col + 2; j++) {
 
                     //Ignore certain spots
