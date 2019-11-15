@@ -77,9 +77,11 @@ public class HiveGameState extends GameState {
         {
             for (int j = 0; j < board[i].length; j++)
             {
-                board[i][j] = HiveGameState.piece.WBEE;
+                board[i][j] = HiveGameState.piece.EMPTY;
             }
         }
+
+        board[5][5] = HiveGameState.piece.WBEE;
     }
 
     //Copy constructor (Stephen)

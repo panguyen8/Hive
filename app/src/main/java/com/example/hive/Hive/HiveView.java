@@ -15,7 +15,7 @@ import com.example.hive.R;
 
 public class HiveView extends SurfaceView {
 
-    protected HiveGameState state = new HiveGameState();
+    protected HiveGameState state = null;
 //    private HiveGameState.piece piece;
 
     Paint wBee = new Paint();
@@ -61,8 +61,12 @@ public class HiveView extends SurfaceView {
     }
 
     public void onDraw(Canvas canvas) {
+        if(state == null){
+            return;
+        }
+
         for (int y = 0; y < 12; y++) {
-            for (int x = 0; x < 12; x++) {
+            for (int x = 0; x < 11; x++) {
                 if (y % 2 == 0) {
 
                     /*drawHexagon(canvas, x, y);*/

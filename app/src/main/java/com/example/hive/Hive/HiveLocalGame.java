@@ -11,7 +11,9 @@ public class HiveLocalGame extends LocalGame {
     private HiveGameState hgs;
 
     public HiveLocalGame() {
-        hgs = new HiveGameState();
+        super();
+        hgs = new HiveGameState()
+        ;
     }
 
     /**
