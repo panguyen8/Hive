@@ -15,7 +15,7 @@ import com.example.hive.R;
 
 public class HiveView extends SurfaceView {
 
-    protected HiveGameState state = new HiveGameState();
+    protected HiveGameState state = null;
 //    private HiveGameState.piece piece;
 
     Paint wBee = new Paint();
@@ -23,8 +23,14 @@ public class HiveView extends SurfaceView {
     Paint wSpider = new Paint();
     Paint wAnt = new Paint();
     Paint wGrasshopper = new Paint();
+    Paint bBee = new Paint();
+    Paint bBeetle = new Paint();
+    Paint bSpider = new Paint();
+    Paint bAnt = new Paint();
+    Paint bGrasshopper = new Paint();
 
     Paint hexagonalPaint = new Paint();
+    Paint hexagonalPaintB = new Paint();
     Paint hexagonalTargetPaint = new Paint();
     Paint HexagonalPaintOutline = new Paint();
 
@@ -42,9 +48,13 @@ public class HiveView extends SurfaceView {
 
         hexagonalPaint.setColor(Color.WHITE);
         hexagonalPaint.setStyle(Paint.Style.FILL);
+        hexagonalPaintB.setColor(Color.BLACK);
+        hexagonalPaintB.setStyle(Paint.Style.FILL);
+
 
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
+
 
         wBee.setColor(Color.RED);
 
@@ -53,7 +63,6 @@ public class HiveView extends SurfaceView {
 
         Hexagon.setFillType(Path.FillType.EVEN_ODD);
 
-
     }
 
     public void setState(HiveGameState state) {
@@ -61,8 +70,12 @@ public class HiveView extends SurfaceView {
     }
 
     public void onDraw(Canvas canvas) {
+        if(state == null){
+            return;
+        }
+
         for (int y = 0; y < 12; y++) {
-            for (int x = 0; x < 12; x++) {
+            for (int x = 0; x < 11; x++) {
                 if (y % 2 == 0) {
 
                     /*drawHexagon(canvas, x, y);*/
@@ -120,6 +133,12 @@ public class HiveView extends SurfaceView {
         }
     }
 
+    /**
+     * draws empty filled hexagon
+     * @param canvas canvas to draw to
+     * @param x      x coordinate of hexagon
+     * @param y      y coordinate of hexagon
+     */
     public void drawHexagon(Canvas canvas, int x, int y) {
 
         //draw filled hexagon
@@ -130,6 +149,12 @@ public class HiveView extends SurfaceView {
 
     }
 
+    /**
+     * draws hexagon, and white bee bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawWBee(Canvas canvas, int startX, int startY) {
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wbee);
@@ -144,6 +169,12 @@ public class HiveView extends SurfaceView {
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wBee);
     }
 
+    /**
+     * draws hexagon, and white beetle bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawWBeetle(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
@@ -161,6 +192,12 @@ public class HiveView extends SurfaceView {
 
     }
 
+    /**
+     * draws hexagon, and white spider bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawWSpider(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
@@ -176,6 +213,12 @@ public class HiveView extends SurfaceView {
         canvas.drawBitmap(resizedBitmap, startX, startY, wBeetle);
     }
 
+    /**
+     * draws hexagon, and white ant bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawWAnt(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
@@ -191,6 +234,12 @@ public class HiveView extends SurfaceView {
         canvas.drawBitmap(resizedBitmap, startX, startY, wAnt);
     }
 
+    /**
+     * draws hexagon, and white grasshopper bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawWGhopper(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
@@ -207,61 +256,125 @@ public class HiveView extends SurfaceView {
 
     }
 
+    /**
+     * draws hexagon, and black bee bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawBBee(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaintB);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbee);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 75, 80, false);
+        bBee.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bBee);
     }
 
+    /**
+     * draws hexagon, and black beetle bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawBBeetle(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaintB);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbeetle);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        bBeetle.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, bBeetle);
+
 
     }
 
+    /**
+     * draws hexagon, and black spider bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawBSpider(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaintB);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bspider);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        bSpider.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, bSpider);
+
 
     }
 
+    /**
+     * draws hexagon, and black ant bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawBAnt(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaintB);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bant);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        bAnt.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, bAnt);
+
 
     }
 
+    /**
+     * draws hexagon, and black grasshopper bitmap on canvas
+     * @param canvas  the canvas to draw to
+     * @param startX  x coordinate on canvas
+     * @param startY  y coordinate on canvas
+     */
     public void drawBGhopper(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaintB);
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bgrasshopper);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(
+                b, 100, 66, false);
+        bGrasshopper.setColor(Color.RED);
+        canvas.drawBitmap(resizedBitmap, startX, startY, bGrasshopper);
+
 
     }
 
+    /**
+     *
+     * @param canvas
+     * @param startX
+     * @param startY
+     */
     public void drawTargetHexagon(Canvas canvas, int startX, int startY) {
 
         //draw red outlines
@@ -291,10 +404,10 @@ public class HiveView extends SurfaceView {
         /*          point2
          *            / \
          *          /     \
-         *  point6 /       \  point 4
+         *  point6 /       \  point4
          *        |         |
          *        |         |
-         *        |         | point 3
+         *        |         | point3
          *  point1 \       /
          *          \     /
          *            \ /
