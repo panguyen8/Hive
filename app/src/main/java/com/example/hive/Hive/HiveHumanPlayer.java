@@ -2,6 +2,8 @@ package com.example.hive.Hive;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.hive.R;
@@ -11,7 +13,11 @@ import com.example.hive.game.infoMessage.GameInfo;
 import com.example.hive.game.infoMessage.IllegalMoveInfo;
 import com.example.hive.game.utilities.Logger;
 
+import org.w3c.dom.Text;
+
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
+
+    EditText theText;
 
     private final int QUEEN = 1;
     private final int GRASSHOPPER = 2;
@@ -59,7 +65,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         HiveButtonAction action = new HiveButtonAction(this, 0);
         switch(v.getId()) {
             case R.id.QueenButton:
-                action = new HiveButtonAction(this,QUEEN);
+                action = new HiveButtonAction(this, QUEEN);
                 pieceChosen = 1;
                 break;
             case R.id.SpiderButton:
@@ -77,6 +83,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             case R.id.BeetleButton:
                 action = new HiveButtonAction(this, BEETLE);
                 pieceChosen = 4;
+                break;
+            case R.id.ClearInfo:
+                theText.setText("");
                 break;
         }
         piecePlacement = true;
@@ -143,24 +152,32 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             xEnd = xCoord;
             yEnd = yCoord;
 
+            String piece = new String();
+
             HivePlacePieceAction action;
 
             if (pieceChosen == 1) {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEE);
+                piece = "Bee";
             } else if (pieceChosen == 2) {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WGHOPPER);
+                piece = "Grasshopper";
             } else if (pieceChosen == 3) {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WSPIDER);
+                piece = "Spider";
             } else if (pieceChosen == 4) {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEETLE);
+                piece = "Beetle";
             } else if (pieceChosen == 5) {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WANT);
+                piece = "Ant";
             } else {
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.EMPTY);
             }
 
             game.sendAction(action);
 
+            theText.append(piece + " has been placed at (" +xEnd+ ", " +yEnd+ ")\n");
             piecePlacement = false;
             return true;
 
@@ -184,6 +201,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
 
                 surfaceView.invalidate();
+
+                theText.append("Piece has been moved from (" + xStart + ", " + yStart +") to (" +xEnd+ ", " +yEnd+ ")\n");
                 moveReady = false;
         }
 
@@ -192,8 +211,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
     }
 
-
-
+    //textView
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
@@ -210,6 +228,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         // Load the layout resource for our GUI
         activity.setContentView(R.layout.hive_layout);
 
+        theText = (EditText) activity.findViewById(R.id.editText);
+        theText.setText("");
+
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);
         ImageButton queenButton = (ImageButton) activity.findViewById(R.id.QueenButton);
@@ -217,7 +238,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         ImageButton spiderButton = (ImageButton) activity.findViewById(R.id.SpiderButton);
         ImageButton antButton = (ImageButton) activity.findViewById(R.id.AntButton);
         ImageButton grasshopperButton = (ImageButton) activity.findViewById(R.id.AntButton);
+        Button clearInfo = (Button) activity.findViewById(R.id.ClearInfo);
 
+        clearInfo.setOnClickListener(this);
         queenButton.setOnClickListener(this);
         beetleButton.setOnClickListener(this);
         spiderButton.setOnClickListener(this);

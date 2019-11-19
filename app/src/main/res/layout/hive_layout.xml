@@ -64,11 +64,11 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/Info"
+                android:id="@+id/ClearInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Info" />
+                android:text="Clear Info" />
 
             <Button
                 android:id="@+id/Quit"
@@ -77,6 +77,14 @@
                 android:layout_weight="1"
                 android:text="Quit" />
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine" />
+            android:text="Name" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
