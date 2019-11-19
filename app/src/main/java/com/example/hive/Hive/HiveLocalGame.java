@@ -89,8 +89,8 @@ public class HiveLocalGame extends LocalGame {
                     pieceY = col;
 
                     // Check adjacent squares
-                    for (int i = row - 1; i < row + 2; i++) {
-                        for (int j = col - 1; j < col + 2; j++) {
+                    for (int i = row - 1; i < row + 1; i++) {
+                        for (int j = col - 1; j < col + 1; j++) {
 
                             //Error checking on array bounds
                             //This is currently unneeded as the board iteration
@@ -115,13 +115,22 @@ public class HiveLocalGame extends LocalGame {
                             //---  ---  ---
 
                             //Where only the spaces with * are checked
-
-                            if (board[i][j] == board[row][col] ||
-                                    board[i][j] == board[row - 1][col - 1] ||
-                                    board[i][j] == board[row + 1][col - 1]) {
-                                // Do nothing
-                            } else if (board[i][j] != null) {
-                                occupiedSpaces++;
+                            if (row%2 == 1) {
+                                if (board[i][j] == board[row][col] ||
+                                        board[i][j] == board[row - 1][col - 1] ||
+                                        board[i][j] == board[row + 1][col - 1]) {
+                                    // Do nothing
+                                } else if (board[i][j] != null) {
+                                    occupiedSpaces++;
+                                }
+                            } else {
+                                if (board[i][j] == board[row][col] ||
+                                        board[i][j] == board[row - 1][col + 1] ||
+                                        board[i][j] == board[row + 1][col + 1]) {
+                                    // Do nothing
+                                } else if (board[i][j] != null) {
+                                    occupiedSpaces++;
+                                }
                             }
                         }
                     }
@@ -156,7 +165,7 @@ public class HiveLocalGame extends LocalGame {
 
         //Anywhere else has 8 adjacent spots
         else {
-            if (occupiedSpaces == 6) {
+            if (occupiedSpaces == 8) {
                 return true;
             }
         }
@@ -176,19 +185,40 @@ public class HiveLocalGame extends LocalGame {
             HiveMoveAction move = (HiveMoveAction) action;
 
             if (hgs.getTurn() == 0) {
-                boolean legal = true;
+                boolean legal = false;
+
+                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
+                    return false;
+                }
 
                 //Iterate through surrounding spots, ignoring the piece
                 //and 2 spots due to the board design
                 for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
                     for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
 
-                        //Ignore certain spots
-                        if (i == move.endRow+1 && j == move.endCol - 1) {
-                        }else if (i == move.endRow-1 && j == move.endCol - 1) {
-                        }else if (i == move.endRow && j == move.endCol){
-                        } else if (hgs.board[i][j] == HiveGameState.piece.EMPTY) {
-                            legal = false;
+                        if (move.endRow%2 == 1) {
+                            //Ignore certain spots
+                            if (i == move.endRow + 1 && j == move.endCol - 1) {
+                                continue;
+                            } else if (i == move.endRow - 1 && j == move.endCol - 1) {
+                                continue;
+                            } else if (i == move.endRow && j == move.endCol) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
+                        } else {
+                            if (i == move.endRow + 1 && j == move.endCol + 1) {
+                                continue;
+                            } else if (i == move.endRow - 1 && j == move.endCol + 1) {
+                                continue;
+                            } else if (i == move.endRow && j == move.endCol) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
                         }
                     }
                 }
@@ -201,7 +231,11 @@ public class HiveLocalGame extends LocalGame {
 
                 hgs.setTurn(1);
             } else {
-                boolean legal = true;
+                boolean legal = false;
+
+                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
+                    return false;
+                }
 
                 //Iterate through surrounding spots, ignoring the piece
                 //and 2 spots due to the board design
@@ -210,12 +244,29 @@ public class HiveLocalGame extends LocalGame {
 
                         //Ignore certain spots
                         //Ignore certain spots
-                        if (i == move.endRow+1 && j == move.endCol - 1) {
-                        } else if (i == move.endRow-1 && j == move.endCol - 1) {
-                        } else if (i == move.endRow && j == move.endCol){
-                        }
-                        else if (hgs.board[i][j] == HiveGameState.piece.EMPTY) {
-                            legal = false;
+                        if (move.endRow%2 == 1) {
+                            //Ignore certain spots
+                            if (i == move.endRow + 1 && j == move.endCol - 1) {
+                                continue;
+                            } else if (i == move.endRow - 1 && j == move.endCol - 1) {
+                                continue;
+                            } else if (i == move.endRow && j == move.endCol) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
+                        } else {
+                            if (i == move.endRow + 1 && j == move.endCol + 1) {
+                                continue;
+                            } else if (i == move.endRow - 1 && j == move.endCol + 1) {
+                                continue;
+                            } else if (i == move.endRow && j == move.endCol) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
                         }
                     }
                 }
@@ -246,12 +297,29 @@ public class HiveLocalGame extends LocalGame {
                 for (int i = placement.row - 1; i < placement.row + 2; i++) {
                     for (int j = placement.col - 1; j < placement.col + 2; j++) {
 
-                        //Ignore certain spots
-                        if (i == placement.row+1 && j == placement.col - 1) {
-                        } else if (i == placement.row-1 && j == placement.col - 1) {
-                        } else if (i == placement.row && j == placement.col){
-                        } else if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                            legal = true;
+                        if (placement.row%2 == 1) {
+                            //Ignore certain spots
+                            if (i == placement.row + 1 && j == placement.col - 1) {
+                                continue;
+                            } else if (i == placement.row - 1 && j == placement.col - 1) {
+                                continue;
+                            } else if (i == placement.row && j == placement.col) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
+                        } else {
+                            if (i == placement.row + 1 && j == placement.col + 1) {
+                                continue;
+                            } else if (i == placement.row - 1 && j == placement.col + 1) {
+                                continue;
+                            } else if (i == placement.row && j == placement.col) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
                         }
                     }
                 }
@@ -284,11 +352,29 @@ public class HiveLocalGame extends LocalGame {
                     for (int j = placement.col - 1; j < placement.col + 2; j++) {
 
                         //Ignore certain spots
-                        if (i == placement.row+1 && j == placement.col - 1) {
-                        } else if (i == placement.row-1 && j == placement.col - 1) {
-                        } else if (i == placement.row && j == placement.col){
-                        } else if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                            legal = true;
+                        if (placement.row%2 == 1) {
+                            //Ignore certain spots
+                            if (i == placement.row + 1 && j == placement.col - 1) {
+                                continue;
+                            } else if (i == placement.row - 1 && j == placement.col - 1) {
+                                continue;
+                            } else if (i == placement.row && j == placement.col) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
+                        } else {
+                            if (i == placement.row + 1 && j == placement.col + 1) {
+                                continue;
+                            } else if (i == placement.row - 1 && j == placement.col + 1) {
+                                continue;
+                            } else if (i == placement.row && j == placement.col) {
+                                continue;
+                            }
+                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                                legal = true;
+                            }
                         }
                     }
                 }
@@ -327,6 +413,45 @@ public class HiveLocalGame extends LocalGame {
                 }
             }
             return true;
+        } else if (action instanceof HiveResetBoardAction) {
+            for (int i = 0; i < hgs.board.length; i++)
+            {
+                for (int j = 0; j < hgs.board[i].length; j++)
+                {
+                    hgs.board[i][j] = HiveGameState.piece.EMPTY;
+                }
+            }
+
+            hgs.board[5][5] = HiveGameState.piece.WBEE;
+            hgs.board[4][6] = HiveGameState.piece.BBEE;
+
+            hgs.bugList.clear();
+
+            //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
+            //bugList.add(piece.BBEE);
+            hgs.bugList.add(HiveGameState.piece.BSPIDER);
+            hgs.bugList.add(HiveGameState.piece.BSPIDER);
+            hgs.bugList.add(HiveGameState.piece.BANT);
+            hgs.bugList.add(HiveGameState.piece.BANT);
+            hgs.bugList.add(HiveGameState.piece.BANT);
+            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.BBEETLE);
+            hgs.bugList.add(HiveGameState.piece.BBEETLE);
+
+            //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
+            //bugList.add(piece.WBEE);
+            hgs.bugList.add(HiveGameState.piece.WSPIDER);
+            hgs.bugList.add(HiveGameState.piece.WSPIDER);
+            hgs.bugList.add(HiveGameState.piece.WANT);
+            hgs.bugList.add(HiveGameState.piece.WANT);
+            hgs.bugList.add(HiveGameState.piece.WANT);
+            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
+            hgs.bugList.add(HiveGameState.piece.WBEETLE);
+            hgs.bugList.add(HiveGameState.piece.WBEETLE);
         }
 
         /*

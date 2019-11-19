@@ -71,11 +71,11 @@
                 android:text="Clear Info" />
 
             <Button
-                android:id="@+id/Quit"
+                android:id="@+id/Reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Quit" />
+                android:text="Reset" />
         </LinearLayout>
 
         <EditText

@@ -44,7 +44,7 @@ public class HiveGameState extends GameState {
     public HiveGameState() {
 
         //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
-        bugList.add(piece.BBEE);
+        //bugList.add(piece.BBEE);
         bugList.add(piece.BSPIDER);
         bugList.add(piece.BSPIDER);
         bugList.add(piece.BANT);
@@ -57,7 +57,7 @@ public class HiveGameState extends GameState {
         bugList.add(piece.BBEETLE);
 
         //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
-        bugList.add(piece.WBEE);
+        //bugList.add(piece.WBEE);
         bugList.add(piece.WSPIDER);
         bugList.add(piece.WSPIDER);
         bugList.add(piece.WANT);
@@ -82,7 +82,6 @@ public class HiveGameState extends GameState {
         }
 
         board[5][5] = HiveGameState.piece.WBEE;
-        board[3][8] = HiveGameState.piece.WANT;
         board[4][6] = HiveGameState.piece.BBEE;
     }
 

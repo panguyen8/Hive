@@ -13,8 +13,6 @@ import com.example.hive.game.infoMessage.GameInfo;
 import com.example.hive.game.infoMessage.IllegalMoveInfo;
 import com.example.hive.game.utilities.Logger;
 
-import org.w3c.dom.Text;
-
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
 
     EditText theText;
@@ -86,6 +84,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 break;
             case R.id.ClearInfo:
                 theText.setText("");
+                break;
+            case R.id.Reset:
+                HiveResetBoardAction action2 = new HiveResetBoardAction(this);
+                game.sendAction(action2);
                 break;
         }
         piecePlacement = true;
@@ -237,9 +239,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         ImageButton beetleButton = (ImageButton) activity.findViewById(R.id.BeetleButton);
         ImageButton spiderButton = (ImageButton) activity.findViewById(R.id.SpiderButton);
         ImageButton antButton = (ImageButton) activity.findViewById(R.id.AntButton);
-        ImageButton grasshopperButton = (ImageButton) activity.findViewById(R.id.AntButton);
+        ImageButton grasshopperButton = (ImageButton) activity.findViewById(R.id.GrasshopperButton);
         Button clearInfo = (Button) activity.findViewById(R.id.ClearInfo);
+        Button quit = (Button) activity.findViewById(R.id.Reset);
 
+        quit.setOnClickListener(this);
         clearInfo.setOnClickListener(this);
         queenButton.setOnClickListener(this);
         beetleButton.setOnClickListener(this);
