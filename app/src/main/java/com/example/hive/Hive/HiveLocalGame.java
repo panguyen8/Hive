@@ -32,6 +32,9 @@ public class HiveLocalGame extends LocalGame {
      * @return true if their id matches that of who is to move, false otherwise
      */
     protected boolean canMove(int playerIdx) {
+        if (hgs.getTurn() == playerIdx) {
+            return true;
+        }
         return true;
     }
 

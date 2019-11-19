@@ -67,6 +67,7 @@ public class HiveView extends SurfaceView {
 
     public void setState(HiveGameState state) {
         this.state = state;
+
     }
 
     public void onDraw(Canvas canvas) {

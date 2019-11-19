@@ -79,7 +79,6 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 pieceChosen = 4;
                 break;
         }
-        moveReady = true;
         piecePlacement = true;
         game.sendAction(action);
     }
@@ -105,7 +104,6 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         if (surfaceView == null) {
             return;
         }
-
         if (info instanceof IllegalMoveInfo) {
         }
         else if (!(info instanceof HiveGameState))
@@ -141,8 +139,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         }
 
         //Logger.log("onTouch","Coord" + xCoord + " " + yCoord + " " +divider);
-
-        if (piecePlacement == true) {
+        if (piecePlacement) {
             xEnd = xCoord;
             yEnd = yCoord;
 
@@ -162,12 +159,12 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.EMPTY);
             }
 
-
             game.sendAction(action);
 
             piecePlacement = false;
+            return true;
 
-        } else if (moveReady == false) {
+        } else if (!moveReady) {
 
             xStart = xCoord;
             yStart = yCoord;
@@ -184,7 +181,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
                 game.sendAction(action);
 
-            Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
+                Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
 
                 surfaceView.invalidate();
                 moveReady = false;
