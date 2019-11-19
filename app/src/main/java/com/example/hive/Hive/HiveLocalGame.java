@@ -5,7 +5,7 @@ import com.example.hive.game.LocalGame;
 import com.example.hive.game.actionMessage.GameAction;
 
 /**
- * Represents a local game, which is responsible for enforcing rules
+ * Represents a local game, which is responsible for implementing the rules
  */
 public class HiveLocalGame extends LocalGame {
     private HiveGameState hgs;
@@ -43,7 +43,7 @@ public class HiveLocalGame extends LocalGame {
      * which is when a bee is surrounded
      * by other pieces
      *
-     * @return: A message that states who wins,
+     * @return a message that states who wins,
      * which is blank if it is not game over
      */
     protected String checkIfGameOver() {
@@ -52,7 +52,8 @@ public class HiveLocalGame extends LocalGame {
             if (checkBee(0)) {
                 return "Player 0 wins.";
             }
-        } else {
+        }
+        else {
             if (checkBee(1)) {
                 return "Player 1 wins.";
             }
@@ -66,7 +67,7 @@ public class HiveLocalGame extends LocalGame {
      * (i.e. if all adjacent spots are full)
      *
      * @param player: ID of player whose bee is being checked
-     * @return: True of surrounded, false otherwise
+     * @return true of surrounded, false otherwise
      */
     private boolean checkBee(int player) {
         HiveGameState.piece[][] board = hgs.getBoard();
@@ -74,7 +75,8 @@ public class HiveLocalGame extends LocalGame {
 
         if (player == 0) {
             beeToCheck = HiveGameState.piece.BBEE;
-        } else {
+        }
+        else {
             beeToCheck = HiveGameState.piece.WBEE;
         }
 
@@ -82,6 +84,7 @@ public class HiveLocalGame extends LocalGame {
         int pieceX = 0;
         int pieceY = 0;
 
+        // Iterates through board (no edges checked) to find bee spot
         for (int row = 1; row < board.length - 1; row++) {
             for (int col = 1; col < board[row].length - 1; col++) {
                 if (board[row][col] == beeToCheck) {
@@ -89,8 +92,8 @@ public class HiveLocalGame extends LocalGame {
                     pieceY = col;
 
                     // Check adjacent squares
-                    for (int i = row - 1; i < row + 1; i++) {
-                        for (int j = col - 1; j < col + 1; j++) {
+                    for (int i = row - 1; i < row + 2; i++) {
+                        for (int j = col - 1; j < col + 2; j++) {
 
                             //Error checking on array bounds
                             //This is currently unneeded as the board iteration
@@ -120,7 +123,7 @@ public class HiveLocalGame extends LocalGame {
                                     board[i][j] == board[row - 1][col - 1] ||
                                     board[i][j] == board[row + 1][col - 1]) {
                                 // Do nothing
-                            } else if (board[i][j] != null) {
+                            } else if (board[i][j] != HiveGameState.piece.EMPTY) {
                                 occupiedSpaces++;
                             }
                         }
@@ -131,7 +134,7 @@ public class HiveLocalGame extends LocalGame {
 
         //Since squares have different amounts of adjacent spots,
         //it is necessary to check where queen bee is, then
-        //check what the maximum number of adjacent squares is
+        //check what the maximum number of adjacent squares is.
         //If # of full spots is equal to that maximum, return true
 
         //Checks the corners, which have 3 adjacent spots
@@ -144,23 +147,13 @@ public class HiveLocalGame extends LocalGame {
             }
         }
 
-        //Make sure this edge checking is done
         //There are 5 adjacent spots for edge squares
         else if ((pieceX > 0 && pieceX < board.length - 1) ||
-                (pieceY > 0 && pieceY < board.length - 1)
-        ) {
+                (pieceY > 0 && pieceY < board.length - 1)) {
             if (occupiedSpaces == 5) {
                 return true;
             }
         }
-
-        //Anywhere else has 8 adjacent spots
-        else {
-            if (occupiedSpaces == 8) {
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -168,13 +161,13 @@ public class HiveLocalGame extends LocalGame {
      * Makes a move based on whose turn it is
      *
      * @param action The move that the player has sent to the game
-     * @return
+     * @return true if successful, false otherwise
      */
     protected boolean makeMove(GameAction action) {
         // Checks which type of action is being taken
         if (action instanceof HiveMoveAction) {
+            // Declare action
             HiveMoveAction move = (HiveMoveAction) action;
-
             HiveGameState.piece[][] board = hgs.getBoard();
 
             //A piece can only be moved to a spot with at least
@@ -193,7 +186,6 @@ public class HiveLocalGame extends LocalGame {
                             board[i][j] == board[move.endRow + 1][move.endCol - 1]) {
                         // Do nothing
                     }
-
                     else if (board[i][j] != HiveGameState.piece.EMPTY) {
                         legal = true;
                     }
@@ -210,7 +202,6 @@ public class HiveLocalGame extends LocalGame {
         else if (action instanceof HivePlacePieceAction) {
             //Declare action
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
-
             HiveGameState.piece[][] board = hgs.getBoard();
             boolean legal = false;
 
@@ -253,7 +244,7 @@ public class HiveLocalGame extends LocalGame {
 
             // Iterate through board to find selected piece's location
             for(int row = 0; row < board.length; row++) {
-                for(int col = 0; col < board.length; col++) {
+                for(int col = 0; col < board[row].length; col++) {
                     if(board[row][col] == select.piece) {
                         // Insert highlight code here
 
