@@ -20,16 +20,7 @@ public class HiveView extends SurfaceView {
     protected HiveGameState state = null;
 //    private HiveGameState.piece piece;
 
-    Paint wBee = new Paint();
-    Paint wBeetle = new Paint();
-    Paint wSpider = new Paint();
-    Paint wAnt = new Paint();
-    Paint wGrasshopper = new Paint();
-    Paint bBee = new Paint();
-    Paint bBeetle = new Paint();
-    Paint bSpider = new Paint();
-    Paint bAnt = new Paint();
-    Paint bGrasshopper = new Paint();
+    Paint piecePaint = new Paint();
 
     Paint hexagonalPaint = new Paint();
     Paint hexagonalPaintB = new Paint();
@@ -71,7 +62,7 @@ public class HiveView extends SurfaceView {
         HexagonalPaintOutline.setColor(Color.BLACK);
 
 
-        wBee.setColor(Color.RED);
+        piecePaint.setColor(Color.RED);
 
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
@@ -239,7 +230,7 @@ public class HiveView extends SurfaceView {
      */
     public void drawPiece(Canvas canvas, int startX, int startY, Bitmap piece) {
 
-        canvas.drawBitmap(piece, startX, startY, wBee);
+        canvas.drawBitmap(piece, startX, startY, piecePaint);
 
         //draw black outlines
         //canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
