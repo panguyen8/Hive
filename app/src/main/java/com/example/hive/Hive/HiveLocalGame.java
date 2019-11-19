@@ -67,7 +67,7 @@ public class HiveLocalGame extends LocalGame {
      * (i.e. if all adjacent spots are full)
      *
      * @param player: ID of player whose bee is being checked
-     * @return true of surrounded, false otherwise
+     * @return true if surrounded, false otherwise
      */
     private boolean checkBee(int player) {
         HiveGameState.piece[][] board = hgs.getBoard();

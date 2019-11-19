@@ -33,7 +33,7 @@ public class HiveMainActivity extends GameMainActivity {
         // Define the allowed player types
         ArrayList<GamePlayerType> playerTypes = new ArrayList<GamePlayerType>();
 
-        // Pig has two player types:  human and computer
+        // Hive has two player types:  human and computer
         playerTypes.add(new GamePlayerType("Local Human Player") {
             public GamePlayer createPlayer(String name) {
                 return new HiveHumanPlayer(name);
@@ -44,8 +44,8 @@ public class HiveMainActivity extends GameMainActivity {
             }});
 
 
-        // Create a game configuration class for Pig:
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Pig", PORT_NUMBER);
+        // Create a game configuration class for Hive:
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Hive", PORT_NUMBER);
         defaultConfig.addPlayer("Human", 0); // player 1: a human player
         defaultConfig.addPlayer("Computer", 1); // player 2: a computer player
         defaultConfig.setRemoteData("Remote Human Player", "", 0);
@@ -57,7 +57,7 @@ public class HiveMainActivity extends GameMainActivity {
      * create a local game
      *
      * @return
-     * 		the local game, a pig game
+     * 		the local game, a Hive game
      */
     @Override
     public LocalGame createLocalGame() {
