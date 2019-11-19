@@ -229,7 +229,7 @@ public class HiveView extends SurfaceView {
 
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wspiderpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                b, 202, 219, false);
+                b, 100, 66, false);
         wSpider.setColor(Color.RED);
         canvas.drawBitmap(resizedBitmap, startX, startY, wBeetle);
     }
