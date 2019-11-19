@@ -82,6 +82,8 @@ public class HiveGameState extends GameState {
         }
 
         board[5][5] = HiveGameState.piece.WBEE;
+        board[3][8] = HiveGameState.piece.WANT;
+        board[4][6] = HiveGameState.piece.BBEE;
     }
 
     //Copy constructor (Stephen)

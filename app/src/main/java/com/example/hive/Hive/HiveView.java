@@ -78,55 +78,76 @@ public class HiveView extends SurfaceView {
             for (int x = 0; x < 11; x++) {
                 if (y % 2 == 0) {
 
-                    /*drawHexagon(canvas, x, y);*/
-                    if (state.getPiece(x,y) == HiveGameState.piece.EMPTY) {
-                        drawHexagon(canvas, x * 100, y * 66);
-                    } else if (state.getPiece(x, y) == HiveGameState.piece.WBEE) {
-                        drawWBee(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WBEETLE) {
-                        drawWBeetle(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WGHOPPER) {
-                        drawWGhopper(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WSPIDER) {
-                        drawWSpider(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WANT) {
-                        drawWAnt(canvas, x*100, y*66);
+                    switch (state.getPiece(x, y)) {
+                        case BBEE:
+                            drawBBee(canvas, x * 100, y * 66);
+                            break;
+                        case BANT:
+                            drawBAnt(canvas, x * 100, y * 66);
+                            break;
+                        case BBEETLE:
+                            drawBBeetle(canvas, x * 100, y * 66);
+                            break;
+                        case BSPIDER:
+                            drawBSpider(canvas, x * 100, y * 66);
+                            break;
+                        case BGHOPPER:
+                            drawBGhopper(canvas, x * 100, y * 66);
+                            break;
+                        case WBEE:
+                            drawWBee(canvas, x * 100, y * 66);
+                            break;
+                        case WANT:
+                            drawWAnt(canvas, x * 100, y * 66);
+                            break;
+                        case WBEETLE:
+                            drawWBeetle(canvas, x * 100, y * 66);
+                            break;
+                        case WSPIDER:
+                            drawWSpider(canvas, x * 100, y * 66);
+                            break;
+                        case WGHOPPER:
+                            drawWGhopper(canvas, x * 100, y * 66);
+                            break;
+                        default:
+                            drawHexagon(canvas, x * 100, y * 66);
+                            break;
                     }
-                    if (state.getPiece(x, y) == HiveGameState.piece.BBEE) {
-                        drawBBee(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BBEETLE) {
-                        drawBBeetle(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BGHOPPER) {
-                        drawBGhopper(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BSPIDER) {
-                        drawBSpider(canvas, x*100, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BANT) {
-                        drawBAnt(canvas, x*100, y*66);
-                    }
-                } else {
-                    if (state.board[x][y] == HiveGameState.piece.EMPTY) {
-                        drawHexagon(canvas, x * 100 + 50, y * 66);
-                    } else if (state.getPiece(x, y) == HiveGameState.piece.WBEE) {
-                        drawWBee(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WBEETLE) {
-                        drawWBeetle(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WGHOPPER) {
-                        drawWGhopper(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WSPIDER) {
-                        drawWSpider(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.WANT) {
-                        drawWAnt(canvas, x*100 + 50, y*66);
-                    }
-                    if (state.getPiece(x, y) == HiveGameState.piece.BBEE) {
-                        drawBBee(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BBEETLE) {
-                        drawBBeetle(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BGHOPPER) {
-                        drawBGhopper(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BSPIDER) {
-                        drawBSpider(canvas, x*100 + 50, y*66);
-                    } else if (state.getPiece(x,y) == HiveGameState.piece.BANT) {
-                        drawBAnt(canvas, x*100 + 50, y*66);
+                } else{
+                    switch (state.getPiece(x, y)) {
+                        case BBEE:
+                            drawBBee(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case BANT:
+                            drawBAnt(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case BBEETLE:
+                            drawBBeetle(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case BSPIDER:
+                            drawBSpider(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case BGHOPPER:
+                            drawBGhopper(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case WBEE:
+                            drawWBee(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case WANT:
+                            drawWAnt(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case WBEETLE:
+                            drawWBeetle(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case WSPIDER:
+                            drawWSpider(canvas, x * 100 + 50, y * 66);
+                            break;
+                        case WGHOPPER:
+                            drawWGhopper(canvas, x * 100 + 50, y * 66);
+                            break;
+                        default: //EMPTY
+                            drawHexagon(canvas, x * 100 + 50, y * 66);
+                            break;
                     }
                 }
             }
@@ -157,7 +178,7 @@ public class HiveView extends SurfaceView {
      */
     public void drawWBee(Canvas canvas, int startX, int startY) {
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wbee);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wbeepng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(b, 75, 80, false);
 
         //draw filled hexagon
@@ -183,7 +204,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wbeetle);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wbeetlepng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         wBeetle.setColor(Color.RED);
@@ -206,9 +227,9 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wspider);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wspiderpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                b, 100, 66, false);
+                b, 202, 219, false);
         wSpider.setColor(Color.RED);
         canvas.drawBitmap(resizedBitmap, startX, startY, wBeetle);
     }
@@ -222,14 +243,14 @@ public class HiveView extends SurfaceView {
     public void drawWAnt(Canvas canvas, int startX, int startY) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
+        //canvas.drawPath(drawHexagonLines(startX, startY), hexagonalPaint);
 
         //draw black outlines
-        canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
+        //canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.want);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wantpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                b, 100, 66, false);
+                b, 100,99 , false);
         wAnt.setColor(Color.RED);
         canvas.drawBitmap(resizedBitmap, startX, startY, wAnt);
     }
@@ -248,7 +269,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wgrasshopper);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.wgrasshopperpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         wGrasshopper.setColor(Color.RED);
@@ -270,7 +291,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbee);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbeepng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 75, 80, false);
         bBee.setColor(Color.RED);
@@ -291,7 +312,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbeetle);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bbeetlepng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         bBeetle.setColor(Color.RED);
@@ -314,7 +335,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bspider);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bspiderpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         bSpider.setColor(Color.RED);
@@ -337,7 +358,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bant);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bantpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         bAnt.setColor(Color.RED);
@@ -360,7 +381,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bgrasshopper);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.bgrasshopperpng);
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(
                 b, 100, 66, false);
         bGrasshopper.setColor(Color.RED);
