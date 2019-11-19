@@ -21,7 +21,6 @@ public class HiveButtonAction extends GameAction {
         super(player);
         if(piece == QUEEN) {
             gamePiece = HiveGameState.piece.WBEE;
-
         } else if (piece == GRASSHOPPER) {
             gamePiece = HiveGameState.piece.WGHOPPER;
         } else if (piece == SPIDER) {

@@ -236,7 +236,7 @@ public class HiveLocalGame extends LocalGame {
             }
             hgs.bugList.remove(((HivePlacePieceAction) action).piece);
         }
-        
+
         else if(action instanceof HiveSelectedPieceAction) {
             // Declare the type of action
             HiveSelectedPieceAction select = (HiveSelectedPieceAction) action;
