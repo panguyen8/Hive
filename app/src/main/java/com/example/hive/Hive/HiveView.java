@@ -26,6 +26,7 @@ public class HiveView extends SurfaceView {
     Paint hexagonalPaintB = new Paint();
     Paint hexagonalTargetPaint = new Paint();
     Paint HexagonalPaintOutline = new Paint();
+    Paint HexagonalPaintOutlineB = new Paint();
 
     Path Hexagon = new Path();
     Point point1 = new Point();
@@ -60,6 +61,7 @@ public class HiveView extends SurfaceView {
 
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
+        HexagonalPaintOutlineB.setColor(Color.WHITE);
 
 
         piecePaint.setColor(Color.RED);
@@ -109,6 +111,8 @@ public class HiveView extends SurfaceView {
         if(state == null){
             return;
         }
+
+        setBackgroundColor(Color.WHITE);
 
         for (int y = 0; y < 12; y++) {
             for (int x = 0; x < 11; x++) {
@@ -215,10 +219,10 @@ public class HiveView extends SurfaceView {
     public void drawHexagon(Canvas canvas, int x, int y) {
 
         //draw filled hexagon
-        canvas.drawPath(drawHexagonLines(x, y), hexagonalPaint);
+        //canvas.drawPath(drawHexagonLines(x, y), hexagonalPaint);
 
         //draw black outlines
-        canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
+        //canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
 
     }
 
@@ -233,7 +237,7 @@ public class HiveView extends SurfaceView {
         canvas.drawBitmap(piece, startX, startY, piecePaint);
 
         //draw black outlines
-        //canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
+        canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
     }
