@@ -83,6 +83,19 @@ public class HiveGameState extends GameState {
 
         board[5][5] = HiveGameState.piece.WBEE;
         board[4][6] = HiveGameState.piece.BBEE;
+        /* this is a full board for the ai to test movements since it places all the pieces first
+        board[3][4] = HiveGameState.piece.BANT;
+        board[4][4] = HiveGameState.piece.BANT;
+        board[5][6] = HiveGameState.piece.BANT;
+        board[5][2] = HiveGameState.piece.BSPIDER;
+        board[5][1] = HiveGameState.piece.BSPIDER;
+        board[3][3] = HiveGameState.piece.BGHOPPER;
+        board[4][5] = HiveGameState.piece.BGHOPPER;
+        board[4][2] = HiveGameState.piece.BGHOPPER;
+        board[6][5] = HiveGameState.piece.BBEETLE;
+        board[6][6] = HiveGameState.piece.BBEETLE;
+
+         */
     }
 
     //Copy constructor (Stephen)

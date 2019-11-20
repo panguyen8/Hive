@@ -344,13 +344,14 @@ public class HiveLocalGame extends LocalGame {
                 if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
                     return false;
                 }
-                hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
 
 
                 for (int i = placement.row - 1; i < placement.row + 2; i++) {
                     for (int j = placement.col - 1; j < placement.col + 2; j++) {
-
+                        if(i < 0 || j < 0 || i > 10 || j > 10){
+                            break;
+                        }
                         //Ignore certain spots
                         if (placement.row%2 == 1) {
                             //Ignore certain spots
@@ -383,14 +384,16 @@ public class HiveLocalGame extends LocalGame {
                 if (hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY && legal)
                 {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    hgs.setTurn(0);
+                    return true;
                 } else
                 {
                     //Print error message?
                     return false;
                 }
-                hgs.setTurn(0);
             }
-            return true;
+            return false;
         }
 
         else if(action instanceof HiveSelectedPieceAction) {
