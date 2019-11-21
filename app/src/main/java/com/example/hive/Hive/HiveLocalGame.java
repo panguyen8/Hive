@@ -74,14 +74,19 @@ public class HiveLocalGame extends LocalGame {
 
         if (player == 0) {
             beeToCheck = HiveGameState.piece.BBEE;
-        } else {
+        }
+
+        else {
             beeToCheck = HiveGameState.piece.WBEE;
         }
 
+        //Used for how many adjacent spots are full
+        //and indices of piece
         int occupiedSpaces = 0;
         int pieceX = 0;
         int pieceY = 0;
 
+        //Iterate through board to find desired piece
         for (int row = 1; row < board.length - 1; row++) {
             for (int col = 1; col < board[row].length - 1; col++) {
                 if (board[row][col] == beeToCheck) {
@@ -110,23 +115,36 @@ public class HiveLocalGame extends LocalGame {
                 //---  ---  ---
 
                 //Where only the spaces with * are checked
+                //Exact spots to check also depend if the x index
+                //of the piece is odd or even
+
+                //Ignore spots mentioned above
+
+                //Check if it's an odd index
                 if (pieceX % 2 == 1) {
                     if (board[i][j] == board[pieceX][pieceY] ||
                             board[i][j] == board[pieceX - 1][pieceY - 1] ||
                             board[i][j] == board[pieceX + 1][pieceY - 1]) {
                         // Do nothing
                     }
-                    else if (board[i][j] != null) {
+
+                    //Adjacent spot is full when the empty piece is there
+                    //!null added as a "failsafe"
+                    else if (board[i][j] == HiveGameState.piece.EMPTY ||
+                            board[i][j] != null) {
                         occupiedSpaces++;
                     }
                 }
+
+                //Check if it's an even index
                 else {
                     if (board[i][j] == board[pieceX][pieceY] ||
                             board[i][j] == board[pieceX - 1][pieceY + 1] ||
                             board[i][j] == board[pieceX + 1][pieceY + 1]) {
                         // Do nothing
                     }
-                    else if (board[i][j] != null) {
+                    else if (board[i][j] == HiveGameState.piece.EMPTY ||
+                            board[i][j] != null) {
                         occupiedSpaces++;
                     }
                 }
@@ -138,7 +156,7 @@ public class HiveLocalGame extends LocalGame {
         //check what the maximum number of adjacent squares is
         //If # of full spots is equal to that maximum, return true
 
-        //Checks the corners, which have 3 adjacent spots
+        //Checks the four corners, which have 3 adjacent spots
         if ((pieceX == 0 && pieceY == 0) ||
                 (pieceX == board.length - 1 && pieceY == 0) ||
                 (pieceX == board.length - 1 && pieceY == board.length - 1) ||
@@ -176,211 +194,148 @@ public class HiveLocalGame extends LocalGame {
         if (action instanceof HiveMoveAction) {
             HiveMoveAction move = (HiveMoveAction) action;
 
-            if (hgs.getTurn() == 0) {
-                boolean legal = false;
+            boolean legal = false;
 
-                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
-                    return false;
-                }
-
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
-                for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
-                    for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
-
-                        if (move.endRow % 2 == 1) {
-                            //Ignore certain spots
-                            if ((i == move.endRow + 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                        else {
-                            if ((i == move.endRow + 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                    }
-                }
-
-                // Moves piece to new spot and sets original spot to empty
-                if (legal)
-                {
-                    hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
-                    hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-                }
-                hgs.setTurn(1);
+            //A piece cannot be placed on another piece except
+            //the beetle, currently not implemented
+            if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
+                setNextTurn(hgs);
+                return false;
             }
-            else {
-                boolean legal = false;
 
-                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
-                    return false;
-                }
+            //Iterate through surrounding spots, ignoring the piece
+            //and 2 spots due to the board design
+            for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
+                for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
 
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
-                for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
-                    for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
+                    //Bounds checking
+                    if (i < 0 || i > hgs.board.length ||
+                            j < 0 || j > hgs.board[i].length)
+                    {
+                        continue;
+                    }
 
+                    if (move.endRow % 2 == 1) {
                         //Ignore certain spots
-                        if (move.endRow % 2 == 1) {
-                            //Ignore certain spots
-                            if ((i == move.endRow + 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
+                        if ((i == move.endRow + 1 && j == move.endCol - 1) ||
+                                (i == move.endRow - 1 && j == move.endCol - 1) ||
+                                (i == move.endRow && j == move.endCol)) {
+                            continue;
                         }
-                        else {
-                            if ((i == move.endRow + 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
 
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
+                        if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                            legal = true;
+                        }
+                    }
+                    else {
+                        if ((i == move.endRow + 1 && j == move.endCol + 1) ||
+                                (i == move.endRow - 1 && j == move.endCol + 1) ||
+                                (i == move.endRow && j == move.endCol)) {
+                            continue;
+                        }
+
+                        if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                            legal = true;
                         }
                     }
                 }
+            }
 
-                // Moves piece to new spot and sets original spot to empty
-                if (legal)
-                {
-                    hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
-                    hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-                }
-                hgs.setTurn(0);
+            // Moves piece to new spot and sets original spot to empty
+            //if the move was legal
+            if (legal)
+            {
+                hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
+                hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
+                setNextTurn(hgs);
+                return true;
+            }
+
+            else
+            {
+                setNextTurn(hgs);
+                return false;
             }
         }
+
+
         // Placing piece
         else if (action instanceof HivePlacePieceAction) {
+            //Declare action
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
-            if (hgs.getTurn() == 0) {
-                boolean legal = false;
 
-                if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
-                    return false;
-                }
-                hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+            boolean legal = false;
 
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
-                for (int i = placement.row - 1; i < placement.row + 2; i++) {
-                    for (int j = placement.col - 1; j < placement.col + 2; j++) {
-
-                        if (placement.row % 2 == 1) {
-                            //Ignore certain spots
-                            if ((i == placement.row + 1 && j == placement.col - 1) ||
-                                    (i == placement.row - 1 && j == placement.col - 1) ||
-                                    (i == placement.row && j == placement.col)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                        else {
-                            if ((i == placement.row + 1 && j == placement.col + 1) ||
-                                    (i == placement.row - 1 && j == placement.col + 1) ||
-                                    (i == placement.row && j == placement.col)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                    }
-                }
-
-                //Sets piece specified in place piece onto the board
-                if (hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY && legal)
-                {
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                }
-                else
-                {
-                    //Print error message?
-                    return false;
-                }
-
-                hgs.setTurn(1);
+            //A piece cannot be placed if it is not in the player's
+            //hand (the ArrayList)
+            if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
+                setNextTurn(hgs);
+                return false;
             }
-            else {
-                boolean legal = false;
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
 
-                if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
-                    return false;
-                }
+            //Remove selected piece from the list
+            hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
-                for (int i = placement.row - 1; i < placement.row + 2; i++) {
-                    for (int j = placement.col - 1; j < placement.col + 2; j++) {
-                        if(i < 0 || j < 0 || i > 10 || j > 10){
-                            break;
-                        }
+            //Iterate through surrounding spots, ignoring the piece
+            //and 2 spots due to the board design
+            for (int i = placement.row - 1; i < placement.row + 2; i++) {
+                for (int j = placement.col - 1; j < placement.col + 2; j++) {
+
+                    //Bounds checking
+                    if (i < 0 || i > hgs.board.length ||
+                        j < 0 || j > hgs.board[i].length)
+                    {
+                        continue;
+                    }
+
+                    if (placement.row % 2 == 1) {
                         //Ignore certain spots
-                        if (placement.row%2 == 1) {
-                            //Ignore certain spots
-                            if ((i == placement.row + 1 && j == placement.col - 1) ||
-                                    (i == placement.row - 1 && j == placement.col - 1) ||
-                                    (i == placement.row && j == placement.col)) {
-                                continue;
-                            }
+                        if ((i == placement.row + 1 && j == placement.col - 1) ||
+                                (i == placement.row - 1 && j == placement.col - 1) ||
+                                (i == placement.row && j == placement.col)) {
+                            continue;
+                        }
 
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        } else {
-                            if ((i == placement.row + 1 && j == placement.col + 1) ||
-                                    (i == placement.row - 1 && j == placement.col + 1)||
-                                    (i == placement.row && j == placement.col)) {
-                                continue;
-                            }
+                        //Currently, a piece can be placed next to any empty
+                        //spot adjacent to another
 
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
+                        //Remind Stephen/Samuel to implement each algorithm
+                        //ie how each piece should be placed
+                        if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                            legal = true;
+                        }
+                    }
+                    else {
+                        if ((i == placement.row + 1 && j == placement.col + 1) ||
+                                (i == placement.row - 1 && j == placement.col + 1) ||
+                                (i == placement.row && j == placement.col)) {
+                            continue;
+                        }
+
+                        if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
+                            legal = true;
                         }
                     }
                 }
-
-                //Sets piece specified in place piece onto the board
-                if (hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY && legal)
-                {
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
-                    hgs.setTurn(0);
-                    return true;
-                }
-                else
-                {
-                    //Print error message?
-                    return false;
-                }
             }
-            return false;
+
+            //Sets piece specified in place piece onto the board, if it's legal
+            if (hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY && legal)
+            {
+                hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                setNextTurn(hgs);
+                return true;
+            }
+            else
+            {
+                //Do nothing due to the illegal move
+                //Possibly print an error message for clarity
+                setNextTurn(hgs);
+                return false;
+            }
         }
+
+
         // Selecting a piece
         else if(action instanceof HiveSelectedPieceAction) {
             // Declare the type of action
@@ -401,6 +356,7 @@ public class HiveLocalGame extends LocalGame {
             }
             return true;
         }
+
         // Resetting the board
         else if (action instanceof HiveResetBoardAction) {
             for (int i = 0; i < hgs.board.length; i++)
@@ -416,6 +372,7 @@ public class HiveLocalGame extends LocalGame {
 
             hgs.bugList.clear();
 
+            //Add pieces back to the ArrayList, as they have been removed
             //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
             //bugList.add(piece.BBEE);
             hgs.bugList.add(HiveGameState.piece.BSPIDER);
@@ -443,5 +400,23 @@ public class HiveLocalGame extends LocalGame {
             hgs.bugList.add(HiveGameState.piece.WBEETLE);
         }
         return true;
+    }
+
+    /**
+     * Sets the turn of the next player
+     * Intended to be a helper method
+     * @param hgs: HiveGameState to "act on"
+     */
+    private void setNextTurn(HiveGameState hgs)
+    {
+        if (hgs.getTurn() == 0)
+        {
+            hgs.setTurn(1);
+        }
+
+        else
+        {
+            hgs.setTurn(0);
+        }
     }
 }
