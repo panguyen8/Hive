@@ -47,16 +47,25 @@ public class HiveLocalGame extends LocalGame {
      * or nothing if a win condition has not been met
      */
     protected String checkIfGameOver() {
-        // Check black bee
-        if (hgs.getTurn() == 0) {
-            if (checkBee(0)) {
-                return "Player " + playerNames[0] + " wins.";
-            }
+        //Determine if one or both players have bee surrounded
+        boolean whiteWins = checkBee(0);
+        boolean blackWins = checkBee(1);
+
+        //Draw if both are somehow surrounded at the same time.
+        if (whiteWins && blackWins)
+        {
+            return "Draw.";
         }
-        else {
-            if (checkBee(1)) {
-                return "Player " + playerNames[1] + " wins.";
-            }
+
+        //Standard cases
+        else if (!whiteWins)
+        {
+            return "Game! This game's winner is... " + players[0] + "!";
+        }
+
+        else if (!blackWins)
+        {
+            return "Game! This game's winner is... " + players[1] + "!";
         }
         return null;
     }
@@ -72,9 +81,11 @@ public class HiveLocalGame extends LocalGame {
         HiveGameState.piece[][] board = hgs.getBoard();
         HiveGameState.piece beeToCheck;
 
+        //Get bee to check
         if (player == 0) {
             beeToCheck = HiveGameState.piece.BBEE;
-        } else {
+        }
+        else {
             beeToCheck = HiveGameState.piece.WBEE;
         }
 
@@ -110,6 +121,7 @@ public class HiveLocalGame extends LocalGame {
                 //---  ---  ---
 
                 //Where only the spaces with * are checked
+
                 if (pieceX % 2 == 1) {
                     if (board[i][j] == board[pieceX][pieceY] ||
                             board[i][j] == board[pieceX - 1][pieceY - 1] ||
@@ -164,6 +176,7 @@ public class HiveLocalGame extends LocalGame {
         }
         return false;
     }
+
 
     /**
      * Makes a move based on whose turn it is

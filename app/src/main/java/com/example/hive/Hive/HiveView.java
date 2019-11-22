@@ -176,6 +176,18 @@ public class HiveView extends SurfaceView {
     }
 
     /**
+     * Draws highlighted outlines for legal spots upon
+     * piece selection
+     * @param c: Canvas to draw on
+     * @param startX: X coordinate of canvas
+     * @param startY: Y coordinate
+     */
+    public void drawHighlights(Canvas c, int startX, int startY)
+    {
+        c.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
+    }
+
+    /**
      * draws hexagon, and white bee bitmap on canvas
      * @param canvas  the canvas to draw to
      * @param startX  x coordinate on canvas
