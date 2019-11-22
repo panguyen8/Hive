@@ -255,5 +255,4 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
     }//setAsGui
 
-
 }

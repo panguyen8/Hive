@@ -16,7 +16,7 @@ import com.example.hive.R;
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;
-//    private HiveGameState.piece piece;
+    //private HiveGameState.piece piece;
 
     Paint wBee = new Paint();
     Paint wBeetle = new Paint();
@@ -77,6 +77,7 @@ public class HiveView extends SurfaceView {
             return;
         }
 
+        Hexagon.reset();
         setBackgroundColor(Color.WHITE);
 
         for (int y = 0; y < 12; y++) {
@@ -115,7 +116,6 @@ public class HiveView extends SurfaceView {
                             drawWGhopper(canvas, x * 100, y * 66);
                             break;
                         default:
-                            drawHexagon(canvas, x * 100, y * 66);
                             break;
                     }
                 } else{
@@ -151,7 +151,6 @@ public class HiveView extends SurfaceView {
                             drawWGhopper(canvas, x * 100 + 50, y * 66);
                             break;
                         default: //EMPTY
-                            drawHexagon(canvas, x * 100 + 50, y * 66);
                             break;
                     }
                 }
@@ -166,9 +165,6 @@ public class HiveView extends SurfaceView {
      * @param y      y coordinate of hexagon
      */
     public void drawHexagon(Canvas canvas, int x, int y) {
-
-        //draw filled hexagon
-        //canvas.drawPath(drawHexagonLines(x, y), hexagonalPaint);
 
         //draw black outlines
         //canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
