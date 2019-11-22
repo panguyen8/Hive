@@ -16,7 +16,7 @@ import com.example.hive.R;
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;
-    //private HiveGameState.piece piece;
+//    private HiveGameState.piece piece;
 
     Paint wBee = new Paint();
     Paint wBeetle = new Paint();
@@ -77,7 +77,6 @@ public class HiveView extends SurfaceView {
             return;
         }
 
-        Hexagon.reset();
         setBackgroundColor(Color.WHITE);
 
         for (int y = 0; y < 12; y++) {
@@ -115,7 +114,8 @@ public class HiveView extends SurfaceView {
                         case WGHOPPER:
                             drawWGhopper(canvas, x * 100, y * 66);
                             break;
-                        default:
+                        case TARGET:
+                            drawHexagon(canvas, x * 100, y * 66);
                             break;
                     }
                 } else{
@@ -150,7 +150,8 @@ public class HiveView extends SurfaceView {
                         case WGHOPPER:
                             drawWGhopper(canvas, x * 100 + 50, y * 66);
                             break;
-                        default: //EMPTY
+                        case TARGET: //EMPTY
+                            drawHexagon(canvas, x * 100 + 50, y * 66);
                             break;
                     }
                 }
@@ -166,9 +167,24 @@ public class HiveView extends SurfaceView {
      */
     public void drawHexagon(Canvas canvas, int x, int y) {
 
+        //draw filled hexagon
+        //canvas.drawPath(drawHexagonLines(x, y), hexagonalPaint);
+
         //draw black outlines
         //canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
 
+    }
+
+    /**
+     * Draws highlighted outlines for legal spots upon
+     * piece selection
+     * @param c: Canvas to draw on
+     * @param startX: X coordinate of canvas
+     * @param startY: Y coordinate
+     */
+    public void drawHighlights(Canvas c, int startX, int startY)
+    {
+        c.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
     }
 
     /**

@@ -37,7 +37,7 @@ public class HiveGameState extends GameState {
 
     public ArrayList<piece> bugList = new ArrayList<>();
     enum piece {
-        BBEE, BSPIDER, BANT, BGHOPPER, BBEETLE, WBEE, WSPIDER, WANT, WGHOPPER, WBEETLE, EMPTY;
+        BBEE, BSPIDER, BANT, BGHOPPER, BBEETLE, WBEE, WSPIDER, WANT, WGHOPPER, WBEETLE, EMPTY, TARGET;
     }
 
     //Basic constructor
