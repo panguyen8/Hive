@@ -48,7 +48,7 @@ public class HiveLocalGame extends LocalGame {
      */
     protected String checkIfGameOver() {
         //Determine if one or both players have bee surrounded
-        boolean whiteWins = checkBee(0);
+        /*boolean whiteWins = checkBee(0);
         boolean blackWins = checkBee(1);
 
         //Draw if both are somehow surrounded at the same time.
@@ -66,7 +66,7 @@ public class HiveLocalGame extends LocalGame {
         else if (!blackWins)
         {
             return "Game! This game's winner is... " + players[1] + "!";
-        }
+        }*/
         return null;
     }
 

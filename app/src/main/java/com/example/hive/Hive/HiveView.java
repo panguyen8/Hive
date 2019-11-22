@@ -77,6 +77,7 @@ public class HiveView extends SurfaceView {
             return;
         }
 
+        Hexagon.reset();
         setBackgroundColor(Color.WHITE);
 
         for (int y = 0; y < 12; y++) {
@@ -117,6 +118,8 @@ public class HiveView extends SurfaceView {
                         case TARGET:
                             drawHexagon(canvas, x * 100, y * 66);
                             break;
+                        default: //EMPTY
+                            break;
                     }
                 } else{
                     switch (state.getPiece(x, y)) {
@@ -150,8 +153,10 @@ public class HiveView extends SurfaceView {
                         case WGHOPPER:
                             drawWGhopper(canvas, x * 100 + 50, y * 66);
                             break;
-                        case TARGET: //EMPTY
+                        case TARGET:
                             drawHexagon(canvas, x * 100 + 50, y * 66);
+                            break;
+                        default: //EMPTY
                             break;
                     }
                 }
@@ -166,9 +171,6 @@ public class HiveView extends SurfaceView {
      * @param y      y coordinate of hexagon
      */
     public void drawHexagon(Canvas canvas, int x, int y) {
-
-        //draw filled hexagon
-        //canvas.drawPath(drawHexagonLines(x, y), hexagonalPaint);
 
         //draw black outlines
         //canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
