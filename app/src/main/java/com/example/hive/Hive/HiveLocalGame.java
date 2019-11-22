@@ -128,7 +128,7 @@ public class HiveLocalGame extends LocalGame {
                             board[i][j] == board[pieceX + 1][pieceY - 1]) {
                         // Do nothing
                     }
-                    else if (board[i][j] != null) {
+                    else if (board[i][j] != null && board[i][j] != HiveGameState.piece.TARGET) {
                         occupiedSpaces++;
                     }
                 }
@@ -138,7 +138,7 @@ public class HiveLocalGame extends LocalGame {
                             board[i][j] == board[pieceX + 1][pieceY + 1]) {
                         // Do nothing
                     }
-                    else if (board[i][j] != null) {
+                    else if (board[i][j] != null && board[i][j] != HiveGameState.piece.TARGET) {
                         occupiedSpaces++;
                     }
                 }
@@ -395,23 +395,37 @@ public class HiveLocalGame extends LocalGame {
             return false;
         }
         // Selecting a piece
-        else if(action instanceof HiveSelectedPieceAction) {
+        else if(action instanceof HiveButtonAction) {
             // Declare the type of action
-            HiveSelectedPieceAction select = (HiveSelectedPieceAction) action;
-            HiveGameState.piece[][] board = hgs.getBoard();
+            HiveButtonAction select = (HiveButtonAction) action;
 
             // Iterate through board to find selected piece's location
-            for(int row = 0; row < board.length; row++) {
-                for(int col = 0; col < board.length; col++) {
-                    if(board[row][col] != HiveGameState.piece.EMPTY) {
-                        for(int row2 = 0; row2 < board.length; row2++) {
-                            for(int col2 = 0; col2 < board.length; col2++) {
-
-                            }
+            for(int row = 1; row < hgs.board.length - 1; row++) {
+                for (int col = 1; col < hgs.board.length - 1; col++) {
+                    if (col % 2 == 0) {
+                        if (hgs.board[row][col] != HiveGameState.piece.EMPTY) {
+                            hgs.board[row + 1][col] = HiveGameState.piece.TARGET;
+                            hgs.board[row - 1][col + 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row][col + 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row][col - 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row - 1][col] = HiveGameState.piece.TARGET;
+                            hgs.board[row - 1][col - 1] = HiveGameState.piece.TARGET;
+                            return true;
+                        }
+                    } else {
+                        if (hgs.board[row][col] != HiveGameState.piece.EMPTY) {
+                            hgs.board[row + 1][col] = HiveGameState.piece.TARGET;
+                            hgs.board[row + 1][col + 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row][col + 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row][col - 1] = HiveGameState.piece.TARGET;
+                            hgs.board[row - 1][col] = HiveGameState.piece.TARGET;
+                            hgs.board[row + 1][col - 1] = HiveGameState.piece.TARGET;
+                            return true;
                         }
                     }
                 }
             }
+
             return true;
         }
         // Resetting the board

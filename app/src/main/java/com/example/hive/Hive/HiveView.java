@@ -114,7 +114,7 @@ public class HiveView extends SurfaceView {
                         case WGHOPPER:
                             drawWGhopper(canvas, x * 100, y * 66);
                             break;
-                        default:
+                        case TARGET:
                             drawHexagon(canvas, x * 100, y * 66);
                             break;
                     }
@@ -150,7 +150,7 @@ public class HiveView extends SurfaceView {
                         case WGHOPPER:
                             drawWGhopper(canvas, x * 100 + 50, y * 66);
                             break;
-                        default: //EMPTY
+                        case TARGET: //EMPTY
                             drawHexagon(canvas, x * 100 + 50, y * 66);
                             break;
                     }
