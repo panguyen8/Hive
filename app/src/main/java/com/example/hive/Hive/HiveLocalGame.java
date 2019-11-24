@@ -109,17 +109,70 @@ public class HiveLocalGame extends LocalGame {
             HiveMoveAction move = (HiveMoveAction) action;
 
             if (hgs.getTurn() == 0) {
+                if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WGHOPPER) {
+                    return false;
+                }
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
+                    if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
+                        // moveBee
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
+                        // moveBeetle
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
+                        // moveAnt
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
+                        // moveSpider
+                    }
+                    else {
+                        // moveGHopper
+                    }
+                    // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 }
-
                 hgs.setTurn(1);
             }
             else {
+                if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BGHOPPER) {
+                    return false;
+                }
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
+                    if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
+                        // moveBee
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
+                        // moveBeetle
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
+                        // moveAnt
+                    }
+                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
+                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
+                        // moveSpider
+                    }
+                    else {
+                        // moveGHopper
+                    }
+                    // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 }
