@@ -125,10 +125,6 @@ public class HiveLocalGame extends LocalGame {
         if (action instanceof HiveMoveAction) {
             HiveMoveAction move = (HiveMoveAction) action;
 
-            if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
-                return false;
-            }
-
             if (hgs.getTurn() == 0) {
                 boolean legal = false;
 
@@ -172,11 +168,13 @@ public class HiveLocalGame extends LocalGame {
             }
 
             if (hgs.getTurn() == 0) {
-                if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
-                    hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
-                    hgs.bugList.remove(HiveGameState.piece.WBEE);
-                }
-                if(hgs.canPlace(placement.row, placement.col)) {
+                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
+                    //makes sure that the bee is placed
+                    if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
+                        hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
+                        hgs.bugList.remove(HiveGameState.piece.WBEE);
+                    }
+
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 } else {
@@ -185,11 +183,13 @@ public class HiveLocalGame extends LocalGame {
                 hgs.setTurn(1);
             }
             else {
+                //makes sure that the bee is placed
                 if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
                     hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
                 }
-                if(hgs.canPlace(placement.row, placement.col)) {
+
+                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 } else {
@@ -206,6 +206,9 @@ public class HiveLocalGame extends LocalGame {
         }
         // Selecting a piece
         else if(action instanceof HiveButtonAction) {
+            if (!hgs.bugList.contains(((HiveButtonAction) action).gamePiece)) {
+                return false;
+            }
             for (int row = 1; row < hgs.board.length - 1; row++)
             {
                 for (int col = 1; col < hgs.board[col].length - 1; col++)
