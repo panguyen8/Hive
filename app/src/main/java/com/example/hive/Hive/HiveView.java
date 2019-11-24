@@ -118,8 +118,6 @@ public class HiveView extends SurfaceView {
                         case TARGET:
                             drawHexagon(canvas, x * 100, y * 66);
                             break;
-                        default: //EMPTY
-                            break;
                     }
                 } else{
                     switch (state.getPiece(x, y)) {
@@ -156,8 +154,6 @@ public class HiveView extends SurfaceView {
                         case TARGET:
                             drawHexagon(canvas, x * 100 + 50, y * 66);
                             break;
-                        default: //EMPTY
-                            break;
                     }
                 }
             }
@@ -173,7 +169,7 @@ public class HiveView extends SurfaceView {
     public void drawHexagon(Canvas canvas, int x, int y) {
 
         //draw black outlines
-        //canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
+        canvas.drawPath(drawHexagonLines(x, y), HexagonalPaintOutline);
 
     }
 

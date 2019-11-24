@@ -82,7 +82,7 @@ public class HiveGameState extends GameState {
         }
 
         board[5][5] = HiveGameState.piece.WBEE;
-        board[4][6] = HiveGameState.piece.BBEE;
+        //board[4][6] = HiveGameState.piece.BBEE;
         /* this is a full board for the ai to test movements since it places all the pieces first
         board[3][4] = HiveGameState.piece.BANT;
         board[4][4] = HiveGameState.piece.BANT;
@@ -128,6 +128,54 @@ public class HiveGameState extends GameState {
      */
     public void setTurn(int id) {
         this.turn = id;
+    }
+
+    public boolean canPlace(int row, int col) {
+        int count = 0;
+        if (col % 2 == 0) {
+            if (board[row + 1][col] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col + 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col + 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col - 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col - 1] == piece.EMPTY) {
+                count++;
+            }
+        } else {
+            if (board[row + 1][col] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row + 1][col + 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col + 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col - 1] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col] == piece.EMPTY) {
+                count++;
+            }
+            if (board[row + 1][col - 1] == piece.EMPTY) {
+                count++;
+            }
+        }
+        if (count == 6) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public piece[][] getBoard() {
