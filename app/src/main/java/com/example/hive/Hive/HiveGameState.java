@@ -130,6 +130,14 @@ public class HiveGameState extends GameState {
         this.turn = id;
     }
 
+    /**
+     * Checks to see if a piece can be placed at a certain spot
+     * A piece beyond the first must be placed next to one already on the board
+     *
+     * @param row: the desired spot's row
+     * @param col: the desired spot's column
+     * @return true if able, false otherwise
+     */
     public boolean canPlace(int row, int col) {
         int count = 0;
         if (col % 2 == 0) {
@@ -178,6 +186,13 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Checks to see if a spot is surrounded
+     *
+     * @param row: the spot's row
+     * @param col: the spot's col
+     * @return true if so, false otherwise
+     */
     public boolean checkSurround(int row, int col) {
         int count = 0;
         if (col % 2 == 0) {
@@ -226,6 +241,12 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Marks spots around a given spot as potential targets
+     *
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
     public void makeTarget(int row, int col) {
         if (board[row][col] != piece.EMPTY && board[row][col] != piece.TARGET) {
             if (col % 2 == 0) {

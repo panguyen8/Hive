@@ -48,29 +48,13 @@ public class HiveLocalGame extends LocalGame {
      * or nothing if a win condition has not been met
      */
     protected String checkIfGameOver() {
-        /*
-        //Determine if one or both players have bee surrounded
-        boolean whiteWins = checkBee(0);
-        boolean blackWins = checkBee(1);
-
-        //Draw if both are somehow surrounded at the same time.
-        if (whiteWins && blackWins)
-        {
-            return "Draw.";
-        }
-
-        //Standard cases
-        else if (!whiteWins)
-        {
-            return "Game! This game's winner is... " + players[0] + "!";
-        }
-
-        else if (!blackWins)
-        {
-            return "Game! This game's winner is... " + players[1] + "!";
-        }
-
-         */
+//        if(checkBee(0)) {
+//            return "Game! This game's winner is " + playerNames[1] + "!";
+//        }
+//
+//        if(checkBee(1)) {
+//            return "Game! This game's winner is " + playerNames[0] + "!";
+//        }
         return null;
     }
 
@@ -94,7 +78,6 @@ public class HiveLocalGame extends LocalGame {
             beeToCheck = HiveGameState.piece.WBEE;
         }
 
-        int occupiedSpaces = 0;
         int pieceX = 0;
         int pieceY = 0;
 
@@ -126,8 +109,6 @@ public class HiveLocalGame extends LocalGame {
             HiveMoveAction move = (HiveMoveAction) action;
 
             if (hgs.getTurn() == 0) {
-                boolean legal = false;
-
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -137,8 +118,6 @@ public class HiveLocalGame extends LocalGame {
                 hgs.setTurn(1);
             }
             else {
-                boolean legal = false;
-
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -154,7 +133,6 @@ public class HiveLocalGame extends LocalGame {
         // Placing piece
         else if (action instanceof HivePlacePieceAction) {
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
-
 
             if(turnCount == 0) {
                 hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
