@@ -9,6 +9,7 @@ import com.example.hive.game.actionMessage.GameAction;
  */
 public class HiveLocalGame extends LocalGame {
     private HiveGameState hgs;
+    private int turnCount = 0;
 
     public HiveLocalGame() {
         super();
@@ -153,28 +154,44 @@ public class HiveLocalGame extends LocalGame {
                 }
                 hgs.setTurn(0);
             }
+
+            //increment turnCount
+            turnCount++;
         }
         // Placing piece
         else if (action instanceof HivePlacePieceAction) {
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
 
+            if(turnCount == 0) {
+                hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+
+                turnCount++;
+                return true;
+            }
+
             if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
                 return false;
             }
 
-
             if (hgs.getTurn() == 0) {
+                if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
+                    hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
+                    hgs.bugList.remove(HiveGameState.piece.WBEE);
+                }
                 if(hgs.canPlace(placement.row, placement.col)) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
-
                 } else {
                     return false;
                 }
                 hgs.setTurn(1);
-                return true;
             }
             else {
+                if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
+                    hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
+                    hgs.bugList.remove(HiveGameState.piece.BBEE);
+                }
                 if(hgs.canPlace(placement.row, placement.col)) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
@@ -182,8 +199,11 @@ public class HiveLocalGame extends LocalGame {
                     return false;
                 }
                 hgs.setTurn(0);
-                return true;
             }
+
+            //increment turnCount
+            turnCount++;
+            return true;
         }
         // Selecting a piece
         else if(action instanceof HiveButtonAction) {
@@ -199,13 +219,15 @@ public class HiveLocalGame extends LocalGame {
                 }
             }
 
-            hgs.board[5][5] = HiveGameState.piece.WBEE;
-            hgs.board[4][6] = HiveGameState.piece.BBEE;
+            //hgs.board[5][5] = HiveGameState.piece.WBEE;
+            //hgs.board[4][6] = HiveGameState.piece.BBEE;
+
+            turnCount = 0;
 
             hgs.bugList.clear();
 
             //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
-            //bugList.add(piece.BBEE);
+            hgs.bugList.add(HiveGameState.piece.BBEE);
             hgs.bugList.add(HiveGameState.piece.BSPIDER);
             hgs.bugList.add(HiveGameState.piece.BSPIDER);
             hgs.bugList.add(HiveGameState.piece.BANT);
@@ -218,7 +240,7 @@ public class HiveLocalGame extends LocalGame {
             hgs.bugList.add(HiveGameState.piece.BBEETLE);
 
             //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
-            //bugList.add(piece.WBEE);
+            hgs.bugList.add(HiveGameState.piece.WBEE);
             hgs.bugList.add(HiveGameState.piece.WSPIDER);
             hgs.bugList.add(HiveGameState.piece.WSPIDER);
             hgs.bugList.add(HiveGameState.piece.WANT);

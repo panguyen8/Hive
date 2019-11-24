@@ -81,7 +81,7 @@ public class HiveGameState extends GameState {
             }
         }
 
-        board[5][5] = HiveGameState.piece.WBEE;
+        //board[5][5] = HiveGameState.piece.WBEE;
         //board[4][6] = HiveGameState.piece.BBEE;
         /* this is a full board for the ai to test movements since it places all the pieces first
         board[3][4] = HiveGameState.piece.BANT;
