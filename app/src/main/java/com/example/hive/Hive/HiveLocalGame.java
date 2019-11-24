@@ -81,7 +81,7 @@ public class HiveLocalGame extends LocalGame {
      * @return true of surrounded, false otherwise
      */
     private boolean checkBee(int player) {
-        /*
+
         HiveGameState.piece[][] board = hgs.getBoard();
         HiveGameState.piece beeToCheck;
 
@@ -106,80 +106,9 @@ public class HiveLocalGame extends LocalGame {
             }
         }
 
-        // Check adjacent squares
-        for (int i = pieceX - 1; i < pieceX + 2; i++) {
-            for (int j = pieceY - 1; j < pieceY + 2; j++) {
-                //Check if current iteration is the piece
-                //Due to how hexagon board is implemented, the
-                //check looks like this, where the piece is the
-                //center space
-
-                //---  ---  ---
-                //|X|  |*|  |*|
-                //---  ---  ---
-                //---  ---  ---
-                //|*|  |X|  |*|
-                //---  ---  ---
-                //---  ---  ---
-                //|X|  |*|  |*|
-                //---  ---  ---
-
-                //Where only the spaces with * are checked
-
-                if (pieceX % 2 == 1) {
-                    if (board[i][j] == board[pieceX][pieceY] ||
-                            board[i][j] == board[pieceX - 1][pieceY - 1] ||
-                            board[i][j] == board[pieceX + 1][pieceY - 1]) {
-                        // Do nothing
-                    }
-                    else if (board[i][j] != null && board[i][j] != HiveGameState.piece.TARGET) {
-                        occupiedSpaces++;
-                    }
-                }
-                else {
-                    if (board[i][j] == board[pieceX][pieceY] ||
-                            board[i][j] == board[pieceX - 1][pieceY + 1] ||
-                            board[i][j] == board[pieceX + 1][pieceY + 1]) {
-                        // Do nothing
-                    }
-                    else if (board[i][j] != null && board[i][j] != HiveGameState.piece.TARGET) {
-                        occupiedSpaces++;
-                    }
-                }
-            }
-        }
-
-        //Since squares have different amounts of adjacent spots,
-        //it is necessary to check where queen bee is, then
-        //check what the maximum number of adjacent squares is
-        //If # of full spots is equal to that maximum, return true
-
-        //Checks the corners, which have 3 adjacent spots
-        if ((pieceX == 0 && pieceY == 0) ||
-                (pieceX == board.length - 1 && pieceY == 0) ||
-                (pieceX == board.length - 1 && pieceY == board.length - 1) ||
-                (pieceY == board.length - 1 && pieceX == 0)) {
-            if (occupiedSpaces == 3) {
-                return true;
-            }
-        }
-
-//        // Edges have 3-4 spots
-//        else if ((pieceX > 0 && pieceX < board.length - 1) ||
-//                (pieceY > 0 && pieceY < board.length - 1)) {
-//            if (occupiedSpaces == 4) {
-//                return true;
-//            }
-//        }
-
-        //Anywhere else has 6 adjacent spots
-        else {
-            if (occupiedSpaces == 6) {
-                return true;
-            }
-        }
-
-         */
+       if (hgs.canPlace(pieceX, pieceY) == false) {
+           return true;
+       }
         return false;
     }
 
@@ -191,16 +120,6 @@ public class HiveLocalGame extends LocalGame {
      * @return true if successful, false otherwise
      */
     protected boolean makeMove(GameAction action) {
-        /*
-        hgs.board[row][col + 1] = HiveGameState.piece.TARGET;
-        hgs.board[row][col - 1] = HiveGameState.piece.TARGET;
-        hgs.board[row + 1][col] = HiveGameState.piece.TARGET;
-        hgs.board[row - 1][col + 1] = HiveGameState.piece.TARGET;
-        hgs.board[row - 1][col] = HiveGameState.piece.TARGET;
-        hgs.board[row - 1][col - 1] = HiveGameState.piece.TARGET;
-
-         */
-
         // Moving a piece
         if (action instanceof HiveMoveAction) {
             HiveMoveAction move = (HiveMoveAction) action;
@@ -212,43 +131,12 @@ public class HiveLocalGame extends LocalGame {
                     return false;
                 }
 
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
-                for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
-                    for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
-
-                        if (move.endRow % 2 == 1) {
-                            //Ignore certain spots
-                            if ((i == move.endRow + 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                        else {
-                            if ((i == move.endRow + 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                    }
-                }
-
-                // Moves piece to new spot and sets original spot to empty
-                if (legal)
+                if (hgs.canPlace(move.endRow, move.endCol))
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 }
+
                 hgs.setTurn(1);
             }
             else {
@@ -258,40 +146,7 @@ public class HiveLocalGame extends LocalGame {
                     return false;
                 }
 
-                //Iterate through surrounding spots, ignoring the piece
-                //and 2 spots due to the board design
-                for (int i = move.endRow - 1; i < move.endRow + 2; i++) {
-                    for (int j = move.endCol - 1; j < move.endCol + 2; j++) {
-
-                        //Ignore certain spots
-                        if (move.endRow % 2 == 1) {
-                            //Ignore certain spots
-                            if ((i == move.endRow + 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol - 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                        else {
-                            if ((i == move.endRow + 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow - 1 && j == move.endCol + 1) ||
-                                    (i == move.endRow && j == move.endCol)) {
-                                continue;
-                            }
-
-                            if (hgs.board[i][j] != HiveGameState.piece.EMPTY) {
-                                legal = true;
-                            }
-                        }
-                    }
-                }
-
-                // Moves piece to new spot and sets original spot to empty
-                if (legal)
+                if (hgs.canPlace(move.endRow, move.endCol))
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
