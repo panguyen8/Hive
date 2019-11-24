@@ -128,7 +128,7 @@ public class HiveLocalGame extends LocalGame {
             if (hgs.getTurn() == 0) {
                 boolean legal = false;
 
-                if (hgs.canPlace(move.endRow, move.endCol))
+                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
@@ -139,7 +139,7 @@ public class HiveLocalGame extends LocalGame {
             else {
                 boolean legal = false;
 
-                if (hgs.canPlace(move.endRow, move.endCol))
+                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
@@ -147,6 +147,7 @@ public class HiveLocalGame extends LocalGame {
                 hgs.setTurn(0);
             }
 
+            hgs.resetTarget();
             //increment turnCount
             turnCount++;
         }
@@ -214,6 +215,22 @@ public class HiveLocalGame extends LocalGame {
                 for (int col = 1; col < hgs.board[col].length - 1; col++)
                 {
                     hgs.makeTarget(row, col);
+                }
+            }
+            return true;
+        }
+        //selected piece targets
+        else if (action instanceof HiveSelectedPieceAction) {
+            HiveSelectedPieceAction move = (HiveSelectedPieceAction) action;
+            for (int row = 1; row < hgs.board.length - 1; row++)
+            {
+                for (int col = 1; col < hgs.board[col].length - 1; col++)
+                {
+                    if (row == move.row && col == move.col) {
+                        //do nothing
+                    } else {
+                        hgs.makeTarget(row, col);
+                    }
                 }
             }
             return true;
