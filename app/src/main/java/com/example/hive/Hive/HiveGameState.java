@@ -178,6 +178,54 @@ public class HiveGameState extends GameState {
         }
     }
 
+    public boolean checkSurround(int row, int col) {
+        int count = 0;
+        if (col % 2 == 0) {
+            if (board[row + 1][col] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col + 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col + 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col - 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col - 1] != piece.EMPTY) {
+                count++;
+            }
+        } else {
+            if (board[row + 1][col] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row + 1][col + 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col + 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row][col - 1] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row - 1][col] != piece.EMPTY) {
+                count++;
+            }
+            if (board[row + 1][col - 1] != piece.EMPTY) {
+                count++;
+            }
+        }
+        if (count == 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public piece[][] getBoard() {
         return this.board;
     }

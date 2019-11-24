@@ -106,7 +106,7 @@ public class HiveLocalGame extends LocalGame {
             }
         }
 
-       if (hgs.canPlace(pieceX, pieceY) == false) {
+       if (hgs.checkSurround(pieceX, pieceY)) {
            return true;
        }
         return false;
