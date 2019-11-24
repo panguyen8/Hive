@@ -125,12 +125,12 @@ public class HiveLocalGame extends LocalGame {
         if (action instanceof HiveMoveAction) {
             HiveMoveAction move = (HiveMoveAction) action;
 
+            if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
+                return false;
+            }
+
             if (hgs.getTurn() == 0) {
                 boolean legal = false;
-
-                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
-                    return false;
-                }
 
                 if (hgs.canPlace(move.endRow, move.endCol))
                 {
@@ -142,10 +142,6 @@ public class HiveLocalGame extends LocalGame {
             }
             else {
                 boolean legal = false;
-
-                if(hgs.board[move.endRow][move.endCol] != HiveGameState.piece.EMPTY ) {
-                    return false;
-                }
 
                 if (hgs.canPlace(move.endRow, move.endCol))
                 {
@@ -161,6 +157,7 @@ public class HiveLocalGame extends LocalGame {
         // Placing piece
         else if (action instanceof HivePlacePieceAction) {
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
+
 
             if(turnCount == 0) {
                 hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
@@ -201,13 +198,22 @@ public class HiveLocalGame extends LocalGame {
                 hgs.setTurn(0);
             }
 
+            hgs.resetTarget();
+
             //increment turnCount
             turnCount++;
             return true;
         }
         // Selecting a piece
         else if(action instanceof HiveButtonAction) {
-            return false;
+            for (int row = 1; row < hgs.board.length - 1; row++)
+            {
+                for (int col = 1; col < hgs.board[col].length - 1; col++)
+                {
+                    hgs.makeTarget(row, col);
+                }
+            }
+            return true;
         }
         // Resetting the board
         else if (action instanceof HiveResetBoardAction) {

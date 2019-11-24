@@ -44,7 +44,7 @@ public class HiveGameState extends GameState {
     public HiveGameState() {
 
         //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
-        //bugList.add(piece.BBEE);
+        bugList.add(piece.BBEE);
         bugList.add(piece.BSPIDER);
         bugList.add(piece.BSPIDER);
         bugList.add(piece.BANT);
@@ -57,7 +57,7 @@ public class HiveGameState extends GameState {
         bugList.add(piece.BBEETLE);
 
         //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
-        //bugList.add(piece.WBEE);
+        bugList.add(piece.WBEE);
         bugList.add(piece.WSPIDER);
         bugList.add(piece.WSPIDER);
         bugList.add(piece.WANT);
@@ -225,6 +225,61 @@ public class HiveGameState extends GameState {
             return false;
         }
     }
+
+    public void makeTarget(int row, int col) {
+        if (board[row][col] != piece.EMPTY && board[row][col] != piece.TARGET) {
+            if (col % 2 == 0) {
+                if (board[row + 1][col] == piece.EMPTY) {
+                    board[row + 1][col] = piece.TARGET;
+                }
+                if (board[row - 1][col + 1] == piece.EMPTY) {
+                    board[row - 1][col + 1] = piece.TARGET;
+                }
+                if (board[row][col + 1] == piece.EMPTY) {
+                    board[row][col + 1] = piece.TARGET;
+                }
+                if (board[row][col - 1] == piece.EMPTY) {
+                    board[row][col - 1] = piece.TARGET;
+                }
+                if (board[row - 1][col] == piece.EMPTY) {
+                    board[row - 1][col] = piece.TARGET;
+                }
+                if (board[row - 1][col - 1] == piece.EMPTY) {
+                    board[row - 1][col - 1] = piece.TARGET;
+                }
+            } else {
+                if (board[row + 1][col] == piece.EMPTY) {
+                    board[row + 1][col] = piece.TARGET;
+                }
+                if (board[row + 1][col + 1] == piece.EMPTY) {
+                    board[row + 1][col + 1] = piece.TARGET;
+                }
+                if (board[row][col + 1] == piece.EMPTY) {
+                    board[row][col + 1] = piece.TARGET;
+                }
+                if (board[row][col - 1] == piece.EMPTY) {
+                    board[row][col - 1] = piece.TARGET;
+                }
+                if (board[row - 1][col] == piece.EMPTY) {
+                    board[row - 1][col] = piece.TARGET;
+                }
+                if (board[row + 1][col - 1] == piece.EMPTY) {
+                    board[row + 1][col - 1] = piece.TARGET;
+                }
+            }
+        }
+    }
+
+    public void resetTarget() {
+        for (int y = 0; y < 12; y++) {
+            for (int x = 0; x < 11; x++) {
+                if (board[x][y] == piece.TARGET) {
+                    board[x][y] = piece.EMPTY;
+                }
+            }
+        }
+    }
+
 
     public piece[][] getBoard() {
         return this.board;

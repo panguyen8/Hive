@@ -92,6 +92,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         }
         piecePlacement = true;
         game.sendAction(action);
+        surfaceView.invalidate();
     }
 
     /**
