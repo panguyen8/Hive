@@ -16,18 +16,6 @@ import com.example.hive.R;
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;
-//    private HiveGameState.piece piece;
-
-    Paint wBee = new Paint();
-    Paint wBeetle = new Paint();
-    Paint wSpider = new Paint();
-    Paint wAnt = new Paint();
-    Paint wGrasshopper = new Paint();
-    Paint bBee = new Paint();
-    Paint bBeetle = new Paint();
-    Paint bSpider = new Paint();
-    Paint bAnt = new Paint();
-    Paint bGrasshopper = new Paint();
 
     Paint hexagonalPaint = new Paint();
     Paint hexagonalPaintB = new Paint();
@@ -57,8 +45,6 @@ public class HiveView extends SurfaceView {
         HexagonalPaintOutline.setColor(Color.BLACK);
         HexagonalPaintOutlineB.setColor(Color.WHITE);
 
-
-        wBee.setColor(Color.RED);
 
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
@@ -116,7 +102,7 @@ public class HiveView extends SurfaceView {
                             drawWGhopper(canvas, x * 100, y * 66);
                             break;
                         case TARGET:
-                            drawHexagon(canvas, x * 100, y * 66);
+                            drawTargetHexagon(canvas, x * 100, y * 66);
                             break;
                     }
                 } else{
@@ -152,7 +138,7 @@ public class HiveView extends SurfaceView {
                             drawWGhopper(canvas, x * 100 + 50, y * 66);
                             break;
                         case TARGET:
-                            drawHexagon(canvas, x * 100 + 50, y * 66);
+                            drawTargetHexagon(canvas, x * 100 + 50, y * 66);
                             break;
                     }
                 }
@@ -202,7 +188,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wBee);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
 
     /**
@@ -223,7 +209,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wBeetle);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
 
     /**
@@ -244,7 +230,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wSpider);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
 
     /**
@@ -264,7 +250,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wAnt);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
 
     /**
@@ -283,8 +269,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        wGrasshopper.setColor(Color.RED);
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, wGrasshopper);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
 
     }
 
@@ -306,7 +291,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bBee);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
     }
 
     /**
@@ -325,7 +310,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bBeetle);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
 
 
     }
@@ -347,7 +332,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bSpider);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
 
 
     }
@@ -369,7 +354,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
 
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bAnt);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
 
 
     }
@@ -390,9 +375,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
 
-
-        bGrasshopper.setColor(Color.RED);
-        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, bGrasshopper);
+        canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
 
 
     }
@@ -409,7 +392,7 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
 
         //draw black outlines
-        canvas.drawPath(drawHexagonLines(startX, startY), HexagonalPaintOutline);
+        canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
     }
 
     /**
