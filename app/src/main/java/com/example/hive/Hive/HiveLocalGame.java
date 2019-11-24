@@ -222,6 +222,9 @@ public class HiveLocalGame extends LocalGame {
         //selected piece targets
         else if (action instanceof HiveSelectedPieceAction) {
             HiveSelectedPieceAction move = (HiveSelectedPieceAction) action;
+            if (hgs.board[move.row][move.col] == HiveGameState.piece.EMPTY) {
+                return false;
+            }
             for (int row = 1; row < hgs.board.length - 1; row++)
             {
                 for (int col = 1; col < hgs.board[col].length - 1; col++)
