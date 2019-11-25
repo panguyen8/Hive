@@ -61,11 +61,11 @@ public class HiveLocalGame extends LocalGame {
      */
     protected String checkIfGameOver() {
         if(checkBee(0)) {
-            return "Game! This game's winner is " + playerNames[0] + "!";
+            return "Game! This game's winner is... " + playerNames[0] + "!";
         }
 
         if(checkBee(1)) {
-            return "Game! This game's winner is " + playerNames[1] + "!";
+            return "Game! This game's winner is... " + playerNames[1] + "!";
         }
         return null;
     }
@@ -145,19 +145,22 @@ public class HiveLocalGame extends LocalGame {
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle();
+                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt();
+                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-
-                        moveSpider();
+                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else {
-                        moveGHopper();
+                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -186,19 +189,22 @@ public class HiveLocalGame extends LocalGame {
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle();
+                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt();
+                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-
-                        moveSpider();
+                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else {
-                        moveGHopper();
+                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -210,6 +216,7 @@ public class HiveLocalGame extends LocalGame {
             hgs.resetTarget();
             //increment turnCount
             turnCount++;
+            return true;
         }
 
         // Placing piece
@@ -291,6 +298,7 @@ public class HiveLocalGame extends LocalGame {
                     hgs.makeTarget(row, col);
                 }
             }
+
             return true;
         }
         //selected piece targets
@@ -375,36 +383,40 @@ public class HiveLocalGame extends LocalGame {
      */
     public void moveBee(HiveGameState.piece[][] board, HiveGameState.piece piece,
                         int startX, int startY, int endX, int endY) {
-        if(hgs.canPlace(endX, endY)) {
-
-        }
+//        if(hgs.canPlace(endX, endY)) {
+//
+//        }
     }
 
     /**
      * Checks spots for beetle
      */
-    public void moveBeetle() {
+    public void moveBeetle(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                           int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for ants
      */
-    public void moveAnt() {
+    public void moveAnt(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                        int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for spiders
      */
-    public void moveSpider() {
+    public void moveSpider(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                           int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for grasshoppers
      */
-    public void moveGHopper() {
+    public void moveGHopper(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                            int startX, int startY, int endX, int endY) {
 
     }
 }

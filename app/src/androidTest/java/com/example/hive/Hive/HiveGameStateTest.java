@@ -27,12 +27,50 @@ public class HiveGameStateTest {
     public void canPlace() {
     }
 
+    //Phuocan Nguyen
     @Test
     public void checkSurround() {
+        HiveGameState hgs = new HiveGameState();
+
+        hgs.board[5][5] = HiveGameState.piece.WBEE;
+
+        hgs.makeTarget(5,5);
+
+        //row+1 col
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[6][5]);
+        //row+1 col+1
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[6][6]);
+        //row col+1
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[5][6]);
+        //row col-1
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[5][4]);
+        //row-1 col
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[4][5]);
+        //row+1 col-1
+        assertNotEquals(HiveGameState.piece.EMPTY, hgs.board[6][4]);
     }
 
+    //Phuocan Nguyen
     @Test
     public void makeTarget() {
+        HiveGameState hgs = new HiveGameState();
+
+        hgs.board[5][5] = HiveGameState.piece.WBEE;
+
+        hgs.makeTarget(5,5);
+
+        //row+1 col
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[6][5]);
+        //row+1 col+1
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[6][6]);
+        //row col+1
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[5][6]);
+        //row col-1
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[5][4]);
+        //row-1 col
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[4][5]);
+        //row+1 col-1
+        assertEquals(HiveGameState.piece.TARGET, hgs.board[6][4]);
     }
 
     //Stephen Nguyen
