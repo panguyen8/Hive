@@ -60,13 +60,13 @@ public class HiveLocalGame extends LocalGame {
      * or nothing if a win condition has not been met
      */
     protected String checkIfGameOver() {
-//        if(checkBee(0)) {
-//            return "Game! This game's winner is " + playerNames[1] + "!";
-//        }
-//
-//        if(checkBee(1)) {
-//            return "Game! This game's winner is " + playerNames[0] + "!";
-//        }
+       if(checkBee(0)) {
+           return "Game! This game's winner is " + playerNames[1] + "!";
+       }
+
+        if(checkBee(1)) {
+           return "Game! This game's winner is " + playerNames[0] + "!";
+        }
         return null;
     }
 
