@@ -254,7 +254,7 @@ public class HiveLocalGame extends LocalGame {
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
                 }
 
-                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
+                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {//changed target to empty
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 }

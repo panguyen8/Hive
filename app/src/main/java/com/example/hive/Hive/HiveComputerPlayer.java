@@ -18,9 +18,20 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     private final int BLACK_TURN = 0;
     private final int WHITE_TURN = 1;
 
-    private int randomX;
-    private int randomY;
-    private int randomPiece;
+    private int randomLocation;
+    private int freeSpaces;
+    private int spaceCount;
+    private int randomBug;
+    private int piecesLeft;
+    private int bugCounter;
+
+    int startX = 0;
+    int startY = 0;
+    int endX = 0;
+    int endY = 0;
+    HiveGameState.piece bug;
+
+    private ArrayList<HiveGameState.piece> hand;
 
 
     // the android activity that we are running
@@ -29,7 +40,6 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     //Hive Surface View
     private HiveView surfaceView;
     private ArrayList<HiveGameState.piece> myBugList = new ArrayList<>();
-    private HiveGameState.piece[][] board = new HiveGameState.piece[20][20];
 
 
     public HiveComputerPlayer(String name){super(name);}
@@ -42,6 +52,83 @@ public class HiveComputerPlayer extends GameComputerPlayer {
      */
     public View getTopView() {
         return myActivity.findViewById(R.id.top_gui_layout);
+    }
+
+    public ArrayList<HiveGameState.piece> getHand(ArrayList<HiveGameState.piece> list, int color){
+        ArrayList<HiveGameState.piece> tempHand = new ArrayList<>();
+
+        if(color == BLACK_TURN){
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i) == HiveGameState.piece.BANT || list.get(i) == HiveGameState.piece.BBEE
+                || list.get(i) == HiveGameState.piece.BBEETLE || list.get(i) == HiveGameState.piece.BGHOPPER
+                || list.get(i) == HiveGameState.piece.BSPIDER){
+                    tempHand.add(list.get(i));
+                }
+            }
+        }
+        else if(color == WHITE_TURN){
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i) == HiveGameState.piece.WANT || list.get(i) == HiveGameState.piece.WBEE
+                        || list.get(i) == HiveGameState.piece.WBEETLE || list.get(i) == HiveGameState.piece.WGHOPPER
+                        || list.get(i) == HiveGameState.piece.WSPIDER){
+                    tempHand.add(list.get(i));
+                }
+            }
+        }
+
+        return tempHand;
+    }
+
+    public int numOfTargets(HiveGameState game){
+        int count = 0;
+        for (int i = 1; i < game.board.length - 1; i++) {
+            for (int j = 1; j < game.board[j].length - 1; j++) {
+                if (game.board[i][j] == HiveGameState.piece.TARGET) {
+                    count += 1;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public int moveablePiece(HiveGameState game){
+        int count = 0;
+        for(int i = 1; i < game.board.length - 1; i++){
+            for(int j = 1; j < game.board[j].length - 1; j++) {
+                if(game.board[i][j] == HiveGameState.piece.BANT ||
+                        game.board[i][j] == HiveGameState.piece.BBEE ||
+                        game.board[i][j] == HiveGameState.piece.BBEETLE ||
+                        game.board[i][j] == HiveGameState.piece.BGHOPPER ||
+                        game.board[i][j] == HiveGameState.piece.BSPIDER){
+                    if(!(game.checkSurround(i, j))){
+                        count += 1;
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    public void beeMove(HiveGameState game){
+        spaceCount = 0;
+        game.makeTarget(startX, startY);
+        randomLocation = (int)(Math.random()*numOfTargets(game));
+        bug = HiveGameState.piece.BBEE;
+
+        for (int i = 1; i < game.board.length - 1; i++) {
+            for (int j = 1; j < game.board[j].length - 1; j++) {
+                if (game.board[i][j] == HiveGameState.piece.TARGET) {
+                    if (spaceCount == randomLocation) {
+                        endX = i;
+                        endY = j;
+                    }
+                    spaceCount += 1;
+                }
+
+            }
+        }
+
     }
 
     /**
@@ -57,192 +144,82 @@ public class HiveComputerPlayer extends GameComputerPlayer {
             HiveGameState test = new HiveGameState((HiveGameState) info);
 
             myBugList = test.getBugList();
-            board = test.getBoard();
+            freeSpaces = 0;
+            spaceCount = 0;
+            randomBug = 0;
 
-            randomX = (int) (Math.random()*10);
-            randomY =  (int) (Math.random()*10);
-            randomPiece = (int) (Math.random()*10);
+
             if(test.getTurn() == playerNum) {
-                /*
-                if(playerNum == WHITE_TURN)
-                {
-                    if(myBugList.contains(WSPIDER)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, WSPIDER);
-                        game.sendAction(placePieceAction);
+                //place piece
+                hand = getHand(myBugList, BLACK_TURN);
+                if(hand.size() > 0) {
+
+                    for (int i = 1; i < test.board.length - 1; i++) {
+                        for (int j = 1; j < test.board[j].length - 1; j++) {
+
+                        }
                     }
-                    else if(myBugList.contains(HiveGameState.piece.WBEE)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.WBEE);
-                        game.sendAction(placePieceAction);
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.WGHOPPER)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.WGHOPPER);
-                        game.sendAction(placePieceAction);
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.WANT)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.WANT);
-                        game.sendAction(placePieceAction);
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.WBEETLE)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.WBEETLE);
-                        game.sendAction(placePieceAction);
+                    freeSpaces = numOfTargets(test);
+
+                    randomLocation = (int) (Math.random() * freeSpaces);
+                    randomBug = (int) (Math.random()*hand.size());
+
+                    if(freeSpaces == 0){
+                        HivePlacePieceAction placePiece = new HivePlacePieceAction(this, 6, 6, hand.get(randomBug));
+                        game.sendAction(placePiece);
+                        return;
                     }
 
-                    for(;;){
-                        if(board[randomX][randomY] == HiveGameState.piece.WSPIDER || board[randomX][randomY] == HiveGameState.piece.WBEE ||
-                                board[randomX][randomY] == HiveGameState.piece.WGHOPPER || board[randomX][randomY] == HiveGameState.piece.WANT ||
-                                board[randomX][randomY] == HiveGameState.piece.WBEETLE){
-                            int randomSpace = (int)(Math.random()*5);
-                            if(randomY%2 == 1){
-                                switch(randomSpace) {
-                                    case(0):
-                                        HiveMoveAction moveUpLeft = new HiveMoveAction(this, randomX, randomY, randomX, randomY - 1);
-                                        break;
-                                    case(1):
-                                        HiveMoveAction moveUpRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY - 1);
-                                        break;
-                                    case(2):
-                                        HiveMoveAction moveLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY);
-                                        break;
-                                    case(3):
-                                        HiveMoveAction moveRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY);
-                                        break;
-                                    case(4):
-                                        HiveMoveAction moveDownLeft = new HiveMoveAction(this, randomX, randomY, randomX, randomY + 1);
-                                        break;
-                                    case(5):
-                                        HiveMoveAction moveDownRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY + 1);
-                                        break;
-                                }
+                    for (int i = 1; i < test.board.length - 1; i++) {
+                        for (int j = 1; j < test.board[j].length - 1; j++) {
+                            if (test.board[i][j] == HiveGameState.piece.TARGET) {
+                                spaceCount += 1;
                             }
-                            else{
-                                switch(randomSpace) {
-                                    case(0):
-                                        HiveMoveAction moveUpLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY - 1);
-                                        break;
-                                    case(1):
-                                        HiveMoveAction moveUpRight = new HiveMoveAction(this, randomX, randomY, randomX, randomY - 1);
-                                        break;
-                                    case(2):
-                                        HiveMoveAction moveLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY);
-                                        break;
-                                    case(3):
-                                        HiveMoveAction moveRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY);
-                                        break;
-                                    case(4):
-                                        HiveMoveAction moveDownLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY + 1);
-                                        break;
-                                    case(5):
-                                        HiveMoveAction moveDownRight = new HiveMoveAction(this, randomX, randomY, randomX, randomY + 1);
-                                        break;
-                                }
+                            if (spaceCount == randomLocation) {
+                                HivePlacePieceAction placePiece = new HivePlacePieceAction(this, i, j, hand.get(randomBug));
+                                game.sendAction(placePiece);
+                                return;
+
                             }
-                            randomX = (int)(Math.random()*19);
-                            randomY = (int)(Math.random()*19);
                         }
                     }
                 }
-                else if(playerNum == BLACK_TURN)
-                {
+                else {
+                    //move piece
+                    randomBug = (int) (Math.random() * moveablePiece(test));
 
-                 */
-                    if(myBugList.contains(HiveGameState.piece.BSPIDER)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.BSPIDER);
-                        game.sendAction(placePieceAction);
-                        return;
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.BBEE)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.BBEE);
-                        game.sendAction(placePieceAction);
-                        return;
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.BGHOPPER)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.BGHOPPER);
-                        game.sendAction(placePieceAction);
-                        return;
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.BANT)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.BANT);
-                        game.sendAction(placePieceAction);
-                        return;
-                    }
-                    else if(myBugList.contains(HiveGameState.piece.BBEETLE)) {
-                        HivePlacePieceAction placePieceAction = new HivePlacePieceAction(this, randomX, randomY, HiveGameState.piece.BBEETLE);
-                        game.sendAction(placePieceAction);
-                        return;
-                    }
-                    int count = 0;
-                        for(int i = 0; i < 10; i++){
-                            for(int j = 0; j < 10; j++){
-                                if(board[i][j] == HiveGameState.piece.BSPIDER || board[i][j] == HiveGameState.piece.BBEE ||
-                                        board[i][j] == HiveGameState.piece.BGHOPPER || board[i][j] == HiveGameState.piece.BANT ||
-                                        board[i][j] == HiveGameState.piece.BBEETLE){
-                                    if(count == randomPiece){
-                                        randomX = i;
-                                        randomY = j;
-                                    }
-                                    count += 1;
+
+                    bugCounter = 0;
+
+                    for (int i = 1; i < test.board.length - 1; i++) {
+                        for (int j = 1; j < test.board[j].length - 1; j++) {
+
+                            if (test.board[i][j] == HiveGameState.piece.BBEE) {
+                                startX = i;
+                                startY = j;
+                            }
+
+                        /*
+                        if(test.board[i][j] == HiveGameState.piece.BANT ||
+                                test.board[i][j] == HiveGameState.piece.BBEE ||
+                                test.board[i][j] == HiveGameState.piece.BBEETLE ||
+                                test.board[i][j] == HiveGameState.piece.BGHOPPER ||
+                                test.board[i][j] == HiveGameState.piece.BSPIDER){
+                            if(!(test.checkSurround(i, j))) {
+                                if(bugCounter == randomBug){
+                                    startX = i;
+                                    startY = j;
                                 }
+                                bugCounter += 1;
                             }
                         }
-                            int randomSpace = (int)(Math.random()*5);
-                            if(randomY%2 == 1){
-                                switch(randomSpace) {
-                                    case(0):
-                                        HiveMoveAction moveUpLeft = new HiveMoveAction(this, randomX, randomY, randomX, randomY - 1);
-                                        game.sendAction(moveUpLeft);
-                                        return;
-                                    case(1):
-                                        HiveMoveAction moveUpRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY - 1);
-                                        game.sendAction(moveUpRight);
-                                        return;
-                                    case(2):
-                                        HiveMoveAction moveLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY);
-                                        game.sendAction(moveLeft);
-                                        return;
-                                    case(3):
-                                        HiveMoveAction moveRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY);
-                                        game.sendAction(moveRight);
-                                        return;
-                                    case(4):
-                                        HiveMoveAction moveDownLeft = new HiveMoveAction(this, randomX, randomY, randomX, randomY + 1);
-                                        game.sendAction(moveDownLeft);
-                                        return;
-                                    case(5):
-                                        HiveMoveAction moveDownRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY + 1);
-                                        game.sendAction(moveDownRight);
-                                        return;
-                                }
-                            }
-                            else{
-                                switch(randomSpace) {
-                                    case(0):
-                                        HiveMoveAction moveUpLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY - 1);
-                                        game.sendAction(moveUpLeft);
-                                        return;
-                                    case(1):
-                                        HiveMoveAction moveUpRight = new HiveMoveAction(this, randomX, randomY, randomX, randomY - 1);
-                                        game.sendAction(moveUpRight);
-                                        return;
-                                    case(2):
-                                        HiveMoveAction moveLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY);
-                                        game.sendAction(moveLeft);
-                                        return;
-                                    case(3):
-                                        HiveMoveAction moveRight = new HiveMoveAction(this, randomX, randomY, randomX + 1, randomY);
-                                        game.sendAction(moveRight);
-                                        return;
-                                    case(4):
-                                        HiveMoveAction moveDownLeft = new HiveMoveAction(this, randomX, randomY, randomX - 1, randomY + 1);
-                                        game.sendAction(moveDownLeft);
-                                        return;
-                                    case(5):
-                                        HiveMoveAction moveDownRight = new HiveMoveAction(this, randomX, randomY, randomX, randomY + 1);
-                                        game.sendAction(moveDownRight);
-                                        return;
-                                }
-                            }
 
+                        */
+                        }
                     }
+                }
+
+            }
 
 
         }
