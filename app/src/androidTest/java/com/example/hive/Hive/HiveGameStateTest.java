@@ -2,6 +2,8 @@ package com.example.hive.Hive;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class HiveGameStateTest {
@@ -23,8 +25,18 @@ public class HiveGameStateTest {
         assertEquals(1, testTurn);
     }
 
+    //Marc Hilderbrand
     @Test
     public void canPlace() {
+        HiveGameState hgs = new HiveGameState();
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                hgs.board[i][j] = HiveGameState.piece.BANT;
+            }
+        }
+        hgs.board[1][1] = HiveGameState.piece.WANT;
+        boolean place = hgs.canPlace(1,1);
+        assertEquals(true, place);
     }
 
     //Phuocan Nguyen
@@ -93,12 +105,18 @@ public class HiveGameStateTest {
         assertArrayEquals(board, testBoard);
     }
 
+    //Marc Hilderbrand
     @Test
     public void getBoard() {
+        HiveGameState hgs = new HiveGameState();
+        assertEquals(hgs.board, hgs.getBoard());
     }
 
+    //Marc Hilderbrand
     @Test
     public void getBugList() {
+        HiveGameState hgs = new HiveGameState();
+        assertEquals(hgs.bugList, hgs.getBugList());
     }
 
     //Stephen Nguyen
