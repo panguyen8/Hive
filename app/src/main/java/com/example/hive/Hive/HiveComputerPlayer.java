@@ -110,25 +110,180 @@ public class HiveComputerPlayer extends GameComputerPlayer {
         return count;
     }
 
-    public void beeMove(HiveGameState game){
-        spaceCount = 0;
-        game.makeTarget(startX, startY);
-        randomLocation = (int)(Math.random()*numOfTargets(game));
-        bug = HiveGameState.piece.BBEE;
-
-        for (int i = 1; i < game.board.length - 1; i++) {
-            for (int j = 1; j < game.board[j].length - 1; j++) {
-                if (game.board[i][j] == HiveGameState.piece.TARGET) {
-                    if (spaceCount == randomLocation) {
-                        endX = i;
-                        endY = j;
+    /**
+     *
+     * @param x of the grasshopper
+     * @param y of the grasshopper
+     * @param game HiveGameState
+     * @param direction for checks in
+     *
+     * 0 for top left and goes clockwise until 5 for plain left
+     *
+     */
+    public void ghopperMove(int x, int y, HiveGameState game, int direction){
+        //left and rights
+        if(x-1 < 0 || y-1 < 0 || x+1 > game.board.length - 1 || y+1 > game.board[y].length -1){
+            return;
+        }
+        switch(direction){
+            case 0:
+                if(y%2 == 0) {
+                    if (game.board[x - 1][y - 1] == HiveGameState.piece.EMPTY) {
+                        game.board[x - 1][y - 1] = HiveGameState.piece.TARGET;
+                        return;
                     }
-                    spaceCount += 1;
+                    else{
+                        ghopperMove(x - 1, y - 1, game, 0);
+                        return;
+                    }
+                }
+                else{
+                    if (game.board[x - 1][y] == HiveGameState.piece.EMPTY) {
+                        game.board[x - 1][y] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x - 1, y, game, 0);
+                        return;
+                    }
                 }
 
+            case 1:
+                if(y%2 == 0) {
+                    if (game.board[x - 1][y] == HiveGameState.piece.EMPTY) {
+                        game.board[x - 1][y] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x - 1, y, game, 1);
+                        return;
+                    }
+                }
+                else{
+                    if (game.board[x - 1][y + 1] == HiveGameState.piece.EMPTY) {
+                        game.board[x - 1][y + 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x - 1, y + 1, game, 1);
+                        return;
+                    }
+                }
+
+            case 2:
+                if(game.board[x][y+1] == HiveGameState.piece.EMPTY){
+                    game.board[x][y+1] = HiveGameState.piece.TARGET;
+                    return;
+                }
+                else{
+                    ghopperMove(x, y+1, game, 2);
+                    return;
+                }
+
+            case 3:
+                if(y%2 == 0) {
+                    if (game.board[x + 1][y] == HiveGameState.piece.EMPTY) {
+                        game.board[x + 1][y] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x + 1, y, game, 3);
+                        return;
+                    }
+                }
+                else{
+                    if (game.board[x + 1][y + 1] == HiveGameState.piece.EMPTY) {
+                        game.board[x + 1][y + 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x + 1, y + 1, game, 3);
+                        return;
+                    }
+                }
+
+            case 4:
+                if(y%2 == 0) {
+                    if (game.board[x + 1][y - 1] == HiveGameState.piece.EMPTY) {
+                        game.board[x + 1][y - 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x + 1, y - 1, game, 4);
+                        return;
+                    }
+                }
+                else{
+                    if (game.board[x + 1][y] == HiveGameState.piece.EMPTY) {
+                        game.board[x + 1][y] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        ghopperMove(x + 1, y, game, 4);
+                        return;
+                    }
+                }
+
+            case 5:
+                if(game.board[x][y-1] == HiveGameState.piece.EMPTY){
+                    game.board[x][y-1] = HiveGameState.piece.TARGET;
+                    return;
+                }
+                else{
+                    ghopperMove(x, y-1, game, 5);
+                    return;
+                }
+        }
+    }
+
+    public void spiderMove(int x, int y, HiveGameState game, int iteration){
+        if(x-1 < 0 || y-1 < 0 || x+1 > 11 || y+1 > 11){
+            return;
+        }
+
+        if(iteration == 3){
+            if(game.board[x][y] == HiveGameState.piece.EMPTY){
+                if(y%2 == 0){
+                    if(game.board[x-1][y-1] != HiveGameState.piece.EMPTY ||
+                            game.board[x-1][y] != HiveGameState.piece.EMPTY ||
+                            game.board[x][y+1] != HiveGameState.piece.EMPTY ||
+                            game.board[x+1][y] != HiveGameState.piece.EMPTY ||
+                            game.board[x+1][y-1] != HiveGameState.piece.EMPTY ||
+                            game.board[x][y-1] != HiveGameState.piece.EMPTY){
+
+                        game.board[x][y] = HiveGameState.piece.TARGET;
+                    }
+                }
+                else{
+                    if(game.board[x-1][y-1] != HiveGameState.piece.EMPTY ||
+                            game.board[x-1][y] != HiveGameState.piece.EMPTY ||
+                            game.board[x][y+1] != HiveGameState.piece.EMPTY ||
+                            game.board[x+1][y] != HiveGameState.piece.EMPTY ||
+                            game.board[x+1][y-1] != HiveGameState.piece.EMPTY ||
+                            game.board[x][y-1] != HiveGameState.piece.EMPTY){
+
+                        game.board[x][y] = HiveGameState.piece.TARGET;
+                    }
+                }
             }
         }
 
+        if(y%2 == 0){
+            spiderMove(x-1, y-1, game, iteration +1);
+            spiderMove(x-1, y, game, iteration +1);
+            spiderMove(x, y+1, game, iteration +1);
+            //spiderMove(x+1, y, game, iteration +1);
+            //spiderMove(x+1, y-1, game, iteration +1);
+            //spiderMove(x, y-1, game, iteration +1);
+        }
+        else{
+            spiderMove(x-1, y, game, iteration +1);
+            spiderMove(x-1, y+1, game, iteration +1);
+            spiderMove(x, y+1, game, iteration +1);
+            //spiderMove(x+1, y+1, game, iteration +1);
+            //spiderMove(x+1, y, game, iteration +1);
+            //spiderMove(x, y-1, game, iteration +1);
+        }
     }
 
     /**
@@ -218,13 +373,22 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                             case BBEETLE:
                                 break;
                             case BANT:
-                                test.makeTarget(startX, startY);
+                                for(int i = 0; i < test.board.length; i ++){
+                                    for(int j = 0; j < test.board[j].length; j++){
+                                        test.makeTarget(startX, startY);
+                                    }
+                                }
                                 break;
                             case BGHOPPER:
-                                test.makeTarget(startX, startY);
+                                ghopperMove(startX, startY, test, 0);//check upleft
+                                ghopperMove(startX, startY, test, 1);//check upright
+                                ghopperMove(startX, startY, test, 2);//check right
+                                ghopperMove(startX, startY, test, 3);//check downright
+                                ghopperMove(startX, startY, test, 4);//check downleft
+                                ghopperMove(startX, startY, test, 5);//check left
                                 break;
                             case BSPIDER:
-                                test.makeTarget(startX, startY);
+                                spiderMove(startX, startY, test, 1);
                                 break;
                         }
                         if (numOfTargets(test) > 0) {

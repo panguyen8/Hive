@@ -181,41 +181,51 @@ public class HiveGameState extends GameState {
     public boolean checkSurround(int row, int col) {
         int count = 0;
         if (col % 2 == 0) {
-            if (board[row + 1][col] != piece.EMPTY) {
+            if(row + 1 > board.length || row - 1 < 0 ||
+                    col + 1 > board.length || col - 1 < 0) {
+                return false;
+            }
+
+            if (board[row + 1][col] != piece.EMPTY && board[row + 1][col] != piece.TARGET) {
                 count++;
             }
-            if (board[row - 1][col + 1] != piece.EMPTY) {
+            if (board[row - 1][col + 1] != piece.EMPTY && board[row - 1][col + 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row][col + 1] != piece.EMPTY) {
+            if (board[row][col + 1] != piece.EMPTY && board[row][col + 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row][col - 1] != piece.EMPTY) {
+            if (board[row][col - 1] != piece.EMPTY && board[row][col - 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row - 1][col] != piece.EMPTY) {
+            if (board[row - 1][col] != piece.EMPTY && board[row - 1][col] != piece.TARGET) {
                 count++;
             }
-            if (board[row - 1][col - 1] != piece.EMPTY) {
+            if (board[row - 1][col - 1] != piece.EMPTY && board[row - 1][col - 1]!= piece.TARGET) {
                 count++;
             }
         } else {
-            if (board[row + 1][col] != piece.EMPTY) {
+            if(row + 1 > board.length || row - 1 < 0 ||
+                    col + 1 > board.length || col - 1 < 0) {
+                return false;
+            }
+
+            if (board[row + 1][col] != piece.EMPTY && board[row + 1][col] != piece.TARGET) {
                 count++;
             }
-            if (board[row + 1][col + 1] != piece.EMPTY) {
+            if (board[row + 1][col + 1] != piece.EMPTY && board[row + 1][col + 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row][col + 1] != piece.EMPTY) {
+            if (board[row][col + 1] != piece.EMPTY && board[row][col + 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row][col - 1] != piece.EMPTY) {
+            if (board[row][col - 1] != piece.EMPTY && board[row][col - 1] != piece.TARGET) {
                 count++;
             }
-            if (board[row - 1][col] != piece.EMPTY) {
+            if (board[row - 1][col] != piece.EMPTY && board[row - 1][col] != piece.TARGET) {
                 count++;
             }
-            if (board[row + 1][col - 1] != piece.EMPTY) {
+            if (board[row + 1][col - 1] != piece.EMPTY && board[row + 1][col - 1] != piece.TARGET) {
                 count++;
             }
         }

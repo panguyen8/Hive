@@ -10,7 +10,8 @@ public class HiveGameStateTest {
     @Test
     public void getTurn() {
         HiveGameState hgs = new HiveGameState();
-
+        int testNum = hgs.getTurn();
+        assertEquals(1, testNum);
     }
 
     // Done by Samuel Nguyen

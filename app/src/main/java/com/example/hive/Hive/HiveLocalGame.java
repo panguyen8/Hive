@@ -60,12 +60,12 @@ public class HiveLocalGame extends LocalGame {
      * or nothing if a win condition has not been met
      */
     protected String checkIfGameOver() {
-       if(checkBee(0)) {
-           return "Game! This game's winner is " + playerNames[1] + "!";
-       }
+        if(checkBee(0)) {
+            return "Game! This game's winner is... " + playerNames[0] + "!";
+        }
 
         if(checkBee(1)) {
-           return "Game! This game's winner is " + playerNames[0] + "!";
+            return "Game! This game's winner is... " + playerNames[1] + "!";
         }
         return null;
     }
@@ -75,10 +75,9 @@ public class HiveLocalGame extends LocalGame {
      * (i.e. if all adjacent spots are full)
      *
      * @param player: ID of player whose bee is being checked
-     * @return true of surrounded, false otherwise
+     * @return true if surrounded, false otherwise
      */
     private boolean checkBee(int player) {
-
         HiveGameState.piece[][] board = hgs.getBoard();
         HiveGameState.piece beeToCheck;
 
@@ -90,9 +89,11 @@ public class HiveLocalGame extends LocalGame {
             beeToCheck = HiveGameState.piece.WBEE;
         }
 
+        // Set default x and y values
         int pieceX = 0;
         int pieceY = 0;
 
+        // Iterate through board and update x and y values at bee's spot
         for (int row = 1; row < board.length - 1; row++) {
             for (int col = 1; col < board[row].length - 1; col++) {
                 if (board[row][col] == beeToCheck) {
@@ -102,9 +103,10 @@ public class HiveLocalGame extends LocalGame {
             }
         }
 
-       if (hgs.checkSurround(pieceX, pieceY)) {
-           return true;
-       }
+        // Returns status of whether or not surrounding spots are empty
+        if (hgs.checkSurround(pieceX, pieceY)) {
+            return true;
+        }
         return false;
     }
 
@@ -138,23 +140,27 @@ public class HiveLocalGame extends LocalGame {
                 {
                     if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
-                        moveBee();
+                        moveBee(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle();
+                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt();
+                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-
-                        moveSpider();
+                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else {
-                        moveGHopper();
+                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -178,23 +184,27 @@ public class HiveLocalGame extends LocalGame {
                 {
                     if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
-                        moveBee();
+                        moveBee(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle();
+                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt();
+                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-
-                        moveSpider();
+                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     else {
-                        moveGHopper();
+                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
+                                move.endRow, move.endCol);
                     }
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
@@ -369,35 +379,42 @@ public class HiveLocalGame extends LocalGame {
     /**
      * Checks the spots that are legal for a bee to move
      */
-    public void moveBee() {
+    public void moveBee(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                        int startX, int startY, int endX, int endY) {
+        if(hgs.canPlace(endX, endY)) {
 
+        }
     }
 
     /**
      * Checks spots for beetle
      */
-    public void moveBeetle() {
+    public void moveBeetle(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                           int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for ants
      */
-    public void moveAnt() {
+    public void moveAnt(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                        int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for spiders
      */
-    public void moveSpider() {
+    public void moveSpider(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                           int startX, int startY, int endX, int endY) {
 
     }
 
     /**
      * Checks spots for grasshoppers
      */
-    public void moveGHopper() {
+    public void moveGHopper(HiveGameState.piece[][] board, HiveGameState.piece piece,
+                            int startX, int startY, int endX, int endY) {
 
     }
 }
