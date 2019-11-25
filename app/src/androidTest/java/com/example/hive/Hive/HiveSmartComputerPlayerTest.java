@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 public class HiveSmartComputerPlayerTest {
 
+    //unit test done by Erik Liu
     @Test
     public int getPieceY(HiveGameState game, HiveGameState.piece bug, int boardNum){
         HiveGameState test = new HiveGameState();
