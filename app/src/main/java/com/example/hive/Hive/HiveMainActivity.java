@@ -42,6 +42,8 @@ public class HiveMainActivity extends GameMainActivity {
             public GamePlayer createPlayer(String name) {
                 return new HiveComputerPlayer(name);
             }});
+        playerTypes.add(new GamePlayerType("Smart Computer Player"){
+            public GamePlayer createPlayer(String name) {return new HiveSmartComputerPlayer(name);}});
 
 
         // Create a game configuration class for Hive:
