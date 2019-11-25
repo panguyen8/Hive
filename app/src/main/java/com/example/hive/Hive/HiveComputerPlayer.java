@@ -186,37 +186,67 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                 }
                 else {
                     //move piece
-                    randomBug = (int) (Math.random() * moveablePiece(test));
+                    boolean validMove = false;
+                    while (!validMove) {
+                        randomBug = (int) (Math.random() * moveablePiece(test));
 
+                        bugCounter = 0;
 
-                    bugCounter = 0;
-
-                    for (int i = 1; i < test.board.length - 1; i++) {
-                        for (int j = 1; j < test.board[j].length - 1; j++) {
-
-                            if (test.board[i][j] == HiveGameState.piece.BBEE) {
-                                startX = i;
-                                startY = j;
-                            }
-
-                        /*
-                        if(test.board[i][j] == HiveGameState.piece.BANT ||
-                                test.board[i][j] == HiveGameState.piece.BBEE ||
-                                test.board[i][j] == HiveGameState.piece.BBEETLE ||
-                                test.board[i][j] == HiveGameState.piece.BGHOPPER ||
-                                test.board[i][j] == HiveGameState.piece.BSPIDER){
-                            if(!(test.checkSurround(i, j))) {
-                                if(bugCounter == randomBug){
-                                    startX = i;
-                                    startY = j;
+                        //randomly select a bug from the board
+                        for (int i = 1; i < test.board.length - 1; i++) {
+                            for (int j = 1; j < test.board[j].length - 1; j++) {
+                                if (test.board[i][j] == HiveGameState.piece.BBEE ||
+                                        test.board[i][j] == HiveGameState.piece.BBEE ||
+                                        test.board[i][j] == HiveGameState.piece.BBEETLE ||
+                                        test.board[i][j] == HiveGameState.piece.BGHOPPER ||
+                                        test.board[i][j] == HiveGameState.piece.BSPIDER) {
+                                    if (!(test.checkSurround(i, j))) {
+                                        if (bugCounter == randomBug) {
+                                            startX = i;
+                                            startY = j;
+                                        }
+                                        bugCounter += 1;
+                                    }
                                 }
-                                bugCounter += 1;
                             }
                         }
 
-                        */
+                        switch (test.board[startX][startY]) {
+                            case BBEE:
+                                test.makeTarget(startX, startY);
+                                break;
+                            case BBEETLE:
+                                break;
+                            case BANT:
+                                test.makeTarget(startX, startY);
+                                break;
+                            case BGHOPPER:
+                                test.makeTarget(startX, startY);
+                                break;
+                            case BSPIDER:
+                                test.makeTarget(startX, startY);
+                                break;
+                        }
+                        if (numOfTargets(test) > 0) {
+                            validMove = true;
                         }
                     }
+                        randomLocation = (int)(Math.random()*numOfTargets(test));
+                        spaceCount = 0;
+
+                        for (int i = 1; i < test.board.length - 1; i++) {
+                            for (int j = 1; j < test.board[j].length - 1; j++) {
+                                if (test.board[i][j] == HiveGameState.piece.TARGET) {
+                                    if(spaceCount == randomLocation){
+                                        HiveMoveAction moveAction = new HiveMoveAction(this, startX, startY, i, j);
+                                        game.sendAction(moveAction);
+                                        return;
+                                    }
+                                    spaceCount += 1;
+                                }
+                            }
+                        }
+
                 }
 
             }

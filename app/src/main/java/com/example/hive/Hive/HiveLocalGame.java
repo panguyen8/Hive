@@ -125,7 +125,7 @@ public class HiveLocalGame extends LocalGame {
             //To prevent moving opponent's pieces, make sure only player's
             //own pieces are being checked, return false if an opponent's
             //piece was selected
-            if (hgs.getTurn() == 0) {
+            if (hgs.getTurn() == 1) {
                 if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
@@ -136,7 +136,7 @@ public class HiveLocalGame extends LocalGame {
 
                 //Moving can only be done on legal spaces
                 //Moving rules will be done here as well
-                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
+                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.EMPTY)//changed target to empty
                 {
                     if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
                             hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
@@ -165,7 +165,7 @@ public class HiveLocalGame extends LocalGame {
                 }
 
                 //Set the turn to the next player
-                hgs.setTurn(1);
+                hgs.setTurn(0);
             }
             else {
                 //This functions like the code above, just with regards to
@@ -204,7 +204,7 @@ public class HiveLocalGame extends LocalGame {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 }
-                hgs.setTurn(0);
+                hgs.setTurn(1);
             }
 
             hgs.resetTarget();
