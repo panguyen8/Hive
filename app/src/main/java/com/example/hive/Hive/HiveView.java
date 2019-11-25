@@ -36,30 +36,31 @@ public class HiveView extends SurfaceView {
         super(context, attrs);
         setWillNotDraw(false);
 
+        //piece paints
         hexagonalPaint.setColor(Color.WHITE);
         hexagonalPaint.setStyle(Paint.Style.FILL);
         hexagonalPaintB.setColor(Color.BLACK);
         hexagonalPaintB.setStyle(Paint.Style.FILL);
 
-
+        //hexagon paint colors
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
         HexagonalPaintOutlineB.setColor(Color.WHITE);
 
-
+        //hexagon paint styles
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
 
+        //sets path fill type (for black pieces)
         Hexagon.setFillType(Path.FillType.EVEN_ODD);
 
+        //sets hexagon line thickness (red is is 4 thick, black is 2 thick)
         hexagonalTargetPaint.setStrokeWidth(4);
         HexagonalPaintOutline.setStrokeWidth(2);
-
     }
 
     public void setState(HiveGameState state) {
         this.state = state;
-
     }
 
     public void onDraw(Canvas canvas) {
@@ -71,13 +72,12 @@ public class HiveView extends SurfaceView {
         setBackgroundColor(Color.WHITE);
         drawHexagon(canvas, HexagonHighlights);
         drawHexagon(canvas, Hexagon);
-
-
     }
 
     /**
-     * draws empty filled hexagon
+     * draws piece hexagons and target hexagons on canvas
      * @param canvas canvas to draw to
+     * @param path   which path object to draw on (pieces or highlights)
      */
     public void drawHexagon(Canvas canvas, Path path) {
 
@@ -117,9 +117,6 @@ public class HiveView extends SurfaceView {
                             case WGHOPPER:
                                 drawWGhopper(canvas, x * 100, y * 66);
                                 break;
-                            case TARGET:
-                                //drawTargetHexagon(canvas, x * 100, y * 66);
-                                break;
                         }
                     } else {
                         switch (state.getPiece(x, y)) {
@@ -152,9 +149,6 @@ public class HiveView extends SurfaceView {
                                 break;
                             case WGHOPPER:
                                 drawWGhopper(canvas, x * 100 + 50, y * 66);
-                                break;
-                            case TARGET:
-                                //drawTargetHexagon(canvas, x * 100 + 50, y * 66);
                                 break;
                         }
                     }
@@ -247,7 +241,6 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
-
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
 
@@ -308,7 +301,6 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
-
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
     }
 
@@ -329,8 +321,6 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
-
-
     }
 
     /**
@@ -349,10 +339,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
-
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
-
-
     }
 
     /**
@@ -371,10 +358,7 @@ public class HiveView extends SurfaceView {
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
-
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
-
-
     }
 
     /**
@@ -394,23 +378,18 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaintB);
-
-
     }
 
     /**
-     *
-     * @param canvas
-     * @param startX
-     * @param startY
+     * draws red hexagons as the targets.
+     * @param canvas canvas to draw on
+     * @param startX x coordinate of hexagon
+     * @param startY y coordinate of hexagon
      */
     public void drawTargetHexagon(Canvas canvas, int startX, int startY) {
 
         //draw red outlines
         canvas.drawPath(drawHexagonLines(startX, startY, HexagonHighlights), hexagonalTargetPaint);
-
-        //draw black outlines
-        //canvas.drawPath(drawHexagonLines(startX, startY), hexagonalTargetPaint);
     }
 
     /**
