@@ -216,6 +216,7 @@ public class HiveLocalGame extends LocalGame {
             hgs.resetTarget();
             //increment turnCount
             turnCount++;
+            return true;
         }
 
         // Placing piece
@@ -382,9 +383,9 @@ public class HiveLocalGame extends LocalGame {
      */
     public void moveBee(HiveGameState.piece[][] board, HiveGameState.piece piece,
                         int startX, int startY, int endX, int endY) {
-        if(hgs.canPlace(endX, endY)) {
-
-        }
+//        if(hgs.canPlace(endX, endY)) {
+//
+//        }
     }
 
     /**
