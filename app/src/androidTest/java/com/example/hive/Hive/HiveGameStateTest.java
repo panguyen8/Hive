@@ -34,8 +34,24 @@ public class HiveGameStateTest {
     public void makeTarget() {
     }
 
+    //Stephen Nguyen
     @Test
     public void resetTarget() {
+        HiveGameState hgs = new HiveGameState();
+
+        HiveGameState.piece[][] board = hgs.getBoard();
+        board[0][0] = HiveGameState.piece.WBEE;
+
+        HiveGameState.piece[][] testBoard = hgs.getBoard();
+        for (int i = 0; i < testBoard.length; i++)
+        {
+            for (int j = 0; j < testBoard[i].length; j++)
+            {
+                testBoard[i][j] = HiveGameState.piece.EMPTY;
+            }
+        }
+        hgs.resetTarget();
+        assertArrayEquals(board, testBoard);
     }
 
     @Test
@@ -46,8 +62,14 @@ public class HiveGameStateTest {
     public void getBugList() {
     }
 
+    //Stephen Nguyen
     @Test
     public void getPiece() {
+        HiveGameState hgs = new HiveGameState();
+        HiveGameState.piece[][] board = hgs.getBoard();
+        board[0][0] = HiveGameState.piece.WBEE;
+        hgs.getPiece(0, 0);
+        assertEquals(HiveGameState.piece.WBEE, board[0][0]);
     }
 
     @Test
