@@ -297,6 +297,7 @@ public class HiveLocalGame extends LocalGame {
                     hgs.makeTarget(row, col);
                 }
             }
+
             return true;
         }
         //selected piece targets
