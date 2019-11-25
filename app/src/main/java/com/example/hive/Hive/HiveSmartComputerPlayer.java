@@ -6,40 +6,36 @@ import com.example.hive.R;
 import com.example.hive.game.GameComputerPlayer;
 import com.example.hive.game.GameMainActivity;
 import com.example.hive.game.infoMessage.GameInfo;
-import com.example.hive.game.infoMessage.GameState;
 
 import java.util.ArrayList;
 
-import static com.example.hive.Hive.HiveGameState.piece.WSPIDER;
-
-public class HiveComputerPlayer extends GameComputerPlayer {
+public class HiveSmartComputerPlayer extends GameComputerPlayer {
 
     /* instance variables */
     private final int BLACK_TURN = 0;
     private final int WHITE_TURN = 1;
 
-    //variables that hold counters and random ints for the ai to use
     private int randomLocation;
     private int freeSpaces;
     private int spaceCount;
     private int randomBug;
     private int bugCounter;
 
-    //used in the move piece action since original coordinates are needed
     int startX = 0;
     int startY = 0;
 
-    //gets an array list that hold only pieces of the same color
+    //gets an array list that holds only pieces of the same color
     private ArrayList<HiveGameState.piece> hand;
+
 
     // the android activity that we are running
     private GameMainActivity myActivity;
 
     //Hive Surface View
+    private HiveView surfaceView;
     private ArrayList<HiveGameState.piece> myBugList = new ArrayList<>();
 
-
-    public HiveComputerPlayer(String name){super(name);}
+    public HiveSmartComputerPlayer(String name){super(name);}
 
     /**getHand
      *
@@ -52,17 +48,17 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     public ArrayList<HiveGameState.piece> getHand(ArrayList<HiveGameState.piece> list, int color){
         ArrayList<HiveGameState.piece> tempHand = new ArrayList<>();
 
-        //collect all the black pieces and return an array list that only contains black pieces
+        //collects all the black pieces and return an array list that only contains black pieces
         if(color == BLACK_TURN){
             for(int i = 0; i < list.size(); i++){
                 if(list.get(i) == HiveGameState.piece.BANT || list.get(i) == HiveGameState.piece.BBEE
-                || list.get(i) == HiveGameState.piece.BBEETLE || list.get(i) == HiveGameState.piece.BGHOPPER
-                || list.get(i) == HiveGameState.piece.BSPIDER){
+                        || list.get(i) == HiveGameState.piece.BBEETLE || list.get(i) == HiveGameState.piece.BGHOPPER
+                        || list.get(i) == HiveGameState.piece.BSPIDER){
                     tempHand.add(list.get(i));
                 }
             }
         }
-        //collect all the white ppieces and return an array list that only contains white pieces
+        //colelcts all the white pieces and return an array list that only contains white pieces
         else if(color == WHITE_TURN){
             for(int i = 0; i < list.size(); i++){
                 if(list.get(i) == HiveGameState.piece.WANT || list.get(i) == HiveGameState.piece.WBEE
@@ -75,7 +71,6 @@ public class HiveComputerPlayer extends GameComputerPlayer {
 
         return tempHand;
     }
-
     /**numOfTargets
      *
      * goes through the board and see how many targets are on the board
@@ -88,43 +83,121 @@ public class HiveComputerPlayer extends GameComputerPlayer {
         //goes through the board looking for targets
         for (int i = 1; i < game.board.length - 1; i++) {
             for (int j = 1; j < game.board[j].length - 1; j++) {
-                //if there is a target incriment the counter by one
                 if (game.board[i][j] == HiveGameState.piece.TARGET) {
                     count += 1;
                 }
             }
         }
+
         return count;
     }
 
-    /**moveablePiece
+
+    /**getPiecesX
      *
-     * checks to see how many pieces on the board can be moved so when a random piece is picked
-     * it is able to move
+     * finds the x coordinate of a certain piece on the board
      *
      * @param game
+     * @param bug
+     * @param boardNum
      * @return
      */
-    public int moveablePiece(HiveGameState game){
-        int count = 0;
-        //go through the entire board
-        for(int i = 1; i < game.board.length - 1; i++){
-            for(int j = 1; j < game.board[j].length - 1; j++) {
-                //look for black pieces
-                if(game.board[i][j] == HiveGameState.piece.BANT ||
-                        game.board[i][j] == HiveGameState.piece.BBEE ||
-                        game.board[i][j] == HiveGameState.piece.BBEETLE ||
-                        game.board[i][j] == HiveGameState.piece.BGHOPPER ||
-                        game.board[i][j] == HiveGameState.piece.BSPIDER){
-                    //if there is a black piece look if the piece is surrounded
-                    if(!(game.checkSurround(i, j))){
+    public int getPieceX(HiveGameState game, HiveGameState.piece bug, int boardNum){
+        int xCoord;
+        int count = 1;
+        for(int i = 1; i < game.board.length -1; i++){
+            for(int j = 1; j < game.board[j].length -1; j++){
+                if(game.board[i][j] == bug){
+                    if(count == boardNum){
+                        xCoord = i;
+                        return xCoord;
+                    }
+                    else{
                         count += 1;
                     }
                 }
             }
         }
-        return count;
+        return 0;
     }
+
+    /**getPiecesY
+     *
+     * finds the y coordinate of a certain piece on the board
+     *
+     * @param game
+     * @param bug
+     * @param boardNum
+     * @return
+     */
+    public int getPieceY(HiveGameState game, HiveGameState.piece bug, int boardNum){
+        int yCoord;
+        int count = 1;
+        for(int i = 1; i < game.board.length -1; i++){
+            for(int j = 1; j < game.board[j].length -1; j++){
+                if(game.board[i][j] == bug){
+                    if(count == boardNum){
+                        yCoord = j;
+                        return yCoord;
+                    }
+                    else{
+                        count += 1;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**numPieceAround
+     *
+     * finds how many pieces are around a certain piece
+     * mostly used as a helper method for the ai to decide between offense and defense
+     *
+     * @param game
+     * @param bug
+     * @param boardNum
+     * @return
+     */
+    public int numPieceAround (HiveGameState game, HiveGameState.piece bug, int boardNum){
+        int beeX, beeY;
+        beeX = getPieceX(game, bug, boardNum);
+        beeY = getPieceY(game, bug, boardNum);
+        int count = 0;
+
+        if(beeY%2 == 0){
+            if(game.board[beeX-1][beeY-1] == HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX-1][beeY] == HiveGameState.piece.EMPTY)
+                count += 1;
+            if(game.board[beeX][beeY+1] == HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX+1][beeY] == HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX+1][beeY-1] == HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX][beeY-1] == HiveGameState.piece.EMPTY)
+                count +=1;
+            return count;
+
+        }
+        else{
+            if(game.board[beeX-1][beeY-1] != HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX-1][beeY] != HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX][beeY+1] != HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX+1][beeY] != HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX+1][beeY-1] != HiveGameState.piece.EMPTY)
+                count +=1;
+            if(game.board[beeX][beeY-1] != HiveGameState.piece.EMPTY)
+                count +=1;
+            return count;
+        }
+    }
+
 
     /**ghopperMove
      *
@@ -140,13 +213,9 @@ public class HiveComputerPlayer extends GameComputerPlayer {
      *
      */
     public void ghopperMove(int x, int y, HiveGameState game, int direction){
-        //checks for out of bounds
         if(x-1 < 0 || y-1 < 0 || x+1 > game.board.length - 1 || y+1 > game.board[y].length -1){
             return;
         }
-        //using the direction, goes in one direction until there is an opening, if theres an opening,
-        //swtich it from empty to target
-        //mod opperators are for the offset of the board
         switch(direction){
             case 0:
                 if(y%2 == 0) {
@@ -268,13 +337,10 @@ public class HiveComputerPlayer extends GameComputerPlayer {
      * @param iteration how far it currently is away
      */
     public void spiderMove(int x, int y, HiveGameState game, int iteration){
-        //checks for out of bounds
         if(x-1 < 0 || y-1 < 0 || x+1 > 11 || y+1 > 11){
             return;
         }
 
-        //base case, if the function has been called three times looks if the piece is attached
-        //to the hive and is a valid place to move
         if(iteration == 3){
             if(game.board[x][y] == HiveGameState.piece.EMPTY){
                 if(y%2 == 0){
@@ -302,8 +368,6 @@ public class HiveComputerPlayer extends GameComputerPlayer {
             }
         }
 
-        //recursive case, calls the spiderMove method again
-        //half the cases are removed since it caused a stack overflow
         if(y%2 == 0){
             spiderMove(x-1, y-1, game, iteration +1);
             spiderMove(x-1, y, game, iteration +1);
@@ -322,7 +386,12 @@ public class HiveComputerPlayer extends GameComputerPlayer {
         }
     }
 
-    /**recieveInfo
+    /**
+     *
+     * for the smart ai, the order that the pieces that are played are preset, but their location
+     * is random. As for the move pieces, which piece and where it moves to is random but the piece
+     * it selects based on offense and defense is not random.
+     *
      * callback method when we get a message (e.g., from the game)
      *
      * @param info
@@ -341,17 +410,16 @@ public class HiveComputerPlayer extends GameComputerPlayer {
 
             //checks if it is the players turn
             if(test.getTurn() == playerNum) {
-
-                //places piece
+                //place piece
 
                 //creates an array list of useable pieces to place
                 hand = getHand(myBugList, BLACK_TURN);
-                //if nothing to place -> skip place piece and go to move piece
                 if(hand.size() > 0) {
 
-                    freeSpaces = numOfTargets(test);//looks at how many free spaces there are
-                    randomLocation = (int) (Math.random() * freeSpaces);//randomly picks a free space
-                    randomBug = (int) (Math.random()*hand.size());//randomly pick a bug from your hand
+                    freeSpaces = numOfTargets(test);
+
+                    randomLocation = (int) (Math.random() * freeSpaces);
+                    randomBug = (int) (Math.random()*hand.size());
 
                     //if no pieces on the board, place a piece in the middle
                     if(freeSpaces == 0){
@@ -368,7 +436,23 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                                 spaceCount += 1;
                             }
                             if (spaceCount == randomLocation) {
-                                HivePlacePieceAction placePiece = new HivePlacePieceAction(this, i, j, hand.get(randomBug));
+                                HiveGameState.piece bug;
+                                if(hand.contains(HiveGameState.piece.BSPIDER)){
+                                    bug = HiveGameState.piece.BSPIDER;
+                                }
+                                else if(hand.contains(HiveGameState.piece.BBEE)){
+                                    bug = HiveGameState.piece.BBEE;
+                                }
+                                else if(hand.contains(HiveGameState.piece.BGHOPPER)){
+                                    bug = HiveGameState.piece.BGHOPPER;
+                                }
+                                else if(hand.contains(HiveGameState.piece.BANT)){
+                                    bug = HiveGameState.piece.BANT;
+                                }
+                                else{
+                                    bug = HiveGameState.piece.BBEETLE;
+                                }
+                                HivePlacePieceAction placePiece = new HivePlacePieceAction(this, i, j, bug);
                                 game.sendAction(placePiece);
                                 return;
 
@@ -380,34 +464,52 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                     //move piece
 
                     boolean validMove = false;
+
+                    int defense = numPieceAround(test, HiveGameState.piece.BBEE, 1);
                     //loops until it finds an action that it can send that will be valid
                     while (!validMove) {
-                        //randomly pick a bug
-                        randomBug = (int) (Math.random() * moveablePiece(test));
 
+                        //randomly select a piece for either offense or defense
+                        if(defense < 3) {
+                            randomBug = (int) (Math.random() * 8);
+                        }
+                        else{
+                            randomBug = (int) (Math.random() * 3);
+                        }
                         bugCounter = 0;
 
-                        //randomly select a bug from the board
+                        //randomly select a bug from the board based on offense and defense
                         for (int i = 1; i < test.board.length - 1; i++) {
                             for (int j = 1; j < test.board[j].length - 1; j++) {
-                                if (test.board[i][j] == HiveGameState.piece.BBEE ||
-                                        test.board[i][j] == HiveGameState.piece.BBEE ||
-                                        test.board[i][j] == HiveGameState.piece.BBEETLE ||
-                                        test.board[i][j] == HiveGameState.piece.BGHOPPER ||
-                                        test.board[i][j] == HiveGameState.piece.BSPIDER) {
-                                    if (!(test.checkSurround(i, j))) {
-                                        if (bugCounter == randomBug) {
-                                            startX = i;
-                                            startY = j;
+                                if(defense < 3) {
+                                    if (test.board[i][j] == HiveGameState.piece.BANT ||
+                                            test.board[i][j] == HiveGameState.piece.BSPIDER ||
+                                            test.board[i][j] == HiveGameState.piece.BGHOPPER) {
+                                        if (!(test.checkSurround(i, j))) {
+                                            if (bugCounter == randomBug) {
+                                                startX = i;
+                                                startY = j;
+                                            }
+                                            bugCounter += 1;
                                         }
-                                        bugCounter += 1;
+                                    }
+                                }
+                                else{
+                                    if (test.board[i][j] == HiveGameState.piece.BBEE ||
+                                            test.board[i][j] == HiveGameState.piece.BBEETLE) {
+                                        if (!(test.checkSurround(i, j))) {
+                                            if (bugCounter == randomBug) {
+                                                startX = i;
+                                                startY = j;
+                                            }
+                                            bugCounter += 1;
+                                        }
                                     }
                                 }
                             }
                         }
 
-                        //look at what piece was selected and set targets for valid spaces to move
-                        //to
+                        //sets the target for the piece that was chosen
                         switch (test.board[startX][startY]) {
                             case BBEE:
                                 test.makeTarget(startX, startY);
@@ -434,28 +536,26 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                                 spiderMove(startX, startY, test, 1);
                                 break;
                         }
-                        //if there is at least one target (one valid move leave the loop)
                         if (numOfTargets(test) > 0) {
                             validMove = true;
                         }
                     }
-                    //pick a random valid location to move
+                    //picks a random target location
                     randomLocation = (int)(Math.random()*numOfTargets(test));
                     spaceCount = 0;
 
-                        //finds the location of the valid action and send the HiveMoveAction
-                        for (int i = 1; i < test.board.length - 1; i++) {
-                            for (int j = 1; j < test.board[j].length - 1; j++) {
-                                if (test.board[i][j] == HiveGameState.piece.TARGET) {
-                                    if(spaceCount == randomLocation){
-                                        HiveMoveAction moveAction = new HiveMoveAction(this, startX, startY, i, j);
-                                        game.sendAction(moveAction);
-                                        return;
-                                    }
-                                    spaceCount += 1;
+                    for (int i = 1; i < test.board.length - 1; i++) {
+                        for (int j = 1; j < test.board[j].length - 1; j++) {
+                            if (test.board[i][j] == HiveGameState.piece.TARGET) {
+                                if(spaceCount == randomLocation){
+                                    HiveMoveAction moveAction = new HiveMoveAction(this, startX, startY, i, j);
+                                    game.sendAction(moveAction);
+                                    return;
                                 }
+                                spaceCount += 1;
                             }
                         }
+                    }
 
                 }
 
