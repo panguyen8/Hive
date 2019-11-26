@@ -3,6 +3,7 @@ package com.example.hive.Hive;
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.LocalGame;
 import com.example.hive.game.actionMessage.GameAction;
+import com.example.hive.game.utilities.Logger;
 
 /**
  * Represents a local game, which is responsible for enforcing rules,
@@ -221,14 +222,30 @@ public class HiveLocalGame extends LocalGame {
 
         // Placing piece
         else if (action instanceof HivePlacePieceAction) {
+
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
+            if (hgs.getTurn() == 0) {
+                if (turnCount == 0) {
+                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
-            if(turnCount == 0) {
-                hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    turnCount++;
 
-                turnCount++;
-                return true;
+                    hgs.setTurn(1);
+
+                    return true;
+                }
+            } else {
+                if (turnCount == 0) {
+                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+
+                    turnCount++;
+
+                    hgs.setTurn(0);
+
+                    return true;
+                }
             }
 
             //A piece can only be placed if it is in the
@@ -256,7 +273,6 @@ public class HiveLocalGame extends LocalGame {
                 //Set next turn
                 hgs.setTurn(1);
             }
-
             //Same as above, just with other player's pieces
             else {
                 //makes sure that the bee is placed
@@ -265,7 +281,7 @@ public class HiveLocalGame extends LocalGame {
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
                 }
 
-                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {//changed target to empty
+                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 }
@@ -287,6 +303,10 @@ public class HiveLocalGame extends LocalGame {
         else if(action instanceof HiveButtonAction) {
             //A piece can only be selected if it is in the ArrayList
             //of unplayed pieces
+            if (hgs.getTurn() != getPlayerIdx(action.getPlayer())) {
+                Logger.log("MakeMove", "Not Your Turn " + hgs.getTurn());
+                return false;
+            }
             if (!hgs.bugList.contains(((HiveButtonAction) action).gamePiece)) {
                 return false;
             }
@@ -299,31 +319,32 @@ public class HiveLocalGame extends LocalGame {
                 }
             }
 
+
             return true;
         }
         //selected piece targets
         else if (action instanceof HiveSelectedPieceAction) {
+
             HiveSelectedPieceAction move = (HiveSelectedPieceAction) action;
 
-            //An empty spot can't be selected (there is no piece)
-            if (hgs.board[move.row][move.col] == HiveGameState.piece.EMPTY) {
-                return false;
-            }
+            if (hgs.getTurn() == getPlayerIdx(action.getPlayer())) {
+                //An empty spot can't be selected (there is no piece)
+                if (hgs.board[move.row][move.col] == HiveGameState.piece.EMPTY) {
+                    return false;
+                }
 
-            for (int row = 1; row < hgs.board.length - 1; row++)
-            {
-                for (int col = 1; col < hgs.board[col].length - 1; col++)
-                {
-                    if (row == move.row && col == move.col) {
-                        //do nothing
-                    }
-
-                    else {
-                        hgs.makeTarget(row, col);
+                for (int row = 1; row < hgs.board.length - 1; row++) {
+                    for (int col = 1; col < hgs.board[col].length - 1; col++) {
+                        if (row == move.row && col == move.col) {
+                            //do nothing
+                        } else {
+                            hgs.makeTarget(row, col);
+                        }
                     }
                 }
+                return true;
             }
-            return true;
+            return false;
         }
         // Resetting the board
         else if (action instanceof HiveResetBoardAction) {

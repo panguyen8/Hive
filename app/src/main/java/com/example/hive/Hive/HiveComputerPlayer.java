@@ -349,9 +349,23 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                 //if nothing to place -> skip place piece and go to move piece
                 if(hand.size() > 0) {
 
+                    int l,k;
+                    for(l = 1; l < test.board.length-1; l++){
+                        for(k = 1; k < test.board[k].length-1; k++){
+                            if(test.board[l][k] != HiveGameState.piece.EMPTY){
+                                test.makeTarget(l, k);
+                            }
+                        }
+                    }
+
+
+
                     freeSpaces = numOfTargets(test);//looks at how many free spaces there are
                     randomLocation = (int) (Math.random() * freeSpaces);//randomly picks a free space
                     randomBug = (int) (Math.random()*hand.size());//randomly pick a bug from your hand
+
+
+
 
                     //if no pieces on the board, place a piece in the middle
                     if(freeSpaces == 0){

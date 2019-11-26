@@ -29,7 +29,7 @@ public class HiveGameState extends GameState {
     //If 1, white moves, if 0, black moves
     //Removed static for now, not sure if it's needed
     //Let me (Stephen) know if it is
-    private int turn = 1;  // Edit by Samuel Nguyen
+    private int turn;  // Edit by Samuel Nguyen
 
     //Represents how many total pieces each player has
     private int player0Pieces;
