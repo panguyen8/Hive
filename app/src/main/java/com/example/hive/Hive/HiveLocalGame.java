@@ -261,11 +261,11 @@ public class HiveLocalGame extends LocalGame {
                         hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
                         hgs.bugList.remove(HiveGameState.piece.WBEE);
                     }
-
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    else {
+                        hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
+                        hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    }
                 }
-
                 else {
                     return false;
                 }
@@ -279,9 +279,7 @@ public class HiveLocalGame extends LocalGame {
                 if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
                     hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
-                }
-
-                if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
+                } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 }

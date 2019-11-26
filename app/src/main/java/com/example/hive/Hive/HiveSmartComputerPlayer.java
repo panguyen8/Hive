@@ -401,6 +401,7 @@ public class HiveSmartComputerPlayer extends GameComputerPlayer {
     public void receiveInfo(GameInfo info) {
         //TODO You will implement this method to receive state objects from the game
         if(info instanceof HiveGameState){
+            sleep(400);
             HiveGameState test = new HiveGameState((HiveGameState) info);
 
             myBugList = test.getBugList();
@@ -416,7 +417,17 @@ public class HiveSmartComputerPlayer extends GameComputerPlayer {
                 hand = getHand(myBugList, BLACK_TURN);
                 if(hand.size() > 0) {
 
+                    int l,k;
+                    for(l = 1; l < test.board.length-1; l++){
+                        for(k = 1; k < test.board[k].length-1; k++){
+                            if(test.board[l][k] != HiveGameState.piece.EMPTY){
+                                test.makeTarget(l, k);
+                            }
+                        }
+                    }
+
                     freeSpaces = numOfTargets(test);
+
 
                     randomLocation = (int) (Math.random() * freeSpaces);
                     randomBug = (int) (Math.random()*hand.size());

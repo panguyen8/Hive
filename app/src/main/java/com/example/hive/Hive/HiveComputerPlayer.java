@@ -332,6 +332,7 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     public void receiveInfo(GameInfo info) {
         //TODO You will implement this method to receive state objects from the game
         if(info instanceof HiveGameState){
+            sleep(400);
             HiveGameState test = new HiveGameState((HiveGameState) info);
 
             myBugList = test.getBugList();
