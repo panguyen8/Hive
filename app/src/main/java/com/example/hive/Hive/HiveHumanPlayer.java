@@ -86,13 +86,21 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 theText.setText("");
                 break;
             case R.id.Reset:
-                HiveResetBoardAction action2 = new HiveResetBoardAction(this);
+                HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
                 game.sendAction(action2);
                 break;
         }
-        piecePlacement = true;
-        game.sendAction(action);
-        surfaceView.invalidate();
+        if(piecePlacement){
+            piecePlacement = false;
+            HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
+            game.sendAction(action3);
+            surfaceView.invalidate();
+        }
+        else{
+            piecePlacement = true;
+            game.sendAction(action);
+            surfaceView.invalidate();
+        }
     }
 
     /**
@@ -207,6 +215,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
                 theText.append("Piece has been moved from (" + xStart + ", " + yStart +") to (" +xEnd+ ", " +yEnd+ ")\n");
                 moveReady = false;
+        }
+        else if(!piecePlacement){
         }
 
         // register that we have handled the event

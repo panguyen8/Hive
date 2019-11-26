@@ -69,6 +69,7 @@ public class HiveView extends SurfaceView {
         }
 
         Hexagon.reset();
+        HexagonHighlights.reset();
         setBackgroundColor(Color.WHITE);
         drawHexagon(canvas, HexagonHighlights);
         drawHexagon(canvas, Hexagon);

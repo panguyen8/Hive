@@ -327,6 +327,12 @@ public class HiveLocalGame extends LocalGame {
         }
         // Resetting the board
         else if (action instanceof HiveResetBoardAction) {
+            HiveResetBoardAction reset = (HiveResetBoardAction) action;
+            //remove targets only
+            if(reset.deselectTargets){
+                hgs.resetTarget();
+                return true;
+            }
             //Iterate through board and make each spot empty
             for (int i = 0; i < hgs.board.length; i++)
             {
