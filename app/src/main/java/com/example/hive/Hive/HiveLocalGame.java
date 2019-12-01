@@ -19,7 +19,6 @@ public class HiveLocalGame extends LocalGame {
     //After a player's fourth turn,
     //the bee must be played if it already
     //hasn't been
-    private int turnCount = 0;
 
     /**
      * Constructor of local game
@@ -131,7 +130,8 @@ public class HiveLocalGame extends LocalGame {
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WGHOPPER) {
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WGHOPPER ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.EMPTY) {
                     return false;
                 }
 
@@ -139,33 +139,11 @@ public class HiveLocalGame extends LocalGame {
                 //Moving rules will be done here as well
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.EMPTY)//changed target to empty
                 {
-                    if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
-                        moveBee(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else {
-                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
+                } else {
+                    return false;
                 }
 
                 //Set the turn to the next player
@@ -178,45 +156,25 @@ public class HiveLocalGame extends LocalGame {
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BGHOPPER) {
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BGHOPPER ||
+                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.EMPTY) {
                     return false;
                 }
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
-                    if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE) {
-                        moveBee(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE) {
-                        moveBeetle(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT) {
-                        moveAnt(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
-                            hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER) {
-                        moveSpider(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
-                    else {
-                        moveGHopper(hgs.board, hgs.board[move.startRow][move.startCol], move.startRow, move.startCol,
-                                move.endRow, move.endCol);
-                    }
+
                     // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
+                } else {
+                    return false;
                 }
                 hgs.setTurn(1);
             }
 
             hgs.resetTarget();
             //increment turnCount
-            turnCount++;
+            hgs.addTurnToCount();
             return true;
         }
 
@@ -225,39 +183,33 @@ public class HiveLocalGame extends LocalGame {
 
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
             if (hgs.getTurn() == 0) {
-                if (turnCount == 0) {
+                if (hgs.getTurnCount() == 0) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
-                    turnCount++;
-
+                    hgs.addTurnToCount();
                     hgs.setTurn(1);
+                    //Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
 
                     return true;
                 }
             } else {
-                if (turnCount == 0) {
+                if (hgs.getTurnCount() == 0) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
-                    turnCount++;
-
+                    hgs.addTurnToCount();
                     hgs.setTurn(0);
+                    //Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
 
                     return true;
                 }
-            }
-
-            //A piece can only be placed if it is in the
-            //player's hand, represented by the bugList (ArrayList)
-            if (!hgs.bugList.contains(((HivePlacePieceAction) action).piece)){
-                return false;
             }
 
             if (hgs.getTurn() == 0) {
                 if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
                     //makes sure that the bee is placed
-                    if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
+                    if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
                         hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
                         hgs.bugList.remove(HiveGameState.piece.WBEE);
                     }
@@ -276,7 +228,7 @@ public class HiveLocalGame extends LocalGame {
             //Same as above, just with other player's pieces
             else {
                 //makes sure that the bee is placed
-                if(turnCount > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
+                if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
                     hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
                 } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
@@ -293,7 +245,8 @@ public class HiveLocalGame extends LocalGame {
             hgs.resetTarget();
 
             //increment turnCount
-            turnCount++;
+            hgs.addTurnToCount();
+            //Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
             return true;
         }
 
@@ -365,7 +318,7 @@ public class HiveLocalGame extends LocalGame {
             //hgs.board[4][6] = HiveGameState.piece.BBEE;
 
             //Reset turn count to 0
-            turnCount = 0;
+            hgs.resetTurnCount();
 
             //To make adding all bugs to the player
             //hands easier, clear it, then add the

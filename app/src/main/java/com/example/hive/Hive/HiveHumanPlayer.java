@@ -17,13 +17,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
     EditText theText;
 
-    private final int QUEEN = 1;
-    private final int GRASSHOPPER = 2;
-    private final int SPIDER = 3;
-    private final int BEETLE = 4;
-    private final int ANT = 5;
-
-    private int pieceChosen = 0;
+    private String pieceText = "";
+    private HiveGameState.piece piecePlaced = HiveGameState.piece.EMPTY;
 
     protected boolean moveReady = false;
 
@@ -36,6 +31,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
     protected int xCoord;
     protected int yCoord;
+
+    HiveGameState hgs;
 
 
     /* instance variables */
@@ -60,27 +57,32 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
      * @param v
      */
     public void onClick(View v) {
-        HiveButtonAction action = new HiveButtonAction(this, 0);
+        HiveButtonAction action = new HiveButtonAction(this, piecePlaced);
         switch(v.getId()) {
             case R.id.QueenButton:
-                action = new HiveButtonAction(this, QUEEN);
-                pieceChosen = 1;
+                piecePlaced = HiveGameState.piece.WBEE;
+                pieceText = "WHITE BEE";
+                action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.SpiderButton:
-                action = new HiveButtonAction(this, SPIDER);
-                pieceChosen = 3;
+                piecePlaced = HiveGameState.piece.WSPIDER;
+                pieceText = "WHITE SPIDER";
+                action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.GrasshopperButton:
-                action = new HiveButtonAction(this, GRASSHOPPER);
-                pieceChosen = 2;
+                piecePlaced = HiveGameState.piece.WGHOPPER;
+                pieceText = "WHITE GRASSHOPPER";
+                action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.AntButton:
-                action = new HiveButtonAction(this, ANT);
-                pieceChosen = 5;
+                piecePlaced = HiveGameState.piece.WANT;
+                pieceText = "WHITE ANT";
+                action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.BeetleButton:
-                action = new HiveButtonAction(this, BEETLE);
-                pieceChosen = 4;
+                piecePlaced = HiveGameState.piece.WBEETLE;
+                pieceText = "WHITE BEETLE";
+                action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.ClearInfo:
                 theText.setText("");
@@ -88,6 +90,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             case R.id.Reset:
                 HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
                 game.sendAction(action2);
+                moveReady = false;
+                piecePlacement = true;
                 break;
         }
         if(piecePlacement){
@@ -130,6 +134,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             return;
         else {
             surfaceView.setState((HiveGameState)info);
+            hgs = new HiveGameState((HiveGameState) info);
+            Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
             surfaceView.invalidate();
         }
 
@@ -158,38 +164,23 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             xCoord = xCoord/100;
         }
 
-        //Logger.log("onTouch","Coord" + xCoord + " " + yCoord + " " +divider);
         if (piecePlacement) {
             xEnd = xCoord;
             yEnd = yCoord;
 
-            String piece = new String();
+            if(hgs.makePlace(xEnd, yEnd, piecePlaced)) {
 
-            HivePlacePieceAction action;
+                HivePlacePieceAction action = new HivePlacePieceAction(this, xEnd, yEnd, piecePlaced);
 
-            if (pieceChosen == 1) {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEE);
-                piece = "Bee";
-            } else if (pieceChosen == 2) {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WGHOPPER);
-                piece = "Grasshopper";
-            } else if (pieceChosen == 3) {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WSPIDER);
-                piece = "Spider";
-            } else if (pieceChosen == 4) {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WBEETLE);
-                piece = "Beetle";
-            } else if (pieceChosen == 5) {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.WANT);
-                piece = "Ant";
+                theText.append(pieceText + " has been placed at (" + xEnd + ", " + yEnd + ")\n");
+                game.sendAction(action);
+
+                piecePlacement = false;
+
+
             } else {
-                action = new HivePlacePieceAction(this, xEnd, yEnd, HiveGameState.piece.EMPTY);
+                piecePlacement = true;
             }
-
-            game.sendAction(action);
-
-            theText.append(piece + " has been placed at (" +xEnd+ ", " +yEnd+ ")\n");
-            piecePlacement = false;
             return true;
 
         } else if (!moveReady) {
@@ -215,8 +206,6 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
                 theText.append("Piece has been moved from (" + xStart + ", " + yStart +") to (" +xEnd+ ", " +yEnd+ ")\n");
                 moveReady = false;
-        }
-        else if(!piecePlacement){
         }
 
         // register that we have handled the event

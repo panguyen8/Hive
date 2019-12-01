@@ -30,6 +30,7 @@ public class HiveGameState extends GameState {
     //Removed static for now, not sure if it's needed
     //Let me (Stephen) know if it is
     private int turn;  // Edit by Samuel Nguyen
+    private int turnCount;
 
     //Represents how many total pieces each player has
     private int player0Pieces;
@@ -73,6 +74,8 @@ public class HiveGameState extends GameState {
         this.player0Pieces = 11;
         this.player1Pieces = 11;
 
+        this.turnCount = 0;
+
         for (int i = 0; i < board.length; i++)
         {
             for (int j = 0; j < board[i].length; j++)
@@ -87,6 +90,7 @@ public class HiveGameState extends GameState {
     // Some edits by Samuel Nguyen
     public HiveGameState(HiveGameState hgs) {
         this.turn = hgs.turn;
+        this.turnCount = hgs.turnCount;
 
         //Copies each board index/cell
         for (int i = 0; i < board.length; i++)
@@ -286,6 +290,19 @@ public class HiveGameState extends GameState {
         }
     }
 
+    public boolean makePlace(int row, int col, HiveGameState.piece piece) {
+        if (!bugList.contains(piece)){
+            return false;
+        }
+        if (turnCount == 0) {
+            return true;
+        }
+        if (board[row][col] == piece.TARGET) {
+            return true;
+        }
+        return false;
+    }
+
     public void resetTarget() {
         for (int y = 0; y < 12; y++) {
             for (int x = 0; x < 11; x++) {
@@ -309,5 +326,17 @@ public class HiveGameState extends GameState {
 
     public void setPiece(int x, int y, HiveGameState.piece piece) {
         board[x][y] = piece;
+    }
+
+    public int getTurnCount() {
+        return turnCount;
+    }
+
+    public void addTurnToCount() {
+        turnCount = turnCount + 1;
+    }
+
+    public void resetTurnCount() {
+        turnCount = 0;
     }
 }
