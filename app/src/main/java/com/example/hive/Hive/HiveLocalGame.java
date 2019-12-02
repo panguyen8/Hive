@@ -287,32 +287,31 @@ public class HiveLocalGame extends LocalGame {
                 for (int row = 1; row < hgs.board.length - 1; row++) {
                     for (int col = 1; col < hgs.board[col].length - 1; col++) {
                         if (row == move.row && col == move.col) {
-                            if (row == move.row && col == move.col) {
-                                // If current iteration is the selected piece,
-                                // highlight potential legal spots
-                                if(hgs.board[row][col] == HiveGameState.piece.WBEE ||
-                                        hgs.board[row][col] == HiveGameState.piece.BBEE) {
-                                    hgs.highlightBee(hgs.board, row, col);
-                                }
-                                else if(hgs.board[row][col] == HiveGameState.piece.WBEETLE ||
-                                        hgs.board[row][col] == HiveGameState.piece.BBEETLE) {
-                                    hgs.highlightBeetle(hgs.board, row, col);
-                                }
-                                else if(hgs.board[row][col] == HiveGameState.piece.WANT ||
-                                        hgs.board[row][col] == HiveGameState.piece.BANT) {
-                                    hgs.highlightAnt(hgs.board, row, col);
-                                }
-                                else if(hgs.board[row][col] == HiveGameState.piece.WSPIDER ||
-                                        hgs.board[row][col] == HiveGameState.piece.BSPIDER) {
-                                    hgs.highlightSpider(hgs.board, row, col);
-                                }
-                                else if(hgs.board[row][col] == HiveGameState.piece.WGHOPPER ||
-                                        hgs.board[row][col] == HiveGameState.piece.BGHOPPER) {
-                                    hgs.highlightGHopper(hgs.board, row, col);
-                                }
 
+                            // If current iteration is the selected piece,
+                            // highlight potential legal spots
+                            if(hgs.board[row][col] == HiveGameState.piece.WBEE ||
+                                    hgs.board[row][col] == HiveGameState.piece.BBEE) {
+                                hgs.highlightBee(hgs.board, row, col);
                             }
-                        } else {
+                            else if(hgs.board[row][col] == HiveGameState.piece.WBEETLE ||
+                                    hgs.board[row][col] == HiveGameState.piece.BBEETLE) {
+                                hgs.highlightBeetle(hgs.board, row, col);
+                            }
+                            else if(hgs.board[row][col] == HiveGameState.piece.WANT ||
+                                    hgs.board[row][col] == HiveGameState.piece.BANT) {
+                                hgs.highlightAnt(hgs.board, row, col);
+                            }
+                            else if(hgs.board[row][col] == HiveGameState.piece.WSPIDER ||
+                                    hgs.board[row][col] == HiveGameState.piece.BSPIDER) {
+                                hgs.highlightSpider(hgs.board, row, col);
+                            }
+                            else if(hgs.board[row][col] == HiveGameState.piece.WGHOPPER ||
+                                    hgs.board[row][col] == HiveGameState.piece.BGHOPPER) {
+                                hgs.highlightGHopper(hgs.board, row, col);
+                            }
+                        }
+                        else {
                             // DO nothing
                         }
                     }
@@ -338,9 +337,6 @@ public class HiveLocalGame extends LocalGame {
                 }
             }
 
-            //hgs.board[5][5] = HiveGameState.piece.WBEE;
-            //hgs.board[4][6] = HiveGameState.piece.BBEE;
-
             //Reset turn count to 0
             hgs.resetTurnCount();
 
@@ -349,76 +345,8 @@ public class HiveLocalGame extends LocalGame {
             //appropriate quantity of each piece
             hgs.bugList.clear();
 
-            //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
-            hgs.bugList.add(HiveGameState.piece.BBEE);
-            hgs.bugList.add(HiveGameState.piece.BSPIDER);
-            hgs.bugList.add(HiveGameState.piece.BSPIDER);
-            hgs.bugList.add(HiveGameState.piece.BANT);
-            hgs.bugList.add(HiveGameState.piece.BANT);
-            hgs.bugList.add(HiveGameState.piece.BANT);
-            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.BGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.BBEETLE);
-            hgs.bugList.add(HiveGameState.piece.BBEETLE);
-
-            //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
-            hgs.bugList.add(HiveGameState.piece.WBEE);
-            hgs.bugList.add(HiveGameState.piece.WSPIDER);
-            hgs.bugList.add(HiveGameState.piece.WSPIDER);
-            hgs.bugList.add(HiveGameState.piece.WANT);
-            hgs.bugList.add(HiveGameState.piece.WANT);
-            hgs.bugList.add(HiveGameState.piece.WANT);
-            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.WGHOPPER);
-            hgs.bugList.add(HiveGameState.piece.WBEETLE);
-            hgs.bugList.add(HiveGameState.piece.WBEETLE);
+            hgs.addPieces(hgs, hgs.bugList);
         }
         return true;
-    }
-
-    // Below methods are helpers that dictate movement of each piece
-
-    /**
-     * Checks the spots that are legal for a bee to move
-     */
-    public void moveBee(HiveGameState.piece[][] board, HiveGameState.piece piece,
-                        int startX, int startY, int endX, int endY) {
-//        if(hgs.canPlace(endX, endY)) {
-//
-//        }
-    }
-
-    /**
-     * Checks spots for beetle
-     */
-    public void moveBeetle(HiveGameState.piece[][] board, HiveGameState.piece piece,
-                           int startX, int startY, int endX, int endY) {
-
-    }
-
-    /**
-     * Checks spots for ants
-     */
-    public void moveAnt(HiveGameState.piece[][] board, HiveGameState.piece piece,
-                        int startX, int startY, int endX, int endY) {
-
-    }
-
-    /**
-     * Checks spots for spiders
-     */
-    public void moveSpider(HiveGameState.piece[][] board, HiveGameState.piece piece,
-                           int startX, int startY, int endX, int endY) {
-
-    }
-
-    /**
-     * Checks spots for grasshoppers
-     */
-    public void moveGHopper(HiveGameState.piece[][] board, HiveGameState.piece piece,
-                            int startX, int startY, int endX, int endY) {
-
     }
 }

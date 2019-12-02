@@ -36,7 +36,11 @@ public class HiveGameState extends GameState {
     private int player0Pieces;
     private int player1Pieces;
 
+    //Represents a player's "hand" (what pieces are not on the board)
     public ArrayList<piece> bugList = new ArrayList<>();
+
+    //Represents the pieces, as well as targets (for highlighting) and empty
+    //(drawing all of the hexagons on startup was found to be too slow)
     enum piece {
         BBEE, BSPIDER, BANT, BGHOPPER, BBEETLE, WBEE, WSPIDER, WANT, WGHOPPER, WBEETLE, EMPTY, TARGET;
     }
@@ -44,31 +48,7 @@ public class HiveGameState extends GameState {
     //Basic constructor
     public HiveGameState() {
 
-        //1 BBEE, 2 BSPIDERS, 3 BANT, 3 BGHOPPER, 2,BBEETLE
-        bugList.add(piece.BBEE);
-        bugList.add(piece.BSPIDER);
-        bugList.add(piece.BSPIDER);
-        bugList.add(piece.BANT);
-        bugList.add(piece.BANT);
-        bugList.add(piece.BANT);
-        bugList.add(piece.BGHOPPER);
-        bugList.add(piece.BGHOPPER);
-        bugList.add(piece.BGHOPPER);
-        bugList.add(piece.BBEETLE);
-        bugList.add(piece.BBEETLE);
-
-        //1 BBEE, 2 WSPIDERS, 3 WANT, 3 WGHOPPER, 2,WBEETLE
-        bugList.add(piece.WBEE);
-        bugList.add(piece.WSPIDER);
-        bugList.add(piece.WSPIDER);
-        bugList.add(piece.WANT);
-        bugList.add(piece.WANT);
-        bugList.add(piece.WANT);
-        bugList.add(piece.WGHOPPER);
-        bugList.add(piece.WGHOPPER);
-        bugList.add(piece.WGHOPPER);
-        bugList.add(piece.WBEETLE);
-        bugList.add(piece.WBEETLE);
+        addPieces(this, bugList);
 
         this.turn = WHITE_TURN; // White goes first?
         this.player0Pieces = 11;
@@ -265,6 +245,10 @@ public class HiveGameState extends GameState {
         return false;
     }
 
+
+    /**
+     * Removes all targets from the board, as targets are a piece enum
+     */
     public void resetTarget() {
         for (int y = 0; y < 12; y++) {
             for (int x = 0; x < 11; x++) {
@@ -286,19 +270,16 @@ public class HiveGameState extends GameState {
         return board[x][y];
     }
 
-    public void setPiece(int x, int y, HiveGameState.piece piece) {
-        board[x][y] = piece;
-    }
-
     /* Helper methods below */
 
     /**
      * Highlights legal spots for the bee
      * The bee moves one square in any direction
+     * as long as it is adjacent to another piece
      *
      * @param board: the board
-     * @param row: the spot's row
-     * @param col: the spot's col
+     * @param row: the new spot's row
+     * @param col: the new spot's col
      */
     public void highlightBee(piece[][] board, int row, int col) {
         highlightSurrounding(board, row, col);
@@ -309,8 +290,8 @@ public class HiveGameState extends GameState {
      * Moves like the bee, but can also stack on top of others (not implemented yet)
      *
      * @param board: the board
-     * @param row: the spot's row
-     * @param col: the spot's col
+     * @param row: the new spot's row
+     * @param col: the new spot's col
      */
     public void highlightBeetle(piece[][] board, int row, int col) {
         highlightSurrounding(board, row, col);
@@ -321,8 +302,8 @@ public class HiveGameState extends GameState {
      * For now, it moves to any spot adjacent to another piece
      *
      * @param board: the board
-     * @param row: the spot's row
-     * @param col: the spot's col
+     * @param row: the new spot's row
+     * @param col: the new spot's col
      */
     public void highlightAnt(piece[][] board, int row, int col) {
         for(int i = 1; i < board.length; i++) {
@@ -338,6 +319,8 @@ public class HiveGameState extends GameState {
     /**
      * Highlights legal spots for the spider
      * For now, it moves to any spot adjacent to another piece
+     * that is exactly 3 spots away from the start (i.e.
+     * it can move either 3 rows or 3 cols away)
      *
      * @param board: the board
      * @param row: the spot's row
@@ -346,7 +329,8 @@ public class HiveGameState extends GameState {
     public void highlightSpider(piece[][] board, int row, int col) {
         highlightAnt(board, row, col);
 
-        // Unmarks pieces not in the same row and col
+        // Unmarks targets not in the same row and col and not 3
+        //spots away
         for(int i = 1; i < board.length; i++) {
             for(int j = 1; j < board[i].length; j++) {
                 if (i != row + 3 && i != row - 3 && j != col - 3 &&
@@ -371,7 +355,8 @@ public class HiveGameState extends GameState {
      * @param col: the spot's col
      */
     public void highlightGHopper(piece[][] board, int row, int col) {
-        // The ant highlights mark all spots next to any piece as a target
+        //For simplicity, highlight all adjacent spots (the ant algorithm)
+        //then remove certain ones
         highlightAnt(board, row, col);
 
         // Unmarks pieces not in the same row and col
@@ -385,8 +370,17 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Highlights all empty surrounding spots of a piece
+     * @param board: the board
+     * @param row: row of piece
+     * @param col: col of piece
+     */
     public void highlightSurrounding(piece[][] board, int row, int col)
     {
+        //Due to hexagon board implementation, the procedure
+        //to check adjacent spots varies based on column
+        //(if it's an odd or even index)
         if (col % 2 == 0) {
             if (board[row + 1][col] == piece.EMPTY) {
                 board[row + 1][col] = piece.TARGET;
@@ -429,15 +423,61 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Get what turn it is (not whose turn it is,
+     * but how many turns have been played)
+     * @return: number of turns played
+     */
     public int getTurnCount() {
         return turnCount;
     }
 
+    //Since this method is only one line, we should probably
+    //just replace the instances of it with its code
+
+    /**
+     * Add 1 to the number of turns played
+     */
     public void addTurnToCount() {
         turnCount = turnCount + 1;
     }
 
+    //This is similar to above method (one line methods are
+    //rather unnecessary)
+    /**
+     * Set the number of turns played to 0
+     */
     public void resetTurnCount() {
         turnCount = 0;
+    }
+
+    /**
+     * Adds all pieces to their respective owner's
+     * hands
+     * @param hgs: HiveGameState to act on
+     * @param list: List to add pieces to
+     */
+    public void addPieces(HiveGameState hgs, ArrayList<piece> list)
+    {
+        //1 BEE, 2 SPIDERs, 3 ANTs, 3 GHOPPERs, 2 BEETLEs
+        //for each player
+        list.add(HiveGameState.piece.BBEE);
+        list.add(HiveGameState.piece.WBEE);
+
+        for (int i = 0; i < 2; i++)
+        {
+            list.add(HiveGameState.piece.BSPIDER);
+            list.add(HiveGameState.piece.BBEETLE);
+            list.add(HiveGameState.piece.WSPIDER);
+            list.add(HiveGameState.piece.WBEETLE);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            list.add(HiveGameState.piece.BANT);
+            list.add(HiveGameState.piece.BGHOPPER);
+            list.add(HiveGameState.piece.WANT);
+            list.add(HiveGameState.piece.WGHOPPER);
+        }
     }
 }
