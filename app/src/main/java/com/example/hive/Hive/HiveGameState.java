@@ -248,45 +248,7 @@ public class HiveGameState extends GameState {
      */
     public void makeTarget(int row, int col) {
         if (board[row][col] != piece.EMPTY && board[row][col] != piece.TARGET) {
-            if (col % 2 == 0) {
-                if (board[row + 1][col] == piece.EMPTY) {
-                    board[row + 1][col] = piece.TARGET;
-                }
-                if (board[row - 1][col + 1] == piece.EMPTY) {
-                    board[row - 1][col + 1] = piece.TARGET;
-                }
-                if (board[row][col + 1] == piece.EMPTY) {
-                    board[row][col + 1] = piece.TARGET;
-                }
-                if (board[row][col - 1] == piece.EMPTY) {
-                    board[row][col - 1] = piece.TARGET;
-                }
-                if (board[row - 1][col] == piece.EMPTY) {
-                    board[row - 1][col] = piece.TARGET;
-                }
-                if (board[row - 1][col - 1] == piece.EMPTY) {
-                    board[row - 1][col - 1] = piece.TARGET;
-                }
-            } else {
-                if (board[row + 1][col] == piece.EMPTY) {
-                    board[row + 1][col] = piece.TARGET;
-                }
-                if (board[row + 1][col + 1] == piece.EMPTY) {
-                    board[row + 1][col + 1] = piece.TARGET;
-                }
-                if (board[row][col + 1] == piece.EMPTY) {
-                    board[row][col + 1] = piece.TARGET;
-                }
-                if (board[row][col - 1] == piece.EMPTY) {
-                    board[row][col - 1] = piece.TARGET;
-                }
-                if (board[row - 1][col] == piece.EMPTY) {
-                    board[row - 1][col] = piece.TARGET;
-                }
-                if (board[row + 1][col - 1] == piece.EMPTY) {
-                    board[row + 1][col - 1] = piece.TARGET;
-                }
-            }
+            highlightSurrounding(board, row, col);
         }
     }
 
