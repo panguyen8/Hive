@@ -328,6 +328,145 @@ public class HiveGameState extends GameState {
         board[x][y] = piece;
     }
 
+    /* Helper methods below */
+
+    /**
+     * Highlights legal spots for the bee
+     * The bee moves one square in any direction
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightBee(piece[][] board, int row, int col) {
+        highlightSurrounding(board, row, col);
+    }
+
+    /**
+     * Highlights legal spots for the beetle
+     * Moves like the bee, but can also stack on top of others (not implemented yet)
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightBeetle(piece[][] board, int row, int col) {
+        highlightSurrounding(board, row, col);
+    }
+
+    /**
+     * Highlights legal spots for the ant
+     * For now, it moves to any spot adjacent to another piece
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightAnt(piece[][] board, int row, int col) {
+        for(int i = 1; i < board.length; i++) {
+            for(int j = 1; j < board[i].length; j++) {
+                if (board[i][j] != board[row][col])
+                {
+                    makeTarget(i, j);
+                }
+            }
+        }
+    }
+
+    /**
+     * Highlights legal spots for the spider
+     * For now, it moves to any spot adjacent to another piece
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightSpider(piece[][] board, int row, int col) {
+        highlightAnt(board, row, col);
+
+        // Unmarks pieces not in the same row and col
+        for(int i = 1; i < board.length; i++) {
+            for(int j = 1; j < board[i].length; j++) {
+                if (i != row + 3 && i != row - 3 && j != col - 3 &&
+                        j != col - 3 && board[i][j] == piece.TARGET)
+                {
+                    board[i][j] = piece.EMPTY;
+                }
+            }
+        }
+    }
+
+    /**
+     * Highlights legal spots for the grasshopper
+     * Moves in a straight or diagonal line
+     *
+     * First, all spots next to a piece are marked as targets
+     * Then, if each spot's row and col are not the same as the grasshopper's current spot,
+     * it is unmarked.
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightGHopper(piece[][] board, int row, int col) {
+        // The ant highlights mark all spots next to any piece as a target
+        highlightAnt(board, row, col);
+
+        // Unmarks pieces not in the same row and col
+        for(int i = 1; i < board.length; i++) {
+            for(int j = 1; j < board[i].length; j++) {
+                if (i != row && j != col && board[i][j] == piece.TARGET)
+                {
+                    board[i][j] = piece.EMPTY;
+                }
+            }
+        }
+    }
+
+    public void highlightSurrounding(piece[][] board, int row, int col)
+    {
+        if (col % 2 == 0) {
+            if (board[row + 1][col] == piece.EMPTY) {
+                board[row + 1][col] = piece.TARGET;
+            }
+            if (board[row - 1][col + 1] == piece.EMPTY) {
+                board[row - 1][col + 1] = piece.TARGET;
+            }
+            if (board[row][col + 1] == piece.EMPTY) {
+                board[row][col + 1] = piece.TARGET;
+            }
+            if (board[row][col - 1] == piece.EMPTY) {
+                board[row][col - 1] = piece.TARGET;
+            }
+            if (board[row - 1][col] == piece.EMPTY) {
+                board[row - 1][col] = piece.TARGET;
+            }
+            if (board[row - 1][col - 1] == piece.EMPTY) {
+                board[row - 1][col - 1] = piece.TARGET;
+            }
+        }
+        else {
+            if (board[row + 1][col] == piece.EMPTY) {
+                board[row + 1][col] = piece.TARGET;
+            }
+            if (board[row + 1][col + 1] == piece.EMPTY) {
+                board[row + 1][col + 1] = piece.TARGET;
+            }
+            if (board[row][col + 1] == piece.EMPTY) {
+                board[row][col + 1] = piece.TARGET;
+            }
+            if (board[row][col - 1] == piece.EMPTY) {
+                board[row][col - 1] = piece.TARGET;
+            }
+            if (board[row - 1][col] == piece.EMPTY) {
+                board[row - 1][col] = piece.TARGET;
+            }
+            if (board[row + 1][col - 1] == piece.EMPTY) {
+                board[row + 1][col - 1] = piece.TARGET;
+            }
+        }
+    }
+
     public int getTurnCount() {
         return turnCount;
     }

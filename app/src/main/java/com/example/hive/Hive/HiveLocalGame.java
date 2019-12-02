@@ -287,9 +287,33 @@ public class HiveLocalGame extends LocalGame {
                 for (int row = 1; row < hgs.board.length - 1; row++) {
                     for (int col = 1; col < hgs.board[col].length - 1; col++) {
                         if (row == move.row && col == move.col) {
-                            //do nothing
+                            if (row == move.row && col == move.col) {
+                                // If current iteration is the selected piece,
+                                // highlight potential legal spots
+                                if(hgs.board[row][col] == HiveGameState.piece.WBEE ||
+                                        hgs.board[row][col] == HiveGameState.piece.BBEE) {
+                                    hgs.highlightBee(hgs.board, row, col);
+                                }
+                                else if(hgs.board[row][col] == HiveGameState.piece.WBEETLE ||
+                                        hgs.board[row][col] == HiveGameState.piece.BBEETLE) {
+                                    hgs.highlightBeetle(hgs.board, row, col);
+                                }
+                                else if(hgs.board[row][col] == HiveGameState.piece.WANT ||
+                                        hgs.board[row][col] == HiveGameState.piece.BANT) {
+                                    hgs.highlightAnt(hgs.board, row, col);
+                                }
+                                else if(hgs.board[row][col] == HiveGameState.piece.WSPIDER ||
+                                        hgs.board[row][col] == HiveGameState.piece.BSPIDER) {
+                                    hgs.highlightSpider(hgs.board, row, col);
+                                }
+                                else if(hgs.board[row][col] == HiveGameState.piece.WGHOPPER ||
+                                        hgs.board[row][col] == HiveGameState.piece.BGHOPPER) {
+                                    hgs.highlightGHopper(hgs.board, row, col);
+                                }
+
+                            }
                         } else {
-                            hgs.makeTarget(row, col);
+                            // DO nothing
                         }
                     }
                 }
