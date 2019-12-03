@@ -245,7 +245,6 @@ public class HiveGameState extends GameState {
         return false;
     }
 
-
     /**
      * Removes all targets from the board, as targets are a piece enum
      */
@@ -258,7 +257,6 @@ public class HiveGameState extends GameState {
             }
         }
     }
-
 
     /**
      * Gets the current board
@@ -360,7 +358,6 @@ public class HiveGameState extends GameState {
             }
         }
     }
-
 
     /**
      * Highlights legal spots for the spider

@@ -139,7 +139,6 @@ public class HiveLocalGame extends LocalGame {
                 //Moving rules will be done here as well
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.EMPTY)//changed target to empty
                 {
-                    // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 } else {
@@ -162,8 +161,6 @@ public class HiveLocalGame extends LocalGame {
                 }
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
-
-                    // Move below into methods above?
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
                 } else {
@@ -193,7 +190,8 @@ public class HiveLocalGame extends LocalGame {
 
                     return true;
                 }
-            } else {
+            }
+            else {
                 if (hgs.getTurnCount() == 0) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
@@ -269,8 +267,6 @@ public class HiveLocalGame extends LocalGame {
                     hgs.makeTarget(row, col);
                 }
             }
-
-
             return true;
         }
         //selected piece targets
@@ -284,6 +280,7 @@ public class HiveLocalGame extends LocalGame {
                     return false;
                 }
 
+                // Iterates through the board (except edges)
                 for (int row = 1; row < hgs.board.length - 1; row++) {
                     for (int col = 1; col < hgs.board[col].length - 1; col++) {
                         if (row == move.row && col == move.col) {
@@ -312,7 +309,7 @@ public class HiveLocalGame extends LocalGame {
                             }
                         }
                         else {
-                            // DO nothing
+                            // Do nothing
                         }
                     }
                 }
