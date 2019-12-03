@@ -189,7 +189,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             yStart = yCoord;
             Logger.log("onTouch","Start: " + xStart + " " + yStart);
 
-            if(hgs.board[xStart][yStart] != HiveGameState.piece.EMPTY || hgs.board[xStart][yStart] != HiveGameState.piece.TARGET) {
+            if(hgs.board[xStart][yStart] != HiveGameState.piece.EMPTY && hgs.board[xStart][yStart] != HiveGameState.piece.TARGET) {
                 surfaceView.setSelectedCoords(xStart, yStart);
             }
 
