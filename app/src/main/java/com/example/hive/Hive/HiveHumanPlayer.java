@@ -180,6 +180,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
             } else {
                 piecePlacement = true;
+                theText.append("Player is attempting to place piece illegally!\n");
             }
             return true;
 
@@ -205,12 +206,17 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     Logger.log("onTouch","Deselect: " + xEnd + " " + yEnd);
                 }
                 else {
+
                     HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
-                    game.sendAction(action);
-
+                    if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])) {
+                        game.sendAction(action);
+                        moveReady = true;
+                        theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
+                    } else {
+                        moveReady = false;
+                        theText.append("Player is attempting to move piece illegally!\n");
+                    }
                     Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
-
-                    theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
                 }
 
                 surfaceView.deselectPiece();

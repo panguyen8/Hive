@@ -246,6 +246,21 @@ public class HiveGameState extends GameState {
     }
 
     /**
+     * Checks to see whether the move being made is possible
+     *
+     * @param row
+     * @param col
+     * @param piece
+     * @return
+     */
+    public boolean makeMove(int row, int col, HiveGameState.piece piece) {
+        if (board[row][col] == piece.TARGET) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Removes all targets from the board, as targets are a piece enum
      */
     public void resetTarget() {
