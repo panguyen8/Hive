@@ -260,12 +260,29 @@ public class HiveGameState extends GameState {
     }
 
 
+    /**
+     * Gets the current board
+     *
+     * @return the current board
+     */
     public piece[][] getBoard() {
         return this.board;
     }
 
+    /**
+     * Gets the list of bugs not on the board
+     *
+     * @return the list of bugs
+     */
     public ArrayList<piece> getBugList() { return bugList;}
 
+    /**
+     * Gets a piece at a certain spot
+     *
+     * @param x: the spot's row
+     * @param y: the spot's col
+     * @return the piece at the desired spot
+     */
     public HiveGameState.piece getPiece(int x, int y) {
         return board[x][y];
     }
@@ -317,32 +334,6 @@ public class HiveGameState extends GameState {
     }
 
     /**
-     * Highlights legal spots for the spider
-     * For now, it moves to any spot adjacent to another piece
-     * that is exactly 3 spots away from the start (i.e.
-     * it can move either 3 rows or 3 cols away)
-     *
-     * @param board: the board
-     * @param row: the spot's row
-     * @param col: the spot's col
-     */
-    public void highlightSpider(piece[][] board, int row, int col) {
-        highlightAnt(board, row, col);
-
-        // Unmarks targets not in the same row and col and not 3
-        //spots away
-        for(int i = 1; i < board.length; i++) {
-            for(int j = 1; j < board[i].length; j++) {
-                if (i != row + 3 && i != row - 3 && j != col - 3 &&
-                        j != col - 3 && board[i][j] == piece.TARGET)
-                {
-                    board[i][j] = piece.EMPTY;
-                }
-            }
-        }
-    }
-
-    /**
      * Highlights legal spots for the grasshopper
      * Moves in a straight or diagonal line
      *
@@ -363,6 +354,33 @@ public class HiveGameState extends GameState {
         for(int i = 1; i < board.length; i++) {
             for(int j = 1; j < board[i].length; j++) {
                 if (i != row && j != col && board[i][j] == piece.TARGET)
+                {
+                    board[i][j] = piece.EMPTY;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Highlights legal spots for the spider
+     * For now, it moves like the grasshopper, except that the
+     * new row or col must differ from the starting one by exactly 3
+     *
+     * @param board: the board
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
+    public void highlightSpider(piece[][] board, int row, int col) {
+        // The ant algorithm is used to highlight all empty spots next to any piece
+        highlightAnt(board, row, col);
+
+        // Unmarks targets not in the same row and col and not 3
+        //spots away
+        for(int i = 1; i < board.length; i++) {
+            for(int j = 1; j < board[i].length; j++) {
+                if (i != row + 3 && i != row - 3 && j != col - 3 &&
+                        j != col - 3 && board[i][j] == piece.TARGET)
                 {
                     board[i][j] = piece.EMPTY;
                 }
@@ -426,7 +444,7 @@ public class HiveGameState extends GameState {
     /**
      * Get what turn it is (not whose turn it is,
      * but how many turns have been played)
-     * @return: number of turns played
+     * @return number of turns played
      */
     public int getTurnCount() {
         return turnCount;
