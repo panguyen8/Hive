@@ -22,15 +22,20 @@ public class HiveView extends SurfaceView {
     Paint hexagonalTargetPaint = new Paint();
     Paint HexagonalPaintOutline = new Paint();
     Paint HexagonalPaintOutlineB = new Paint();
+    Paint HexagonalSelectedPaint = new Paint();
 
     Path Hexagon = new Path();
     Path HexagonHighlights = new Path();
+    Path HexagonSelected = new Path();
     Point point1 = new Point();
     Point point2 = new Point();
     Point point3 = new Point();
     Point point4 = new Point();
     Point point5 = new Point();
     Point point6 = new Point();
+
+    private int selectedX = -1;
+    private int selectedY = -1;
 
     public HiveView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -46,10 +51,12 @@ public class HiveView extends SurfaceView {
         hexagonalTargetPaint.setColor(Color.RED);
         HexagonalPaintOutline.setColor(Color.BLACK);
         HexagonalPaintOutlineB.setColor(Color.WHITE);
+        HexagonalSelectedPaint.setColor(Color.BLUE);
 
         //hexagon paint styles
         hexagonalTargetPaint.setStyle(Paint.Style.STROKE);
         HexagonalPaintOutline.setStyle(Paint.Style.STROKE);
+        HexagonalSelectedPaint.setStyle(Paint.Style.STROKE);
 
         //sets path fill type (for black pieces)
         Hexagon.setFillType(Path.FillType.EVEN_ODD);
@@ -57,6 +64,7 @@ public class HiveView extends SurfaceView {
         //sets hexagon line thickness (red is is 4 thick, black is 2 thick)
         hexagonalTargetPaint.setStrokeWidth(4);
         HexagonalPaintOutline.setStrokeWidth(2);
+        HexagonalSelectedPaint.setStrokeWidth(8);
     }
 
     public void setState(HiveGameState state) {
@@ -70,15 +78,17 @@ public class HiveView extends SurfaceView {
 
         Hexagon.reset();
         HexagonHighlights.reset();
+        HexagonSelected.reset();
         setBackgroundColor(Color.WHITE);
         drawHexagon(canvas, HexagonHighlights);
         drawHexagon(canvas, Hexagon);
+        drawHexagon(canvas, HexagonSelected);
     }
 
     /**
      * draws piece hexagons and target hexagons on canvas
      * @param canvas canvas to draw to
-     * @param path   which path object to draw on (pieces or highlights)
+     * @param path   which path object to draw on (pieces, target, or selected)
      */
     public void drawHexagon(Canvas canvas, Path path) {
 
@@ -168,6 +178,31 @@ public class HiveView extends SurfaceView {
                     }
                 }
             }
+        }
+        else if(path == HexagonSelected){
+            if(getSelectedX() != -1 && getSelectedY() != -1){
+                if (getSelectedY() % 2 == 0) {
+                    drawSelectedHexagon(canvas, getSelectedX() * 100, getSelectedY() * 66);
+                } else {
+                    drawSelectedHexagon(canvas, getSelectedX() * 100 + 50, getSelectedY() * 66);
+                }
+            }
+        }
+    }
+
+    /**
+     * Draws blue outline when player has selected hexagon
+     * @param canvas: Canvas to draw on
+     * @param startX: X coordinate of canvas
+     * @param startY: Y coordinate
+     */
+    public void drawSelectedHexagon(Canvas canvas, int startX, int startY)
+    {
+        if(startX == -1 || startY == -1){
+            //do nothing
+        }
+        else{
+            canvas.drawPath(drawHexagonLines(startX, startY, HexagonSelected), HexagonalSelectedPaint);
         }
 
     }
@@ -391,6 +426,28 @@ public class HiveView extends SurfaceView {
 
         //draw red outlines
         canvas.drawPath(drawHexagonLines(startX, startY, HexagonHighlights), hexagonalTargetPaint);
+    }
+
+    public void setSelectedCoords(int x, int y)
+    {
+        selectedX = x;
+        selectedY = y;
+    }
+
+    public int getSelectedX(){
+        return selectedX;
+    }
+
+    public int getSelectedY(){
+        return selectedY;
+    }
+
+    /**
+     *  used to set selected hexagon to not draw
+     */
+    public void deselectPiece(){
+        selectedX = -1;
+        selectedY = -1;
     }
 
     /**

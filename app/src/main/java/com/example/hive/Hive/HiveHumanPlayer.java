@@ -189,6 +189,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             yStart = yCoord;
             Logger.log("onTouch","Start: " + xStart + " " + yStart);
 
+            if(hgs.board[xStart][yStart] != HiveGameState.piece.EMPTY || hgs.board[xStart][yStart] != HiveGameState.piece.TARGET) {
+                surfaceView.setSelectedCoords(xStart, yStart);
+            }
+
             HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
             game.sendAction(action);
             surfaceView.invalidate();
@@ -197,14 +201,20 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         } else  if (moveReady) {
                 xEnd = xCoord;
                 yEnd = yCoord;
-                HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
-                game.sendAction(action);
+                if(xStart == xEnd && yStart == yEnd){
+                    Logger.log("onTouch","Deselect: " + xEnd + " " + yEnd);
+                }
+                else {
+                    HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
+                    game.sendAction(action);
 
-                Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
+                    Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
 
+                    theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
+                }
+
+                surfaceView.deselectPiece();
                 surfaceView.invalidate();
-
-                theText.append("Piece has been moved from (" + xStart + ", " + yStart +") to (" +xEnd+ ", " +yEnd+ ")\n");
                 moveReady = false;
         }
 
