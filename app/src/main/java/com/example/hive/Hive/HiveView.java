@@ -428,8 +428,12 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY, HexagonHighlights), hexagonalTargetPaint);
     }
 
-    public void setSelectedCoords(int x, int y)
-    {
+    /**
+     * sets coordinates of selected hexagon to be highlighted.
+     * @param x  x coordinate of selected hexagon
+     * @param y  y coordinate of selected hexagon
+     */
+    public void setSelectedCoords(int x, int y) {
         selectedX = x;
         selectedY = y;
     }
