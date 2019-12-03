@@ -482,6 +482,28 @@ public class HiveGameState extends GameState {
     }
 
     /**
+     * Method that makes sure that the piece selected is white
+     * @param row
+     * @param col
+     * @return
+     */
+    public boolean checkIfWhite(int row, int col) {
+        if (board[row][col] == piece.BBEE) {
+            return false;
+        } else if (board[row][col] == piece.BGHOPPER) {
+            return false;
+        } else if (board[row][col] == piece.BSPIDER) {
+            return false;
+        } else if (board[row][col] == piece.BANT) {
+            return false;
+        } else if (board[row][col] == piece.BBEETLE) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Adds all pieces to their respective owner's
      * hands
      * @param hgs: HiveGameState to act on
