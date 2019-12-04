@@ -16,7 +16,7 @@
             android:id="@+id/TurnCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Turrns: 0" />
+            android:text="Turns: 0" />
 
         <com.example.hive.Hive.HiveView
             android:id="@+id/hiveSurfaceView"

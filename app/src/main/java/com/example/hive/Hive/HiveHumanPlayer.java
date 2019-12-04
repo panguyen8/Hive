@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.hive.R;
 import com.example.hive.game.GameHumanPlayer;
@@ -16,6 +17,7 @@ import com.example.hive.game.utilities.Logger;
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
 
     EditText theText;
+    TextView turnText;
 
     private String pieceText = "";
     private HiveGameState.piece piecePlaced = HiveGameState.piece.EMPTY;
@@ -58,6 +60,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
      */
     public void onClick(View v) {
         HiveButtonAction action = new HiveButtonAction(this, piecePlaced);
+
+        surfaceView.deselectPiece();
+        moveReady = false;
+
         switch(v.getId()) {
             case R.id.QueenButton:
                 piecePlaced = HiveGameState.piece.WBEE;
@@ -136,6 +142,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             surfaceView.setState((HiveGameState)info);
             hgs = new HiveGameState((HiveGameState) info);
             Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
+            turnText.setText("Turns: " + hgs.getTurnCount());
             surfaceView.invalidate();
         }
 
@@ -209,6 +216,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 yEnd = yCoord;
                 if(xStart == xEnd && yStart == yEnd){
                     Logger.log("onTouch","Deselect: " + xEnd + " " + yEnd);
+                    HiveResetBoardAction action = new HiveResetBoardAction(this, true);
+                    game.sendAction(action);
                 }
                 else {
 
@@ -253,6 +262,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
         theText = (EditText) activity.findViewById(R.id.editText);
         theText.setText("");
+
+        turnText = activity.findViewById(R.id.TurnCount);
 
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);
