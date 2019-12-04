@@ -19,6 +19,12 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     EditText theText;
     TextView turnText;
 
+    TextView beeCount;
+    TextView spiderCount;
+    TextView gHopperCount;
+    TextView antCount;
+    TextView beetleCount;
+
     private String pieceText = "";
     private HiveGameState.piece piecePlaced = HiveGameState.piece.EMPTY;
 
@@ -139,8 +145,17 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         else if (!(info instanceof HiveGameState))
             return;
         else {
+            //update HiveGameState in the gui and HiveHumanPlayer
             surfaceView.setState((HiveGameState)info);
             hgs = new HiveGameState((HiveGameState) info);
+
+            //Update unplaced piece count
+            beeCount.setText("Bee: " + hgs.checkNumPieces(HiveGameState.piece.WBEE));
+            spiderCount.setText("Spider: " + hgs.checkNumPieces(HiveGameState.piece.WSPIDER));
+            gHopperCount.setText("Grasshopper: " + hgs.checkNumPieces(HiveGameState.piece.WGHOPPER));
+            antCount.setText("Ant: " + hgs.checkNumPieces(HiveGameState.piece.WANT));
+            beetleCount.setText("Beetle: " + hgs.checkNumPieces(HiveGameState.piece.WBEETLE));
+
             Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
             turnText.setText("Turns: " + hgs.getTurnCount());
             surfaceView.invalidate();
@@ -190,7 +205,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 theText.append("Player is attempting to place piece illegally!\n");
             }
             return true;
-
+            
         } else if (!moveReady) {
 
             xStart = xCoord;
@@ -214,13 +229,15 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         } else  if (moveReady) {
                 xEnd = xCoord;
                 yEnd = yCoord;
+
+                //if the same spot was tapped twice, reset target hexagons
+                //else move normally
                 if(xStart == xEnd && yStart == yEnd){
                     Logger.log("onTouch","Deselect: " + xEnd + " " + yEnd);
                     HiveResetBoardAction action = new HiveResetBoardAction(this, true);
                     game.sendAction(action);
                 }
                 else {
-
                     HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
                     if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])) {
                         game.sendAction(action);
@@ -233,6 +250,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
                 }
 
+                //deselect piece highlight regardless of whether there was movement or not
                 surfaceView.deselectPiece();
                 surfaceView.invalidate();
                 moveReady = false;
@@ -264,6 +282,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         theText.setText("");
 
         turnText = activity.findViewById(R.id.TurnCount);
+        beeCount = activity.findViewById(R.id.BeeCount);
+        spiderCount = activity.findViewById(R.id.SpiderCount);
+        gHopperCount = activity.findViewById(R.id.GHopperCount);
+        antCount = activity.findViewById(R.id.AntCount);
+        beetleCount = activity.findViewById(R.id.BeetleCount);
 
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);

@@ -532,4 +532,25 @@ public class HiveGameState extends GameState {
             list.add(HiveGameState.piece.WGHOPPER);
         }
     }
+
+    /**
+     * counts specified bug pieces in bugList (unplaced bugs)
+     * @param bug the bug to look for
+     * @return    number of unplaced pieces in bugList
+     */
+    public int checkNumPieces(HiveGameState.piece bug){
+        int num = 0;
+        if(bugList.isEmpty()){
+            return 0;
+        }
+        for(int i = 0; i < bugList.size(); i++){
+            if(bugList.get(i) == bug){
+                num++;
+            }
+            else{
+                //do not iterate num
+            }
+        }
+        return num;
+    }
 }
