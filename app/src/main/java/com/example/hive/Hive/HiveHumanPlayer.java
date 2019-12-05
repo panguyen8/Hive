@@ -250,64 +250,66 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     }//receiveInfo
 
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() != MotionEvent.ACTION_DOWN) {
-            return true;
-        }
-
-        double x = event.getX();
-        double y = event.getY();
-
-        int divider = 0;
-        divider = (int)(y/66);
-        yCoord =(int) y + 33*divider;
-
-        yCoord = yCoord/100;
-
-        if((divider%2) == 0) {
-            xCoord = (int) x;
-            xCoord = xCoord/100;
-        } else {
-            x = x - 50;
-            xCoord = (int) x;
-            xCoord = xCoord/100;
-        }
-
-        if (piecePlacement) {
-            xEnd = xCoord;
-            yEnd = yCoord;
-
-            if(hgs.makePlace(xEnd, yEnd, piecePlaced)) {
-
-                HivePlacePieceAction action = new HivePlacePieceAction(this, xEnd, yEnd, piecePlaced);
-
-                theText.append(pieceText + " has been placed at (" + xEnd + ", " + yEnd + ")\n");
-                game.sendAction(action);
-
-                piecePlacement = false;
-
-
-            } else {
-                piecePlacement = true;
-                theText.append("Player is attempting to place piece illegally!\n");
+        if (hgs.getTurn() == 0)
+        {
+            if (event.getAction() != MotionEvent.ACTION_DOWN) {
+                return true;
             }
-            return true;
-            
-        } else if (!moveReady) {
 
-            xStart = xCoord;
-            yStart = yCoord;
-            Logger.log("onTouch","Start: " + xStart + " " + yStart);
+            double x = event.getX();
+            double y = event.getY();
 
-            if (hgs.checkIfWhite(xStart, yStart)) {
-                surfaceView.setSelectedCoords(xStart, yStart);
-                HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
-                game.sendAction(action);
-                moveReady = true;
-                surfaceView.invalidate();
+            int divider = 0;
+            divider = (int)(y/66);
+            yCoord =(int) y + 33*divider;
+
+            yCoord = yCoord/100;
+
+            if((divider%2) == 0) {
+                xCoord = (int) x;
+                xCoord = xCoord/100;
             } else {
-                moveReady = false;
+                x = x - 50;
+                xCoord = (int) x;
+                xCoord = xCoord/100;
             }
-        } else  if (moveReady) {
+
+            if (piecePlacement) {
+                xEnd = xCoord;
+                yEnd = yCoord;
+
+                if(hgs.makePlace(xEnd, yEnd, piecePlaced)) {
+
+                    HivePlacePieceAction action = new HivePlacePieceAction(this, xEnd, yEnd, piecePlaced);
+
+                    theText.append(pieceText + " has been placed at (" + xEnd + ", " + yEnd + ")\n");
+                    game.sendAction(action);
+
+                    piecePlacement = false;
+
+
+                } else {
+                    piecePlacement = true;
+                    theText.append("Player is attempting to place piece illegally!\n");
+                }
+                return true;
+
+            } else if (!moveReady) {
+
+                xStart = xCoord;
+                yStart = yCoord;
+                Logger.log("onTouch","Start: " + xStart + " " + yStart);
+
+                if (hgs.checkIfWhite(xStart, yStart)) {
+                    surfaceView.setSelectedCoords(xStart, yStart);
+                    HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
+                    game.sendAction(action);
+                    moveReady = true;
+                    surfaceView.invalidate();
+                } else {
+                    moveReady = false;
+                }
+            } else  if (moveReady) {
                 xEnd = xCoord;
                 yEnd = yCoord;
 
@@ -335,9 +337,105 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 surfaceView.deselectPiece();
                 surfaceView.invalidate();
                 moveReady = false;
+            }
+            // register that we have handled the event
+            return true;
         }
-        // register that we have handled the event
-        return true;
+
+        else
+        {
+            if (event.getAction() != MotionEvent.ACTION_DOWN) {
+                return true;
+            }
+
+            double x = event.getX();
+            double y = event.getY();
+
+            int divider = 0;
+            divider = (int)(y/66);
+            yCoord =(int) y + 33*divider;
+
+            yCoord = yCoord/100;
+
+            if((divider%2) == 0) {
+                xCoord = (int) x;
+                xCoord = xCoord/100;
+            } else {
+                x = x - 50;
+                xCoord = (int) x;
+                xCoord = xCoord/100;
+            }
+
+            if (piecePlacement) {
+                xEnd = xCoord;
+                yEnd = yCoord;
+
+                if(hgs.makePlace(xEnd, yEnd, piecePlaced)) {
+
+                    HivePlacePieceAction action = new HivePlacePieceAction(this, xEnd, yEnd, piecePlaced);
+
+                    theText.append(pieceText + " has been placed at (" + xEnd + ", " + yEnd + ")\n");
+                    game.sendAction(action);
+
+                    piecePlacement = false;
+
+
+                } else {
+                    piecePlacement = true;
+                    theText.append("Player is attempting to place piece illegally!\n");
+                }
+                return true;
+
+            } else if (!moveReady) {
+
+                xStart = xCoord;
+                yStart = yCoord;
+                Logger.log("onTouch","Start: " + xStart + " " + yStart);
+
+                if (hgs.checkIfBlack(xStart, yStart)) {
+                    surfaceView.setSelectedCoords(xStart, yStart);
+                    HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
+                    game.sendAction(action);
+                    moveReady = true;
+                    surfaceView.invalidate();
+                } else {
+                    moveReady = false;
+                }
+            } else  if (moveReady) {
+                xEnd = xCoord;
+                yEnd = yCoord;
+
+                //if the same spot was tapped twice, reset target hexagons
+                //else move normally
+                if(xStart == xEnd && yStart == yEnd){
+                    Logger.log("onTouch","Deselect: " + xEnd + " " + yEnd);
+                    HiveResetBoardAction action = new HiveResetBoardAction(this, true);
+                    game.sendAction(action);
+                }
+                else {
+                    HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
+                    if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])) {
+                        game.sendAction(action);
+                        moveReady = true;
+                        theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") " +
+                                "to (" + xEnd + ", " + yEnd + ")\n");
+                    } else {
+                        moveReady = false;
+                        theText.append("Player is attempting to move piece illegally!\n");
+                    }
+                    Logger.log("onTouch", "End: " + xEnd + " " + yEnd);
+                }
+
+                //deselect piece highlight regardless of whether there was movement or not
+                surfaceView.deselectPiece();
+                surfaceView.invalidate();
+                moveReady = false;
+            }
+            // register that we have handled the event
+            return true;
+        }
+
+
     }
 
     /**

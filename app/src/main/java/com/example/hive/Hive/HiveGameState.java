@@ -638,15 +638,57 @@ public class HiveGameState extends GameState {
     public boolean checkIfWhite(int row, int col) {
         if (board[row][col] == piece.WBEE) {
             return true;
-        } else if (board[row][col] == piece.WGHOPPER) {
+        }
+
+        else if (board[row][col] == piece.WGHOPPER) {
             return true;
-        } else if (board[row][col] == piece.WSPIDER) {
+        }
+
+        else if (board[row][col] == piece.WSPIDER) {
             return true;
-        } else if (board[row][col] == piece.WANT) {
+        }
+
+        else if (board[row][col] == piece.WANT) {
             return true;
-        } else if (board[row][col] == piece.WBEETLE) {
+        }
+
+        else if (board[row][col] == piece.WBEETLE) {
             return true;
-        } else {
+        }
+
+        else {
+            return false;
+        }
+    }
+
+    /**
+     * Method that makes sure that the piece selected is black
+     * @param row: the piece's row
+     * @param col: the piece's col
+     * @return true if so, false otherwise
+     */
+    public boolean checkIfBlack(int row, int col) {
+        if (board[row][col] == piece.BBEE) {
+            return true;
+        }
+
+        else if (board[row][col] == piece.BGHOPPER) {
+            return true;
+        }
+
+        else if (board[row][col] == piece.BSPIDER) {
+            return true;
+        }
+
+        else if (board[row][col] == piece.BANT) {
+            return true;
+        }
+
+        else if (board[row][col] == piece.BBEETLE) {
+            return true;
+        }
+
+        else {
             return false;
         }
     }
