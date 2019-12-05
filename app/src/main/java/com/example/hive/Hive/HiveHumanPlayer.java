@@ -72,8 +72,18 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
         switch(v.getId()) {
             case R.id.QueenButton:
-                piecePlaced = HiveGameState.piece.WBEE;
-                pieceText = "WHITE BEE";
+                if (hgs.getTurn() == 0)
+                {
+                    piecePlaced = HiveGameState.piece.WBEE;
+                    pieceText = "WHITE BEE";
+                }
+
+                else
+                {
+                    piecePlaced = HiveGameState.piece.BBEE;
+                    pieceText = "BLACK BEE";
+                }
+
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.SpiderButton:

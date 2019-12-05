@@ -215,7 +215,9 @@ public class HiveGameState extends GameState {
         }
         if (count == 6) {
             return true;
-        } else {
+        }
+
+        else {
             return false;
         }
     }

@@ -5,6 +5,8 @@ import com.example.hive.game.LocalGame;
 import com.example.hive.game.actionMessage.GameAction;
 import com.example.hive.game.utilities.Logger;
 
+import java.lang.annotation.Target;
+
 /**
  * Represents a local game, which is responsible for enforcing rules,
  * moving pieces, etc.
@@ -60,12 +62,20 @@ public class HiveLocalGame extends LocalGame {
      * or nothing if a win condition has not been met
      */
     protected String checkIfGameOver() {
-        if(checkBee(0)) {
+        //If player 0's bee is surrounded, but player 1's is not,
+        //player 0 wins and vice versa
+        if(checkBee(0) && (!checkBee(1))) {
             return "Game! This game's winner is... " + playerNames[0] + "!";
         }
 
-        if(checkBee(1)) {
+        if(checkBee(1) && (!checkBee(0))) {
             return "Game! This game's winner is... " + playerNames[1] + "!";
+        }
+
+        //If both bees are surrounded, result in a draw.
+        if (checkBee(0) && checkBee(1))
+        {
+            return "Game! This game resulted in... a draw.";
         }
         return null;
     }
@@ -186,8 +196,6 @@ public class HiveLocalGame extends LocalGame {
 
                     hgs.addTurnToCount();
                     hgs.setTurn(1);
-                    //Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
-
                     return true;
                 }
             }
@@ -198,8 +206,6 @@ public class HiveLocalGame extends LocalGame {
 
                     hgs.addTurnToCount();
                     hgs.setTurn(0);
-                    //Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
-
                     return true;
                 }
             }
@@ -256,10 +262,13 @@ public class HiveLocalGame extends LocalGame {
                 Logger.log("MakeMove", "Not Your Turn " + hgs.getTurn());
                 return false;
             }
+
+            //Can't place pieces that are not in the player's hand (ArrayList)
             if (!hgs.bugList.contains(((HiveButtonAction) action).gamePiece)) {
                 return false;
             }
 
+            //Placing pieces can be done anywhere adjacent to another
             for (int row = 1; row < hgs.board.length - 1; row++)
             {
                 for (int col = 1; col < hgs.board[col].length - 1; col++)
@@ -267,6 +276,8 @@ public class HiveLocalGame extends LocalGame {
                     hgs.makeTarget(row, col);
                 }
             }
+
+
             return true;
         }
         //selected piece targets
