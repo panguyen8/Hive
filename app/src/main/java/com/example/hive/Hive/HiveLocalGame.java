@@ -305,7 +305,13 @@ public class HiveLocalGame extends LocalGame {
                             }
                             else if(hgs.board[row][col] == HiveGameState.piece.WGHOPPER ||
                                     hgs.board[row][col] == HiveGameState.piece.BGHOPPER) {
-                                hgs.highlightGHopper(hgs.board, row, col);
+                                hgs.highlightGHopper(hgs.board, row, col, 0);
+                                hgs.highlightGHopper(hgs.board, row, col, 1);
+                                hgs.highlightGHopper(hgs.board, row, col, 2);
+                                hgs.highlightGHopper(hgs.board, row, col, 3);
+                                hgs.highlightGHopper(hgs.board, row, col, 4);
+                                hgs.highlightGHopper(hgs.board, row, col, 5);
+                                hgs.highlightGHopperCleanUp(hgs.board, row, col);
                             }
                         }
                         else {

@@ -358,19 +358,147 @@ public class HiveGameState extends GameState {
      * @param row: the spot's row
      * @param col: the spot's col
      */
-    public void highlightGHopper(piece[][] board, int row, int col) {
-        //For simplicity, highlight all adjacent spots (the ant algorithm)
-        //then remove certain ones
-        highlightAnt(board, row, col);
-
-        // Unmarks pieces not in the same row and col
-        for(int i = 1; i < board.length; i++) {
-            for(int j = 1; j < board[i].length; j++) {
-                if (i != row && j != col && board[i][j] == piece.TARGET)
-                {
-                    board[i][j] = piece.EMPTY;
+    public void highlightGHopper(piece[][] board, int row, int col, int direction) {
+//checks for out of bounds
+        if(row-1 < 0 || col-1 < 0 || row+1 > board.length - 1 || col+1 > board[col].length -1){
+            return;
+        }
+        //using the direction, goes in one direction until there is an opening, if theres an opening,
+        //swtich it from empty to target
+        //mod opperators are for the offset of the board
+        switch(direction){
+            case 0:
+                if(col%2 == 0) {
+                    if (board[row - 1][col - 1] == HiveGameState.piece.EMPTY) {
+                        board[row - 1][col - 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board,row - 1, col - 1, 0);
+                        return;
+                    }
                 }
-            }
+                else{
+                    if (board[row][col-1] == HiveGameState.piece.EMPTY) {
+                        board[row][col-1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row, col-1, 0);
+                        return;
+                    }
+                }
+
+            case 1:
+                if(col%2 == 0) {
+                    if (board[row][col-1] == HiveGameState.piece.EMPTY) {
+                        board[row][col-1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row, col-1, 1);
+                        return;
+                    }
+                }
+                else{
+                    if (board[row + 1][col - 1] == HiveGameState.piece.EMPTY) {
+                        board[row + 1][col - 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row + 1, col - 1, 1);
+                        return;
+                    }
+                }
+
+            case 2:
+                if(board[row+1][col] == HiveGameState.piece.EMPTY){
+                    board[row+1][col] = HiveGameState.piece.TARGET;
+                    return;
+                }
+                else{
+                    highlightGHopper(board, row+1, col, 2);
+                    return;
+                }
+
+            case 3:
+                if(col%2 == 0) {
+                    if (board[row][col + 1] == HiveGameState.piece.EMPTY) {
+                        board[row][col + 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row, col+1, 3);
+                        return;
+                    }
+                }
+                else{
+                    if (board[row+1][col + 1] == HiveGameState.piece.EMPTY) {
+                        board[row+1][col + 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row+1, col + 1, 3);
+                        return;
+                    }
+                }
+
+            case 4:
+                if(col%2 == 0) {
+                    if (board[row - 1][col + 1] == HiveGameState.piece.EMPTY) {
+                        board[row - 1][col + 1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row - 1, col + 1, 4);
+                        return;
+                    }
+                }
+                else{
+                    if (board[row][col+1] == HiveGameState.piece.EMPTY) {
+                        board[row][col+1] = HiveGameState.piece.TARGET;
+                        return;
+                    }
+                    else{
+                        highlightGHopper(board, row, col+1, 4);
+                        return;
+                    }
+                }
+
+            case 5:
+                if(board[row-1][col] == HiveGameState.piece.EMPTY){
+                    board[row-1][col] = HiveGameState.piece.TARGET;
+                    return;
+                }
+                else{
+                    highlightGHopper(board, row-1, col, 5);
+                    return;
+                }
+        }
+    }
+
+    public void highlightGHopperCleanUp(piece[][] board, int row, int col){
+        if(col%2 == 0){
+            checkTargetToEmpty(row-1, col-1);//up left
+            checkTargetToEmpty(row-1, col);//left
+            checkTargetToEmpty(row, col+1);//down right
+            checkTargetToEmpty(row+1, col);//right
+            checkTargetToEmpty(row-1, col+1);//down left
+            checkTargetToEmpty(row, col-1);//up right
+        }
+        else{
+            checkTargetToEmpty(row+1, col-1);//up right
+            checkTargetToEmpty(row-1, col);//left
+            checkTargetToEmpty(row, col+1);//down left
+            checkTargetToEmpty(row+1, col);//right
+            checkTargetToEmpty(row+1, col+1);//down right
+            checkTargetToEmpty(row, col-1);//up left
+        }
+    }
+
+    public void checkTargetToEmpty(int row, int col){
+        if(board[row][col] == HiveGameState.piece.TARGET){
+            board[row][col] = HiveGameState.piece.EMPTY;
         }
     }
 
