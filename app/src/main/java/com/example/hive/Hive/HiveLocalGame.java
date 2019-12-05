@@ -191,21 +191,33 @@ public class HiveLocalGame extends LocalGame {
         else if (action instanceof HivePlacePieceAction) {
 
             HivePlacePieceAction placement = (HivePlacePieceAction) action;
+            //At turn 0, the piece can be placed anywhere, so there is no need to check
+            //illegal placements
+
+            //Checks if current player is player 0
             if (hgs.getTurn() == 0) {
                 if (hgs.getTurnCount() == 0) {
+                    //Set piece to wherever it was tapped on the board and remove it from
+                    //player's hand
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
 
+                    //Since all of the board spots become a target, reset them
+                    hgs.resetTarget();
+
+                    //Increment turn count and change the turn
                     hgs.addTurnToCount();
                     hgs.setTurn(1);
                     return true;
                 }
             }
+
+            //Same as above, but with player 1
             else {
                 if (hgs.getTurnCount() == 0) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
-
+                    hgs.resetTarget();
                     hgs.addTurnToCount();
                     hgs.setTurn(0);
                     return true;
@@ -258,8 +270,6 @@ public class HiveLocalGame extends LocalGame {
 
         // Selecting a piece
         else if(action instanceof HiveButtonAction) {
-            //A piece can only be selected if it is in the ArrayList
-            //of unplayed pieces
             if (hgs.getTurn() != getPlayerIdx(action.getPlayer())) {
                 Logger.log("MakeMove", "Not Your Turn " + hgs.getTurn());
                 return false;
@@ -270,15 +280,41 @@ public class HiveLocalGame extends LocalGame {
                 return false;
             }
 
-            //Placing pieces can be done anywhere adjacent to another
-            for (int row = 1; row < hgs.board.length - 1; row++)
+            boolean isBoardEmpty = true;
+
+            for (int i = 0; i < hgs.board.length; i++)
             {
-                for (int col = 1; col < hgs.board[col].length - 1; col++)
+                for (int j = 0; j < hgs.board[i].length; j++)
                 {
-                    hgs.makeTarget(row, col);
+                    if (hgs.board[i][j] != HiveGameState.piece.EMPTY)
+                    {
+                        isBoardEmpty = false;
+                    }
                 }
             }
 
+            if (isBoardEmpty)
+            {
+                for (int i = 0; i < hgs.board.length; i++)
+                {
+                    for (int j = 0; j < hgs.board[i].length; j++)
+                    {
+                        hgs.board[i][j] = HiveGameState.piece.TARGET;
+                    }
+                }
+            }
+
+            else
+            {
+                //Placing pieces can be done anywhere adjacent to another
+                for (int row = 1; row < hgs.board.length - 1; row++)
+                {
+                    for (int col = 1; col < hgs.board[col].length - 1; col++)
+                    {
+                        hgs.makeTarget(row, col);
+                    }
+                }
+            }
 
             return true;
         }
