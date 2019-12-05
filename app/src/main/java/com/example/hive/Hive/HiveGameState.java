@@ -636,18 +636,18 @@ public class HiveGameState extends GameState {
      * @return true if so, false otherwise
      */
     public boolean checkIfWhite(int row, int col) {
-        if (board[row][col] == piece.BBEE) {
-            return false;
-        } else if (board[row][col] == piece.BGHOPPER) {
-            return false;
-        } else if (board[row][col] == piece.BSPIDER) {
-            return false;
-        } else if (board[row][col] == piece.BANT) {
-            return false;
-        } else if (board[row][col] == piece.BBEETLE) {
-            return false;
-        } else {
+        if (board[row][col] == piece.WBEE) {
             return true;
+        } else if (board[row][col] == piece.WGHOPPER) {
+            return true;
+        } else if (board[row][col] == piece.WSPIDER) {
+            return true;
+        } else if (board[row][col] == piece.WANT) {
+            return true;
+        } else if (board[row][col] == piece.WBEETLE) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -694,9 +694,6 @@ public class HiveGameState extends GameState {
         for(int i = 0; i < bugList.size(); i++){
             if(bugList.get(i) == bug){
                 num++;
-            }
-            else{
-                //do not iterate num
             }
         }
         return num;

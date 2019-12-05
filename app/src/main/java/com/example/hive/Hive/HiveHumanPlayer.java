@@ -25,6 +25,12 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     TextView antCount;
     TextView beetleCount;
 
+    ImageButton queenButton;
+    ImageButton beetleButton;
+    ImageButton spiderButton;
+    ImageButton antButton;
+    ImageButton grasshopperButton;
+
     private String pieceText = "";
     private HiveGameState.piece piecePlaced = HiveGameState.piece.EMPTY;
 
@@ -72,14 +78,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
         switch(v.getId()) {
             case R.id.QueenButton:
-                if (hgs.getTurn() == 0)
-                {
+                if (hgs.getTurn() == 0) {
                     piecePlaced = HiveGameState.piece.WBEE;
                     pieceText = "WHITE BEE";
                 }
-
-                else
-                {
+                else {
                     piecePlaced = HiveGameState.piece.BBEE;
                     pieceText = "BLACK BEE";
                 }
@@ -152,6 +155,14 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             case R.id.Reset:
                 HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
                 game.sendAction(action2);
+
+                //reset grayed out buttons
+                queenButton.setImageAlpha(255);
+                spiderButton.setImageAlpha(255);
+                grasshopperButton.setImageAlpha(255);
+                antButton.setImageAlpha(255);
+                beetleButton.setImageAlpha(255);
+
                 moveReady = false;
                 piecePlacement = true;
                 break;
@@ -162,10 +173,17 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             game.sendAction(action3);
             surfaceView.invalidate();
         }
-        else{
-            piecePlacement = true;
-            game.sendAction(action);
-            surfaceView.invalidate();
+        else {
+            //reset targets if there are no pieces available to place
+            if (hgs.checkNumPieces(piecePlaced) != 0) {
+                piecePlacement = true;
+                game.sendAction(action);
+                surfaceView.invalidate();
+            }
+            else{
+                HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
+                game.sendAction(action3);
+            }
         }
     }
 
@@ -205,6 +223,22 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             gHopperCount.setText("Grasshopper: " + hgs.checkNumPieces(HiveGameState.piece.WGHOPPER));
             antCount.setText("Ant: " + hgs.checkNumPieces(HiveGameState.piece.WANT));
             beetleCount.setText("Beetle: " + hgs.checkNumPieces(HiveGameState.piece.WBEETLE));
+
+            if(hgs.checkNumPieces(HiveGameState.piece.WBEE) == 0){
+                queenButton.setImageAlpha(100);
+            }
+            if(hgs.checkNumPieces(HiveGameState.piece.WSPIDER) == 0){
+                spiderButton.setImageAlpha(100);
+            }
+            if(hgs.checkNumPieces(HiveGameState.piece.WGHOPPER) == 0){
+                grasshopperButton.setImageAlpha(100);
+            }
+            if(hgs.checkNumPieces(HiveGameState.piece.WANT) == 0){
+                antButton.setImageAlpha(100);
+            }
+            if(hgs.checkNumPieces(HiveGameState.piece.WBEETLE) == 0){
+                beetleButton.setImageAlpha(100);
+            }
 
             Logger.log("turnCount", Integer.toString(hgs.getTurnCount()));
             turnText.setText("Turns: " + hgs.getTurnCount());
@@ -263,16 +297,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             Logger.log("onTouch","Start: " + xStart + " " + yStart);
 
             if (hgs.checkIfWhite(xStart, yStart)) {
-                if (hgs.board[xStart][yStart] != HiveGameState.piece.EMPTY && hgs.board[xStart][yStart] != HiveGameState.piece.TARGET) {
-                    surfaceView.setSelectedCoords(xStart, yStart);
-                }
-
-
+                surfaceView.setSelectedCoords(xStart, yStart);
                 HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
                 game.sendAction(action);
-                surfaceView.invalidate();
-
                 moveReady = true;
+                surfaceView.invalidate();
             } else {
                 moveReady = false;
             }
@@ -305,13 +334,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 surfaceView.invalidate();
                 moveReady = false;
         }
-
         // register that we have handled the event
         return true;
-
     }
-
-    //textView
 
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
@@ -340,11 +365,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);
-        ImageButton queenButton = (ImageButton) activity.findViewById(R.id.QueenButton);
-        ImageButton beetleButton = (ImageButton) activity.findViewById(R.id.BeetleButton);
-        ImageButton spiderButton = (ImageButton) activity.findViewById(R.id.SpiderButton);
-        ImageButton antButton = (ImageButton) activity.findViewById(R.id.AntButton);
-        ImageButton grasshopperButton = (ImageButton) activity.findViewById(R.id.GrasshopperButton);
+        queenButton = (ImageButton) activity.findViewById(R.id.QueenButton);
+        beetleButton = (ImageButton) activity.findViewById(R.id.BeetleButton);
+        spiderButton = (ImageButton) activity.findViewById(R.id.SpiderButton);
+        antButton = (ImageButton) activity.findViewById(R.id.AntButton);
+        grasshopperButton = (ImageButton) activity.findViewById(R.id.GrasshopperButton);
         Button clearInfo = (Button) activity.findViewById(R.id.ClearInfo);
         Button quit = (Button) activity.findViewById(R.id.Reset);
 

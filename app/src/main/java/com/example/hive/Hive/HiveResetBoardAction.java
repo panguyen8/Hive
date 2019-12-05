@@ -11,6 +11,8 @@ public class HiveResetBoardAction extends GameAction{
      *
      * @param player
      *      the player who created the action
+     * @param resetTargetsOnly
+     *       reset target pieces only
      */
     public HiveResetBoardAction(GamePlayer player, boolean resetTargetsOnly) {
         super(player);
