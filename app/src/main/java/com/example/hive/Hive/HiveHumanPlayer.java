@@ -87,23 +87,63 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.SpiderButton:
-                piecePlaced = HiveGameState.piece.WSPIDER;
-                pieceText = "WHITE SPIDER";
+                if (hgs.getTurn() == 0)
+                {
+                    piecePlaced = HiveGameState.piece.WSPIDER;
+                    pieceText = "WHITE SPIDER";
+                }
+
+                else
+                {
+                    piecePlaced = HiveGameState.piece.BSPIDER;
+                    pieceText = "BLACK SPIDER";
+                }
+
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.GrasshopperButton:
-                piecePlaced = HiveGameState.piece.WGHOPPER;
-                pieceText = "WHITE GRASSHOPPER";
+                if (hgs.getTurn() == 0)
+                {
+                    piecePlaced = HiveGameState.piece.WGHOPPER;
+                    pieceText = "WHITE GRASSHOPPER";
+                }
+
+                else
+                {
+                    piecePlaced = HiveGameState.piece.BGHOPPER;
+                    pieceText = "BLACK GRASSHOPPER";
+                }
+
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.AntButton:
-                piecePlaced = HiveGameState.piece.WANT;
-                pieceText = "WHITE ANT";
+                if (hgs.getTurn() == 0)
+                {
+                    piecePlaced = HiveGameState.piece.WANT;
+                    pieceText = "WHITE ANT";
+                }
+
+                else
+                {
+                    piecePlaced = HiveGameState.piece.BANT;
+                    pieceText = "BLACK ANT";
+                }
+
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.BeetleButton:
-                piecePlaced = HiveGameState.piece.WBEETLE;
-                pieceText = "WHITE BEETLE";
+                if (hgs.getTurn() == 0)
+                {
+                    piecePlaced = HiveGameState.piece.WBEETLE;
+                    pieceText = "WHITE BEETLE";
+                }
+
+                else
+                {
+                    piecePlaced = HiveGameState.piece.BBEETLE;
+                    pieceText = "BLACK BEETLE";
+                }
+
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.ClearInfo:

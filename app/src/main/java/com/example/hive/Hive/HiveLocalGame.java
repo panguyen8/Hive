@@ -280,8 +280,10 @@ public class HiveLocalGame extends LocalGame {
                 return false;
             }
 
+            //If the board is empty, all spots are highlighted
             boolean isBoardEmpty = true;
 
+            //If even one spot is not empty, the boolean is false
             for (int i = 0; i < hgs.board.length; i++)
             {
                 for (int j = 0; j < hgs.board[i].length; j++)
@@ -293,6 +295,8 @@ public class HiveLocalGame extends LocalGame {
                 }
             }
 
+            //If true, highlight all spots, higlight those adjacent to existing
+            // pieces otherwise
             if (isBoardEmpty)
             {
                 for (int i = 0; i < hgs.board.length; i++)
