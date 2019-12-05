@@ -77,6 +77,8 @@ public class HiveLocalGame extends LocalGame {
         {
             return "Game! This game resulted in... a draw.";
         }
+
+        //Return nothing if game isn't over.
         return null;
     }
 
