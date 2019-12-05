@@ -18,6 +18,9 @@ import com.example.hive.game.infoMessage.GameState;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a GameState, which has a "current" state of a game and movement rules
+ */
 public class HiveGameState extends GameState {
     private final int BLACK_TURN = 0;
     private final int WHITE_TURN = 1;
@@ -234,6 +237,14 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Checks to see if a piece can be placed at a given spot
+     *
+     * @param row: the desired spot's row
+     * @param col: the desired spot's col
+     * @param piece: the piece to move
+     * @return true if possible, false otherwise
+     */
     public boolean makePlace(int row, int col, HiveGameState.piece piece) {
         if (!bugList.contains(piece)){
             return false;
@@ -250,10 +261,10 @@ public class HiveGameState extends GameState {
     /**
      * Checks to see whether the move being made is possible
      *
-     * @param row
-     * @param col
-     * @param piece
-     * @return
+     * @param row: the desired spot's row
+     * @param col: the desired spot's col
+     * @param piece: the piece to move
+     * @return true if possible, false otherwise
      */
     public boolean makeMove(int row, int col, HiveGameState.piece piece) {
         if (board[row][col] == piece.TARGET) {
@@ -361,7 +372,7 @@ public class HiveGameState extends GameState {
      * @param col: the spot's col
      */
     public void highlightGHopper(piece[][] board, int row, int col, int direction) {
-//checks for out of bounds
+        //checks for out of bounds
         if(row-1 < 0 || col-1 < 0 || row+1 > board.length - 1 || col+1 > board[col].length -1){
             return;
         }
@@ -498,6 +509,13 @@ public class HiveGameState extends GameState {
         }
     }
 
+    /**
+     * Makes spots labeled as targets empty
+     * This is used for grasshopper movement
+     *
+     * @param row: the spot's row
+     * @param col: the spot's col
+     */
     public void checkTargetToEmpty(int row, int col){
         if(board[row][col] == HiveGameState.piece.TARGET){
             board[row][col] = HiveGameState.piece.EMPTY;
@@ -613,9 +631,9 @@ public class HiveGameState extends GameState {
 
     /**
      * Method that makes sure that the piece selected is white
-     * @param row
-     * @param col
-     * @return
+     * @param row: the piece's row
+     * @param col: the piece's col
+     * @return true if so, false otherwise
      */
     public boolean checkIfWhite(int row, int col) {
         if (board[row][col] == piece.BBEE) {
