@@ -73,6 +73,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     public void onClick(View v) {
         HiveButtonAction action = new HiveButtonAction(this, piecePlaced);
 
+        boolean placeButton = true;
+
         surfaceView.deselectPiece();
         moveReady = false;
 
@@ -82,7 +84,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     piecePlaced = HiveGameState.piece.WBEE;
                     pieceText = "WHITE BEE";
                 }
-                else {
+                else{
                     piecePlaced = HiveGameState.piece.BBEE;
                     pieceText = "BLACK BEE";
                 }
@@ -90,14 +92,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.SpiderButton:
-                if (hgs.getTurn() == 0)
-                {
+                if (hgs.getTurn() == 0) {
                     piecePlaced = HiveGameState.piece.WSPIDER;
                     pieceText = "WHITE SPIDER";
                 }
-
-                else
-                {
+                else{
                     piecePlaced = HiveGameState.piece.BSPIDER;
                     pieceText = "BLACK SPIDER";
                 }
@@ -105,14 +104,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.GrasshopperButton:
-                if (hgs.getTurn() == 0)
-                {
+                if (hgs.getTurn() == 0) {
                     piecePlaced = HiveGameState.piece.WGHOPPER;
                     pieceText = "WHITE GRASSHOPPER";
                 }
-
-                else
-                {
+                else{
                     piecePlaced = HiveGameState.piece.BGHOPPER;
                     pieceText = "BLACK GRASSHOPPER";
                 }
@@ -125,9 +121,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     piecePlaced = HiveGameState.piece.WANT;
                     pieceText = "WHITE ANT";
                 }
-
-                else
-                {
+                else{
                     piecePlaced = HiveGameState.piece.BANT;
                     pieceText = "BLACK ANT";
                 }
@@ -135,14 +129,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 action = new HiveButtonAction(this, piecePlaced);
                 break;
             case R.id.BeetleButton:
-                if (hgs.getTurn() == 0)
-                {
+                if (hgs.getTurn() == 0) {
                     piecePlaced = HiveGameState.piece.WBEETLE;
                     pieceText = "WHITE BEETLE";
                 }
-
-                else
-                {
+                else{
                     piecePlaced = HiveGameState.piece.BBEETLE;
                     pieceText = "BLACK BEETLE";
                 }
@@ -151,6 +142,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 break;
             case R.id.ClearInfo:
                 theText.setText("");
+                placeButton = false;
                 break;
             case R.id.Reset:
                 HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
@@ -163,6 +155,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 antButton.setImageAlpha(255);
                 beetleButton.setImageAlpha(255);
 
+                placeButton = false;
                 moveReady = false;
                 piecePlacement = true;
                 break;
@@ -170,6 +163,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 theText.setText("To win, the opponent's bee must be surrounded.\n" +
                         "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
                 "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n");
+
+                placeButton = false;
                 break;
         }
         if(piecePlacement){
@@ -179,15 +174,17 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             surfaceView.invalidate();
         }
         else {
-            //reset targets if there are no pieces available to place
-            if (hgs.checkNumPieces(piecePlaced) != 0) {
-                piecePlacement = true;
-                game.sendAction(action);
-                surfaceView.invalidate();
+            if(placeButton) {
+                //reset targets if there are no pieces available to place
+                if (hgs.checkNumPieces(piecePlaced) != 0) {
+                    piecePlacement = true;
+                    game.sendAction(action);
+                    surfaceView.invalidate();
+                }
             }
-            else{
-                HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
-                game.sendAction(action3);
+            else {
+                    HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
+                    game.sendAction(action3);
             }
         }
     }
