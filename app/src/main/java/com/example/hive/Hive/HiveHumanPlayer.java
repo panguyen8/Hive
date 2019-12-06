@@ -160,7 +160,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 piecePlacement = true;
                 break;
             case R.id.helpButton:
-                theText.setText("To win, the opponent's bee must be surrounded.\n" +
+                theText.append("To win, the opponent's bee must be surrounded.\n" +
                         "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
                 "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n");
 
@@ -389,6 +389,12 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         Button clearInfo = (Button) activity.findViewById(R.id.ClearInfo);
         Button quit = (Button) activity.findViewById(R.id.Reset);
         Button help = (Button) activity.findViewById(R.id.helpButton);
+
+        theText.append("Welcome to Hive! \n" +
+                "To win, the opponent's bee must be surrounded.\n" +
+                "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
+                "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
+                "To deselect a piece, just tap it again! Have fun! \n");
 
         quit.setOnClickListener(this);
         clearInfo.setOnClickListener(this);
