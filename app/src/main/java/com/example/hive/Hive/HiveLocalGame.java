@@ -144,12 +144,13 @@ public class HiveLocalGame extends LocalGame {
                 }
 
                 //Moving can only be done on legal spaces
-                //Moving rules will be done here as well
-                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.EMPTY)//changed target to empty
+                if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-                } else {
+                }
+
+                else {
                     return false;
                 }
 
@@ -163,13 +164,17 @@ public class HiveLocalGame extends LocalGame {
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.EMPTY) {
                     return false;
                 }
+
                 if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
                 {
                     hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
                     hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-                } else {
+                }
+
+                else {
                     return false;
                 }
+                
                 hgs.setTurn(1);
             }
 

@@ -428,8 +428,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             if (hgs.getTurn() == 0 && hgs.checkNumPieces(HiveGameState.piece.WBEE) > 0) {
                 return HiveGameState.piece.WBEE;
             }
-            else {//if (hgs.getTurn() == 1 && hgs.checkNumPieces(HiveGameState.piece.BBEE) > 0){
-                return HiveGameState.piece.BBEE;
+            else {
+                if (hgs.getTurn() == 1 && hgs.checkNumPieces(HiveGameState.piece.BBEE) > 0){
+                    return HiveGameState.piece.BBEE;
+                }
             }
         }
         return piece;
