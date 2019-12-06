@@ -241,7 +241,7 @@ public class HiveLocalGame extends LocalGame {
                 if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
                     hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
-                } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
+                } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
                     hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
                     hgs.bugList.remove(((HivePlacePieceAction) action).piece);
                 }
