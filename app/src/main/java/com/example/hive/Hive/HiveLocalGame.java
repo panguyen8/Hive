@@ -1,5 +1,8 @@
 package com.example.hive.Hive;
 
+import android.widget.EditText;
+import android.widget.TextView;
+
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.LocalGame;
 import com.example.hive.game.actionMessage.GameAction;
@@ -199,8 +202,8 @@ public class HiveLocalGame extends LocalGame {
                 if (hgs.getTurnCount() == 0) {
                     //Set piece to wherever it was tapped on the board and remove it from
                     //player's hand
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    hgs.board[placement.row][placement.col] = placement.piece;
+                    hgs.bugList.remove(placement.piece);
 
                     //Since all of the board spots become a target, reset them
                     hgs.resetTarget();
@@ -215,8 +218,8 @@ public class HiveLocalGame extends LocalGame {
             //Same as above, but with player 1
             else {
                 if (hgs.getTurnCount() == 0) {
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                    hgs.board[placement.row][placement.col] = placement.piece;
+                    hgs.bugList.remove(placement.piece);
                     hgs.resetTarget();
                     hgs.addTurnToCount();
                     hgs.setTurn(0);
@@ -230,10 +233,11 @@ public class HiveLocalGame extends LocalGame {
                     if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)) {
                         hgs.board[placement.row][placement.col] = HiveGameState.piece.WBEE;
                         hgs.bugList.remove(HiveGameState.piece.WBEE);
+
                     }
                     else {
-                        hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                        hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+                        hgs.board[placement.row][placement.col] = placement.piece;
+                        hgs.bugList.remove(placement.piece);
                     }
                 }
                 else {
@@ -249,9 +253,10 @@ public class HiveLocalGame extends LocalGame {
                 if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.BBEE)) {
                     hgs.board[placement.row][placement.col] = HiveGameState.piece.BBEE;
                     hgs.bugList.remove(HiveGameState.piece.BBEE);
-                } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.EMPTY) {//changed target to empty // always true
-                    hgs.board[placement.row][placement.col] = ((HivePlacePieceAction) action).piece;
-                    hgs.bugList.remove(((HivePlacePieceAction) action).piece);
+
+                } else if(hgs.board[placement.row][placement.col] == HiveGameState.piece.TARGET) {
+                    hgs.board[placement.row][placement.col] = placement.piece;
+                    hgs.bugList.remove(placement.piece);
                 }
 
                 else {
