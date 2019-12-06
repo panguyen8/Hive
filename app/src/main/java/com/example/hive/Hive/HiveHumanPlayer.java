@@ -96,38 +96,38 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                    break;
                 case R.id.SpiderButton:
                     if (hgs.getTurn() == 0) {
-                        createPieceText(HiveGameState.piece.WSPIDER);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WSPIDER));
                     }
                     else{
-                        createPieceText(HiveGameState.piece.BSPIDER);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BSPIDER));
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.GrasshopperButton:
                     if (hgs.getTurn() == 0) {
-                        createPieceText(HiveGameState.piece.WGHOPPER);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WGHOPPER));
                     }
                     else{
-                        createPieceText(HiveGameState.piece.BGHOPPER);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BGHOPPER));
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.AntButton:
                     if (hgs.getTurn() == 0)
                     {
-                        createPieceText(HiveGameState.piece.WANT);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WANT));
                     }
                     else{
-                        createPieceText(HiveGameState.piece.BANT);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BANT));
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.BeetleButton:
                     if (hgs.getTurn() == 0) {
-                        createPieceText(HiveGameState.piece.WBEETLE);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WBEETLE));
                     }
                     else{
-                        createPieceText(HiveGameState.piece.BBEETLE);
+                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BBEETLE));
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
@@ -418,6 +418,21 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 pieceText = "BLACK BEETLE";
                 break;
         }
+    }
+
+    /**
+     * sets text to appropriate player's bee if after turn 7
+     */
+    public HiveGameState.piece forcePlaceBeeText(HiveGameState.piece piece){
+        if(hgs.getTurnCount() > 7){
+            if (hgs.getTurn() == 0 && hgs.checkNumPieces(HiveGameState.piece.WBEE) > 0) {
+                return HiveGameState.piece.WBEE;
+            }
+            else {//if (hgs.getTurn() == 1 && hgs.checkNumPieces(HiveGameState.piece.BBEE) > 0){
+                return HiveGameState.piece.BBEE;
+            }
+        }
+        return piece;
     }
 
     /**
