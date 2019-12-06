@@ -742,4 +742,120 @@ public class HiveGameState extends GameState {
         }
         return num;
     }
+
+    /**
+     *  Check Islands method which ensures that islands will not be made upon moving a piece
+     *
+     * @param startRow
+     * @param startCol
+     * @param endRow
+     * @param endCol
+     * @return
+     */
+    public boolean checkIslands(int startRow, int startCol, int endRow, int endCol) {
+        int numIslands = 1;
+        HiveGameState check = new HiveGameState(this);
+        check.resetTarget();
+
+        int[][] islandArray = new int[board.length][board.length];
+        for (int gridRow = 0; gridRow < board.length; gridRow++) {
+            for (int gridCol = 0; gridCol < board.length; gridCol++) {
+                islandArray[gridRow][gridCol] = 0;
+            }
+        }
+
+        check.board[endRow][endCol] = check.board[startRow][startCol];
+        check.board[startRow][startCol] = piece.EMPTY;
+
+        for (int gridRow = 1; gridRow < board.length - 1; gridRow++) {
+            for (int gridCol = 1; gridCol < board.length - 1; gridCol++) {
+                if(check.board[gridRow][gridCol] != piece.EMPTY && islandArray[gridRow][gridCol] == 0) {
+                    islandArray[gridRow][gridCol] = numIslands;
+                    check.checkIslandsRecursive(gridRow, gridCol, numIslands, islandArray);
+                    numIslands++;
+                }
+            }
+        }
+
+
+        if (numIslands > 2) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Method which is called recursively to mark the array to make sure
+     * island won't be called
+     *
+     * @param row
+     * @param col
+     * @param islandCount
+     * @param islandArray
+     */
+    public void checkIslandsRecursive(int row, int col, int islandCount, int[][] islandArray) {
+        if (col % 2 == 0) {
+            if (!(board[row + 1][col] == piece.EMPTY)
+                    && islandArray[row+1][col] == 0) {
+                islandArray[row+1][col] = islandCount;
+                checkIslandsRecursive(row+1,col,islandCount,islandArray);
+            }
+            if (!(board[row - 1][col + 1] == piece.EMPTY)
+                    && islandArray[row - 1][col + 1] == 0) {
+                islandArray[row - 1][col + 1] = islandCount;
+                checkIslandsRecursive(row - 1,col + 1,islandCount,islandArray);
+            }
+            if (!(board[row][col + 1] == piece.EMPTY)
+                    && islandArray[row][col + 1] == 0) {
+                islandArray[row][col+1] = islandCount;
+                checkIslandsRecursive(row,col+1,islandCount,islandArray);
+            }
+            if (!(board[row][col-1] == piece.EMPTY)
+                    && islandArray[row][col-1] == 0) {
+                islandArray[row][col-1] = islandCount;
+                checkIslandsRecursive(row,col-1,islandCount,islandArray);
+            }
+            if (!(board[row-1][col] == piece.EMPTY)
+                    && islandArray[row-1][col] == 0) {
+                islandArray[row-1][col] = islandCount;
+                checkIslandsRecursive(row-1,col,islandCount,islandArray);
+            }
+            if (!(board[row - 1][col - 1] == piece.EMPTY)
+                    && islandArray[row-1][col-1] == 0) {
+                islandArray[row-1][col-1] = islandCount;
+                checkIslandsRecursive(row-1,col-1,islandCount,islandArray);
+            }
+        } else {
+            if (!(board[row + 1][col] == piece.EMPTY)
+                    && islandArray[row+1][col] == 0) {
+                islandArray[row+1][col] = islandCount;
+                checkIslandsRecursive(row+1,col,islandCount,islandArray);
+            }
+            if (!(board[row + 1][col + 1] == piece.EMPTY)
+                    && islandArray[row+1][col+1] == 0) {
+                islandArray[row+1][col+1] = islandCount;
+                checkIslandsRecursive(row+1,col+1,islandCount,islandArray);
+            }
+            if (!(board[row][col + 1] == piece.EMPTY)
+                    && islandArray[row][col+1] == 0) {
+                islandArray[row][col+1] = islandCount;
+                checkIslandsRecursive(row,col+1,islandCount,islandArray);
+            }
+            if (!(board[row][col - 1] == piece.EMPTY)
+                    && islandArray[row][col-1] == 0) {
+                islandArray[row][col-1] = islandCount;
+                checkIslandsRecursive(row,col-1,islandCount,islandArray);
+            }
+            if (!(board[row - 1][col] == piece.EMPTY)
+                    && islandArray[row-1][col] == 0) {
+                islandArray[row-1][col] = islandCount;
+                checkIslandsRecursive(row-1,col,islandCount,islandArray);
+            }
+            if (!(board[row + 1][col - 1] == piece.EMPTY)
+                    && islandArray[row+1][col-1] == 0) {
+                islandArray[row+1][col-1] = islandCount;
+                checkIslandsRecursive(row+1,col-1,islandCount,islandArray);
+            }
+        }
+    }
 }

@@ -338,7 +338,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 game.sendAction(action);
             } else {
                 HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
-                if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])) {
+                if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])
+                    && hgs.checkIslands(action.startRow, action.startCol, action.endRow, action.endCol)) {
                     game.sendAction(action);
                     moveReady = true;
                     theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
