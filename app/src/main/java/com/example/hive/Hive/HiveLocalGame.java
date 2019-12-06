@@ -138,11 +138,7 @@ public class HiveLocalGame extends LocalGame {
             //own pieces are being checked, return false if an opponent's
             //piece was selected
             if (hgs.getTurn() == 1) {
-                if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEE ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WBEETLE ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WANT ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WSPIDER ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.WGHOPPER ||
+                if(hgs.checkIfWhite(move.startRow, move.startCol) ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.EMPTY) {
                     return false;
                 }
@@ -163,11 +159,7 @@ public class HiveLocalGame extends LocalGame {
             else {
                 //This functions like the code above, just with regards to
                 //the other player
-                if(hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEE ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BBEETLE ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BANT ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BSPIDER ||
-                        hgs.board[move.startRow][move.startCol] == HiveGameState.piece.BGHOPPER ||
+                if(hgs.checkIfBlack(move.startRow, move.startCol) ||
                         hgs.board[move.startRow][move.startCol] == HiveGameState.piece.EMPTY) {
                     return false;
                 }

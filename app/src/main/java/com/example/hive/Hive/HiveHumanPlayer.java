@@ -14,6 +14,12 @@ import com.example.hive.game.infoMessage.GameInfo;
 import com.example.hive.game.infoMessage.IllegalMoveInfo;
 import com.example.hive.game.utilities.Logger;
 
+/**
+ * Allows player to send actions to local game.
+ *
+ * @author Phuocan Nguyen
+ * @author Marc Hilderbrand
+ */
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
 
     EditText theText;
@@ -81,57 +87,47 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             switch(v.getId()) {
                 case R.id.QueenButton:
                    if (hgs.getTurn() == 0) {
-                        piecePlaced = HiveGameState.piece.WBEE;
-                        pieceText = "WHITE BEE";
+                        createPieceText(HiveGameState.piece.WBEE);
                    }
                    else{
-                       piecePlaced = HiveGameState.piece.BBEE;
-                       pieceText = "BLACK BEE";
+                       createPieceText(HiveGameState.piece.BBEE);
                    }
                    action = new HiveButtonAction(this, piecePlaced);
                    break;
                 case R.id.SpiderButton:
                     if (hgs.getTurn() == 0) {
-                    piecePlaced = HiveGameState.piece.WSPIDER;
-                    pieceText = "WHITE SPIDER";
+                        createPieceText(HiveGameState.piece.WSPIDER);
                     }
                     else{
-                        piecePlaced = HiveGameState.piece.BSPIDER;
-                        pieceText = "BLACK SPIDER";
+                        createPieceText(HiveGameState.piece.BSPIDER);
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.GrasshopperButton:
                     if (hgs.getTurn() == 0) {
-                        piecePlaced = HiveGameState.piece.WGHOPPER;
-                        pieceText = "WHITE GRASSHOPPER";
+                        createPieceText(HiveGameState.piece.WGHOPPER);
                     }
                     else{
-                        piecePlaced = HiveGameState.piece.BGHOPPER;
-                        pieceText = "BLACK GRASSHOPPER";
+                        createPieceText(HiveGameState.piece.BGHOPPER);
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.AntButton:
                     if (hgs.getTurn() == 0)
                     {
-                        piecePlaced = HiveGameState.piece.WANT;
-                        pieceText = "WHITE ANT";
+                        createPieceText(HiveGameState.piece.WANT);
                     }
                     else{
-                        piecePlaced = HiveGameState.piece.BANT;
-                        pieceText = "BLACK ANT";
+                        createPieceText(HiveGameState.piece.BANT);
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
                 case R.id.BeetleButton:
                     if (hgs.getTurn() == 0) {
-                        piecePlaced = HiveGameState.piece.WBEETLE;
-                        pieceText = "WHITE BEETLE";
+                        createPieceText(HiveGameState.piece.WBEETLE);
                     }
                     else{
-                        piecePlaced = HiveGameState.piece.BBEETLE;
-                        pieceText = "BLACK BEETLE";
+                        createPieceText(HiveGameState.piece.BBEETLE);
                     }
                     action = new HiveButtonAction(this, piecePlaced);
                     break;
@@ -187,7 +183,6 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 }
             }
         }
-//    }
 
     /**
      * Returns the GUI's top view object
@@ -317,15 +312,18 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             yStart = yCoord;
             Logger.log("onTouch", "Start: " + xStart + " " + yStart);
 
-            if (player == 0)
-                if(hgs.checkIfWhite(xStart, yStart)) {
+            if (player == 0) {
+                if (hgs.checkIfWhite(xStart, yStart)) {
                     surfaceView.setSelectedCoords(xStart, yStart);
                     HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
                     game.sendAction(action);
                     moveReady = true;
                     surfaceView.invalidate();
                 }
-            else{
+                else{
+                    moveReady = false;
+                }
+            }else{
                 if(hgs.checkIfBlack(xStart, yStart)) {
                     surfaceView.setSelectedCoords(xStart, yStart);
                     HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
@@ -333,14 +331,15 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     moveReady = true;
                     surfaceView.invalidate();
                 }
-            } else {
-                moveReady = false;
+                else{
+                    moveReady = false;
+                }
             }
         } else if (moveReady) {
             xEnd = xCoord;
             yEnd = yCoord;
 
-            //if the same spot was tapped twice, reset target hexagons
+            //if the same spot is not a target piece, then deselect
             //else move normally
             if (hgs.board[xEnd][yEnd] != HiveGameState.piece.TARGET) {
                 Logger.log("onTouch", "Deselect: " + xEnd + " " + yEnd);
@@ -350,9 +349,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
                 if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])
                     && hgs.checkIslands(action.startRow, action.startCol, action.endRow, action.endCol)) {
+
+                    createPieceText(hgs.board[xStart][yStart]);
                     game.sendAction(action);
                     moveReady = true;
-                    theText.append("Piece has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
+                    theText.append(pieceText + " has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
                 } else {
                     HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
                     game.sendAction(action3);
@@ -369,6 +370,56 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         }
         return true;
     }
+
+    /**
+     * turns piece type into string
+     * @param pieceType piece to be turned into text
+     */
+    public void createPieceText(HiveGameState.piece pieceType){
+        switch(pieceType) {
+            case WBEE:
+                piecePlaced = HiveGameState.piece.WBEE;
+                pieceText = "WHITE BEE";
+                break;
+            case BBEE:
+                piecePlaced = HiveGameState.piece.BBEE;
+                pieceText = "BLACK BEE";
+                break;
+            case WSPIDER:
+                piecePlaced = HiveGameState.piece.WSPIDER;
+                pieceText = "WHITE SPIDER";
+                break;
+            case BSPIDER:
+                piecePlaced = HiveGameState.piece.BSPIDER;
+                pieceText = "BLACK SPIDER";
+                break;
+            case WGHOPPER:
+                piecePlaced = HiveGameState.piece.WGHOPPER;
+                pieceText = "WHITE GRASSHOPPER";
+                break;
+            case BGHOPPER:
+                piecePlaced = HiveGameState.piece.BGHOPPER;
+                pieceText = "BLACK GRASSHOPPER";
+                break;
+            case WANT:
+                piecePlaced = HiveGameState.piece.WANT;
+                pieceText = "WHITE ANT";
+                break;
+            case BANT:
+                piecePlaced = HiveGameState.piece.BANT;
+                pieceText = "BLACK ANT";
+                break;
+            case WBEETLE:
+                piecePlaced = HiveGameState.piece.WBEETLE;
+                pieceText = "WHITE BEETLE";
+                break;
+            case BBEETLE:
+                piecePlaced = HiveGameState.piece.BBEETLE;
+                pieceText = "BLACK BEETLE";
+                break;
+        }
+    }
+
     /**
      * callback method--our game has been chosen/rechosen to be the GUI,
      * called from the GUI thread
