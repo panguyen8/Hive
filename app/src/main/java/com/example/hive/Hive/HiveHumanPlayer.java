@@ -162,7 +162,9 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             case R.id.helpButton:
                 theText.append("To win, the opponent's bee must be surrounded.\n" +
                         "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
-                "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n");
+                        "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n"+
+                        "Remember to place the bee within the first four moves, or it will be placed for you! \n" +
+                        "To deselect a piece, just tap it again! Have fun! \n");
 
                 placeButton = false;
                 break;
@@ -394,6 +396,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 "To win, the opponent's bee must be surrounded.\n" +
                 "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
                 "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
+                "Remember to place the bee within the first four moves, or it will be placed for you! \n" +
                 "To deselect a piece, just tap it again! Have fun! \n");
 
         quit.setOnClickListener(this);
