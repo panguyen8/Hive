@@ -35,6 +35,10 @@ public class HiveGameState extends GameState {
     private int turn;  // Edit by Samuel Nguyen
     private int turnCount;
 
+    //Represents how many total pieces each player has
+    private int player0Pieces;
+    private int player1Pieces;
+
     //Represents a player's "hand" (what pieces are not on the board)
     public ArrayList<piece> bugList = new ArrayList<>();
 
@@ -49,7 +53,10 @@ public class HiveGameState extends GameState {
 
         addPieces(this, bugList);
 
-        this.turn = BLACK_TURN; // White goes first?
+        this.turn = WHITE_TURN; // White goes first?
+        this.player0Pieces = 11;
+        this.player1Pieces = 11;
+
         this.turnCount = 0;
 
         for (int i = 0; i < board.length; i++)
@@ -65,10 +72,9 @@ public class HiveGameState extends GameState {
     //Copy constructor (Stephen)
     // Some edits by Samuel Nguyen
     public HiveGameState(HiveGameState hgs) {
-
         this.turn = hgs.turn;
         this.turnCount = hgs.turnCount;
-        this.board = new piece[12][12];
+
         //Copies each board index/cell
         for (int i = 0; i < board.length; i++)
         {
