@@ -717,12 +717,19 @@ public class HiveGameState extends GameState {
 
     /**
      *  Check Islands method which ensures that islands will not be made upon moving a piece
+
      *
      * @param startRow: the starting row
      * @param startCol: the starting col
      * @param endRow: the ending row
      * @param endCol: the ending col
      * @return true if there are 2 or more islands, false otherwise
+     *
+     *CITATION - CONNECTED COMPONENTS ALGORITHM/KORASAJU'S ALGORITHM
+     *      * Author: S. Rao Kosaraju and Micha Sharir. Kosaraju
+     *      * Date: 1978 discovered, heard about it from Dr. Tribelhorn
+     *      * Available: https://scienceblogs.com/goodmath/2007/10/30/computing-strongly-connected-c
+     *
      */
     public boolean checkIslands(int startRow, int startCol, int endRow, int endCol) {
         int numIslands = 1;
@@ -762,6 +769,12 @@ public class HiveGameState extends GameState {
      * @param endRow: the ending row
      * @param endCol: the ending col
      * @return true if there are 2 or more islands, false otherwise
+     *
+     *CITATION - CONNECTED COMPONENTS ALGORITHM/KORASAJU'S ALGORITHM
+     * Author: S. Rao Kosaraju and Micha Sharir. Kosaraju
+     * Date: 1978 discovered, heard about it from Dr. Tribelhorn
+     * Available: https://scienceblogs.com/goodmath/2007/10/30/computing-strongly-connected-c
+     *
      */
     public boolean checkIslandsPlace(int endRow, int endCol) {
         int numIslands = 1;
@@ -803,6 +816,12 @@ public class HiveGameState extends GameState {
      * @param col: the current col
      * @param islandCount: how many islands there are
      * @param islandArray: "copy" of board
+     *
+     *CITATION - CONNECTED COMPONENTS ALGORITHM/KORASAJU'S ALGORITHM
+     *      * Author: S. Rao Kosaraju and Micha Sharir. Kosaraju
+     *      * Date: 1978 discovered, heard about it from Dr. Tribelhorn
+     *      * Available: https://scienceblogs.com/goodmath/2007/10/30/computing-strongly-connected-c
+     *
      */
     public void checkIslandsRecursive(int row, int col, int islandCount, int[][] islandArray) {
         if (col % 2 == 0) {

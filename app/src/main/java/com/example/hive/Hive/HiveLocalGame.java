@@ -141,16 +141,9 @@ public class HiveLocalGame extends LocalGame {
                 return false;
             }
 
-            //Moving can only be done on legal spaces
-            if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
-            {
-                hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
-                hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-            }
+            hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
+            hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
 
-            else {
-                return false;
-            }
 
             //Set the turn to the next player
             hgs.setTurn(0);
@@ -164,15 +157,9 @@ public class HiveLocalGame extends LocalGame {
                 return false;
             }
 
-            if (hgs.board[move.endRow][move.endCol] == HiveGameState.piece.TARGET)
-            {
-                hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
-                hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
-            }
+            hgs.board[move.endRow][move.endCol] = hgs.board[move.startRow][move.startCol];
+            hgs.board[move.startRow][move.startCol] = HiveGameState.piece.EMPTY;
 
-            else {
-                return false;
-            }
 
             hgs.setTurn(1);
         }
