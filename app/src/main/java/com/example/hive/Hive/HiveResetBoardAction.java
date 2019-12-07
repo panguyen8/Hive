@@ -5,6 +5,8 @@ import com.example.hive.game.actionMessage.GameAction;
 
 /**
  * Holds variables relevant for resetting the board
+ *
+ * @author Phuocan Nguyen
  */
 public class HiveResetBoardAction extends GameAction{
 

@@ -5,6 +5,8 @@ import com.example.hive.game.actionMessage.GameAction;
 
 /**
  * Holds variables relevant to placing a piece on the board
+ *
+ * @author Phuocan Nguyen
  */
 public class HivePlacePieceAction extends GameAction {
 

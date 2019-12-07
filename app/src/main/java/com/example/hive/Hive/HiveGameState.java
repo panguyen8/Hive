@@ -10,8 +10,6 @@
 
 package com.example.hive.Hive;
 
-//Comment by Stephen
-//I assume this is used in network play, delete if it's unnecessary
 import android.net.wifi.p2p.WifiP2pGroup;
 
 import com.example.hive.game.infoMessage.GameState;
@@ -19,7 +17,12 @@ import com.example.hive.game.infoMessage.GameState;
 import java.util.ArrayList;
 
 /**
- * Represents a GameState, which has a "current" state of a game and movement rules
+ * GameState which holds all the data of the game
+ *
+ * @author Phuocan Nguyen
+ * @author Marc Hilderbrand
+ * @author Samuel Nguyen
+ * @author Stephen Nguyen
  */
 public class HiveGameState extends GameState {
     private final int BLACK_TURN = 0;

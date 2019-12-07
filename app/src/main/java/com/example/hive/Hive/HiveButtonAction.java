@@ -5,6 +5,8 @@ import com.example.hive.game.actionMessage.GameAction;
 
 /**
  * Holds variables relevant to clicking a button
+ *
+ * @author Phuocan Nguyen
  */
 public class HiveButtonAction extends GameAction {
 

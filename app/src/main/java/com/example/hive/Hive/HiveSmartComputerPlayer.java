@@ -9,6 +9,13 @@ import com.example.hive.game.infoMessage.GameInfo;
 
 import java.util.ArrayList;
 
+/**
+ * Smart Computer Player which sends moves more competitively
+ * than that of the regular computer player
+ *
+ * @author Erik Liu
+ */
+
 public class HiveSmartComputerPlayer extends GameComputerPlayer {
 
     /* instance variables */
@@ -446,7 +453,7 @@ public class HiveSmartComputerPlayer extends GameComputerPlayer {
                             if (test.board[i][j] == HiveGameState.piece.TARGET) {
                                 spaceCount += 1;
                             }
-                            if (spaceCount == randomLocation) {
+                            if ((spaceCount == randomLocation) && test.checkIslandsPlace(i, j)) {
                                 HiveGameState.piece bug;
                                 if(hand.contains(HiveGameState.piece.BSPIDER)){
                                     bug = HiveGameState.piece.BSPIDER;
@@ -558,7 +565,7 @@ public class HiveSmartComputerPlayer extends GameComputerPlayer {
                     for (int i = 1; i < test.board.length - 1; i++) {
                         for (int j = 1; j < test.board[j].length - 1; j++) {
                             if (test.board[i][j] == HiveGameState.piece.TARGET) {
-                                if(spaceCount == randomLocation){
+                                if((spaceCount == randomLocation)  && test.checkIslands(startX, startY, i, j)){
                                     HiveMoveAction moveAction = new HiveMoveAction(this, startX, startY, i, j);
                                     game.sendAction(moveAction);
                                     return;

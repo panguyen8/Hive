@@ -13,6 +13,14 @@ import android.view.SurfaceView;
 
 import com.example.hive.R;
 
+/**
+ * Creates the graphics of the Hive Game, which includes the
+ * GUI and the pieces of the game
+ *
+ * @author Marc Hilderbrand
+ * @author Phuocan Nguyen
+ */
+
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;

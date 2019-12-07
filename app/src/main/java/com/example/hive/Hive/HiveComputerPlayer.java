@@ -12,6 +12,12 @@ import java.util.ArrayList;
 
 import static com.example.hive.Hive.HiveGameState.piece.WSPIDER;
 
+/**
+ * Computer player class which sends actions to local game
+ *
+ * @author Erik Liu
+ */
+
 public class HiveComputerPlayer extends GameComputerPlayer {
 
     /* instance variables */

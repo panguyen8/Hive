@@ -9,9 +9,10 @@ package com.example.hive.Hive;
         import com.example.hive.game.gameConfiguration.GamePlayerType;
 
 /**
- * this is the primary activity for Hive
+ * This is original main activity file used to create game
+ * Minor updates included to reflect game, Hive
  *
- * @author
+ * @author Original GameFramework File
  * @version November 7
  */
 public class HiveMainActivity extends GameMainActivity {

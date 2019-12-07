@@ -5,6 +5,8 @@ import com.example.hive.game.actionMessage.GameAction;
 
 /**
  * Holds variables relevant to selecting a pieces
+ *
+ * @author Phuocan Nguyen
  */
 public class HiveSelectedPieceAction extends GameAction {
 

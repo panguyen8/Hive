@@ -5,6 +5,8 @@ import com.example.hive.game.actionMessage.GameAction;
 
 /**
  *  Holds variables relevant to moving a piece
+ *
+ *  @author: Phuocan Nguyen
  */
 public class HiveMoveAction extends GameAction {
 
