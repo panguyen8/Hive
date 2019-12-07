@@ -16,10 +16,6 @@ public class HiveLocalGame extends LocalGame {
     //Create instance of current game state
     private HiveGameState hgs;
 
-    //After a player's fourth turn,
-    //the bee must be played if it already
-    //hasn't been
-
     /**
      * Constructor of local game
      */
@@ -391,7 +387,7 @@ public class HiveLocalGame extends LocalGame {
      * Resets the game, making the board empty,
      * adding all pieces back into player hands,
      * and resetting turn counts
-     * @param action
+     * @param action: the action
      * @return
      */
     private boolean resetGame(GameAction action)

@@ -13,6 +13,9 @@ import android.view.SurfaceView;
 
 import com.example.hive.R;
 
+/**
+ * Represents the board
+ */
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;
