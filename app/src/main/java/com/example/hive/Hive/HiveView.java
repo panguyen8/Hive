@@ -45,6 +45,13 @@ public class HiveView extends SurfaceView {
     private int selectedX = -1;
     private int selectedY = -1;
 
+    /**
+     *
+     * Constructor for the HiveView which extends the surface View
+     *
+     * @param context
+     * @param attrs
+     */
     public HiveView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
@@ -75,10 +82,20 @@ public class HiveView extends SurfaceView {
         HexagonalSelectedPaint.setStrokeWidth(8);
     }
 
+    /**
+     * Sets the state in order to reflect GUI of current game
+     *
+     * @param state
+     */
     public void setState(HiveGameState state) {
         this.state = state;
     }
 
+    /**
+     * Draws the GUI of the game when called
+     *
+     * @param canvas
+     */
     public void onDraw(Canvas canvas) {
         if(state == null){
             return;
