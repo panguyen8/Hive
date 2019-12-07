@@ -28,10 +28,18 @@ public class HivePlacePieceAction extends GameAction {
         this.piece = piece;
     }
 
+    /**
+     * Gets the row of the placedpiece
+     * @return row
+     */
     public int getRow(){
         return row;
     }
 
+    /**
+     * Gets the col of placedpiece
+     * @return col
+     */
     public int getCol(){
         return col;
     }

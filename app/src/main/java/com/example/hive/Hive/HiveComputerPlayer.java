@@ -44,7 +44,7 @@ public class HiveComputerPlayer extends GameComputerPlayer {
     //Hive Surface View
     private ArrayList<HiveGameState.piece> myBugList = new ArrayList<>();
 
-
+    //Constructor which gets the name
     public HiveComputerPlayer(String name){super(name);}
 
     /**getHand

@@ -24,6 +24,11 @@ public class HiveResetBoardAction extends GameAction{
         deselectTargets = resetTargetsOnly;
     }
 
+    /**
+     * Returns the deselcted targets
+     *
+     * @return deselectTargets
+     */
     public boolean getSelectTarget(){
         return deselectTargets;
     }

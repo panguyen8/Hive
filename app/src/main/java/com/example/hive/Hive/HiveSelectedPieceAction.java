@@ -25,10 +25,20 @@ public class HiveSelectedPieceAction extends GameAction {
         col = y;
     }
 
+    /**
+     * Gets the row of the selectedPiece
+     *
+     * @return int
+     */
     public int getRow(){
         return row;
     }
 
+    /**
+     * Gets the Col of the selectedPiece
+     *
+     * @return int
+     */
     public int getCol(){
         return col;
     }
