@@ -22,7 +22,6 @@ import com.example.hive.game.utilities.Logger;
  * @author Samuel Nguyen
  */
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
-
     EditText theText;
     TextView turnText;
 
@@ -60,7 +59,6 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
 
     HiveGameState hgs;
 
-
     /* instance variables */
 
     // the android activity that we are running
@@ -80,7 +78,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     /**
      * OnClick Method for placing pieces
      *
-     * @param v
+     * @param v: the View being clicked
      */
     public void onClick(View v) {
         HiveButtonAction action = new HiveButtonAction(this, piecePlaced);
@@ -90,105 +88,111 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         surfaceView.deselectPiece();
         moveReady = false;
 
-            switch(v.getId()) {
-                case R.id.QueenButton:
-                   if (hgs.getTurn() == 0) {
-                        createPieceText(HiveGameState.piece.WBEE);
-                   }
-                   else{
-                       createPieceText(HiveGameState.piece.BBEE);
-                   }
-                   action = new HiveButtonAction(this, piecePlaced);
-                   break;
-                case R.id.SpiderButton:
-                    if (hgs.getTurn() == 0) {
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WSPIDER));
-                    }
-                    else{
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BSPIDER));
-                    }
-                    action = new HiveButtonAction(this, piecePlaced);
-                    break;
-                case R.id.GrasshopperButton:
-                    if (hgs.getTurn() == 0) {
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WGHOPPER));
-                    }
-                    else{
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BGHOPPER));
-                    }
-                    action = new HiveButtonAction(this, piecePlaced);
-                    break;
-                case R.id.AntButton:
-                    if (hgs.getTurn() == 0)
-                    {
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WANT));
-                    }
-                    else{
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BANT));
-                    }
-                    action = new HiveButtonAction(this, piecePlaced);
-                    break;
-                case R.id.BeetleButton:
-                    if (hgs.getTurn() == 0) {
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.WBEETLE));
-                    }
-                    else{
-                        createPieceText(forcePlaceBeeText(HiveGameState.piece.BBEETLE));
-                    }
-                    action = new HiveButtonAction(this, piecePlaced);
-                    break;
-            }
-            switch (v.getId()) {
-                case R.id.ClearInfo:
-                    theText.setText("");
-                    placeButton = false;
-                    break;
-                case R.id.Reset:
-                    HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
-                    game.sendAction(action2);
+        // Creates text depending on what button is clicked
+        switch(v.getId()) {
+            case R.id.QueenButton:
+                if (hgs.getTurn() == 0) {
+                    createPieceText(HiveGameState.piece.WBEE);
+                }
+                else{
+                    createPieceText(HiveGameState.piece.BBEE);
+                }
+                action = new HiveButtonAction(this, piecePlaced);
+                break;
+            case R.id.SpiderButton:
+                if (hgs.getTurn() == 0) {
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.WSPIDER));
+                }
+                else{
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.BSPIDER));
+                }
+                action = new HiveButtonAction(this, piecePlaced);
+                break;
+            case R.id.GrasshopperButton:
+                if (hgs.getTurn() == 0) {
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.WGHOPPER));
+                }
+                else{
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.BGHOPPER));
+                }
+                action = new HiveButtonAction(this, piecePlaced);
+                break;
+            case R.id.AntButton:
+                if (hgs.getTurn() == 0)
+                {
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.WANT));
+                }
+                else{
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.BANT));
+                }
+                action = new HiveButtonAction(this, piecePlaced);
+                break;
+            case R.id.BeetleButton:
+                if (hgs.getTurn() == 0) {
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.WBEETLE));
+                }
+                else{
+                    createPieceText(forcePlaceBeeText(HiveGameState.piece.BBEETLE));
+                }
+                action = new HiveButtonAction(this, piecePlaced);
+                break;
+        }
+        switch (v.getId()) {
+            case R.id.ClearInfo:
+                theText.setText("");
+                placeButton = false;
+                break;
+            case R.id.Reset:
+                HiveResetBoardAction action2 = new HiveResetBoardAction(this, false);
+                game.sendAction(action2);
 
-                    //reset grayed out buttons
-                    queenButton.setImageAlpha(255);
-                    spiderButton.setImageAlpha(255);
-                    grasshopperButton.setImageAlpha(255);
-                    antButton.setImageAlpha(255);
-                    beetleButton.setImageAlpha(255);
+                //reset grayed out buttons
+                queenButton.setImageAlpha(255);
+                spiderButton.setImageAlpha(255);
+                grasshopperButton.setImageAlpha(255);
+                antButton.setImageAlpha(255);
+                beetleButton.setImageAlpha(255);
 
-                    placeButton = false;
-                    moveReady = false;
-                    piecePlacement = true;
-                    break;
-                case R.id.helpButton:
-                    theText.append("To win, the opponent's bee must be surrounded.\n" +
-                            "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
-                            "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
-                            "Remember to place the bee within the first four moves, or it will be placed for you! \n" +
-                            "To deselect a piece, just tap it again! Have fun! \n");
+                placeButton = false;
+                moveReady = false;
+                piecePlacement = true;
+                break;
+            case R.id.helpButton:
+                theText.append("To win, the opponent's bee must be surrounded.\n" +
+                        "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
+                        "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
+                        "Remember to place the bee within the first four moves, or it will be placed for you! \n" +
+                        "To deselect a piece, just tap it again! Have fun! \n");
 
-                    placeButton = false;
-                    break;
-            }
-            if(piecePlacement){
-             piecePlacement = false;
-                HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
-                game.sendAction(action3);
-             surfaceView.invalidate();
-            }
-            else {
-                if(placeButton) {
-                    //reset targets if there are no pieces available to place
-                    if (hgs.checkNumPieces(piecePlaced) != 0) {
-                    piecePlacement = true;
+                placeButton = false;
+                break;
+        }
+        if(piecePlacement){
+            piecePlacement = false;
+            HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
+            game.sendAction(action3);
+            surfaceView.invalidate();
+        }
+        else {
+            if(placeButton) {
+                //reset targets if there are no pieces available to place
+                if (hgs.checkNumPieces(piecePlaced) != 0) {
+                    if (!(hgs.getTurnCount() == 0)) {
+                        piecePlacement = true;
                         game.sendAction(action);
+                        surfaceView.invalidate();
+                    } else {
+                        piecePlacement = true;
                         surfaceView.invalidate();
                     }
                 }
-                else {
-                        HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
-                        game.sendAction(action3);
-                }
+            }
+            else {
+                HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
+                game.sendAction(action3);
             }
         }
+    }
 
     /**
      * Returns the GUI's top view object
@@ -319,7 +323,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             }
             return true;
 
-        } else if (!moveReady) {
+        }
+        else if (!moveReady) {
 
             xStart = xCoord;
             yStart = yCoord;
@@ -364,7 +369,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             else {
                 HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
                 if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])
-                    && hgs.checkIslands(action.startRow, action.startCol, action.endRow, action.endCol)) {
+                        && hgs.checkIslands(action.startRow, action.startCol, action.endRow, action.endCol)) {
 
                     createPieceText(hgs.board[xStart][yStart]);
                     game.sendAction(action);
