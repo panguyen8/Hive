@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import com.example.hive.R;
 
 /**
+ * Represents the board
  * Draws bug pieces, highlights, and selected piece on surfaceView
  *
  * @Author Phuocan Nguyen
