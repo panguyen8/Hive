@@ -3,6 +3,9 @@ package com.example.hive.Hive;
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.actionMessage.GameAction;
 
+/**
+ * Holds variables relevant to clicking a button
+ */
 public class HiveButtonAction extends GameAction {
 
     HiveGameState.piece gamePiece;

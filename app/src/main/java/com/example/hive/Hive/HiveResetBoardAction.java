@@ -3,6 +3,9 @@ package com.example.hive.Hive;
 import com.example.hive.game.GamePlayer;
 import com.example.hive.game.actionMessage.GameAction;
 
+/**
+ * Holds variables relevant for resetting the board
+ */
 public class HiveResetBoardAction extends GameAction{
 
     protected boolean deselectTargets;
