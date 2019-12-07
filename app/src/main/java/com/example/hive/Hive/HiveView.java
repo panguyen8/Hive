@@ -13,6 +13,12 @@ import android.view.SurfaceView;
 
 import com.example.hive.R;
 
+/**
+ * Draws bug pieces, highlights, and selected piece on surfaceView
+ *
+ * @Author Phuocan Nguyen
+ * @Author Marc Hilderbrand
+ */
 public class HiveView extends SurfaceView {
 
     protected HiveGameState state = null;
@@ -166,6 +172,8 @@ public class HiveView extends SurfaceView {
                 }
             }
         }
+
+        //draws highlighted hexagons where there is a target on the board
         else if(path == HexagonHighlights)
         {
             for (int y = 0; y < 12; y++) {
@@ -179,6 +187,8 @@ public class HiveView extends SurfaceView {
                 }
             }
         }
+
+        //draws selected hexagon on top of selected hexagon as a separate path
         else if(path == HexagonSelected){
             if(getSelectedX() != -1 && getSelectedY() != -1){
                 if (getSelectedY() % 2 == 0) {
@@ -198,13 +208,9 @@ public class HiveView extends SurfaceView {
      */
     public void drawSelectedHexagon(Canvas canvas, int startX, int startY)
     {
-        if(startX == -1 || startY == -1){
-            //do nothing
-        }
-        else{
+        if(startX != -1 || startY != -1){
             canvas.drawPath(drawHexagonLines(startX, startY, HexagonSelected), HexagonalSelectedPaint);
         }
-
     }
 
     /**
@@ -243,7 +249,6 @@ public class HiveView extends SurfaceView {
 
         //draw black outlines
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
-
 
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
     }
@@ -305,7 +310,6 @@ public class HiveView extends SurfaceView {
         canvas.drawPath(drawHexagonLines(startX, startY, Hexagon), HexagonalPaintOutline);
 
         canvas.drawBitmap(resizedBitmap, startX+13, startY+12, hexagonalPaint);
-
     }
 
     /**

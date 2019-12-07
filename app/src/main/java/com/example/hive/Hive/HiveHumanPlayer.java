@@ -15,7 +15,7 @@ import com.example.hive.game.infoMessage.IllegalMoveInfo;
 import com.example.hive.game.utilities.Logger;
 
 /**
- * Allows player to send actions to local game.
+ * Allows player to create and send actions to local game.
  *
  * @author Phuocan Nguyen
  * @author Marc Hilderbrand
