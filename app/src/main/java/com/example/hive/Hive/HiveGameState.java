@@ -66,11 +66,9 @@ public class HiveGameState extends GameState {
                 board[i][j] = HiveGameState.piece.EMPTY;
             }
         }
-
     }
 
-    //Copy constructor (Stephen)
-    // Some edits by Samuel Nguyen
+    //Copy constructor
     public HiveGameState(HiveGameState hgs) {
         this.turn = hgs.turn;
         this.turnCount = hgs.turnCount;
@@ -155,7 +153,9 @@ public class HiveGameState extends GameState {
         }
         if (count == 6) {
             return false;
-        } else {
+        }
+
+        else {
             return true;
         }
     }
@@ -170,6 +170,7 @@ public class HiveGameState extends GameState {
     public boolean checkSurround(int row, int col) {
         int count = 0;
         if (col % 2 == 0) {
+            //Error checking on out of bounds
             if(row + 1 > board.length || row - 1 < 0 ||
                     col + 1 > board.length || col - 1 < 0) {
                 return false;
@@ -612,9 +613,6 @@ public class HiveGameState extends GameState {
         return turnCount;
     }
 
-    //Since this method is only one line, we should probably
-    //just replace the instances of it with its code
-
     /**
      * Add 1 to the number of turns played
      */
@@ -622,8 +620,6 @@ public class HiveGameState extends GameState {
         turnCount = turnCount + 1;
     }
 
-    //This is similar to above method (one line methods are
-    //rather unnecessary)
     /**
      * Set the number of turns played to 0
      */
@@ -638,23 +634,12 @@ public class HiveGameState extends GameState {
      * @return true if so, false otherwise
      */
     public boolean checkIfWhite(int row, int col) {
-        if (board[row][col] == piece.WBEE) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.WGHOPPER) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.WSPIDER) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.WANT) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.WBEETLE) {
+        if (board[row][col] == piece.WBEE ||
+                board[row][col] == piece.WGHOPPER ||
+                board[row][col] == piece.WSPIDER ||
+                board[row][col] == piece.WANT ||
+                board[row][col] == piece.WBEETLE)
+        {
             return true;
         }
 
@@ -670,23 +655,12 @@ public class HiveGameState extends GameState {
      * @return true if so, false otherwise
      */
     public boolean checkIfBlack(int row, int col) {
-        if (board[row][col] == piece.BBEE) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.BGHOPPER) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.BSPIDER) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.BANT) {
-            return true;
-        }
-
-        else if (board[row][col] == piece.BBEETLE) {
+        if (board[row][col] == piece.BBEE ||
+                board[row][col] == piece.BGHOPPER ||
+                board[row][col] == piece.BSPIDER ||
+                board[row][col] == piece.BANT ||
+                board[row][col] == piece.BBEETLE)
+        {
             return true;
         }
 
