@@ -346,7 +346,7 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                 //places piece
 
                 //creates an array list of useable pieces to place
-                hand = getHand(myBugList, playerNum);
+                hand = getHand(myBugList, BLACK_TURN);
                 //if nothing to place -> skip place piece and go to move piece
                 if(hand.size() > 0) {
 
@@ -370,8 +370,6 @@ public class HiveComputerPlayer extends GameComputerPlayer {
 
                     //if no pieces on the board, place a piece in the middle
                     if(freeSpaces == 0){
-                        HiveButtonAction buttonAction = new HiveButtonAction(this, hand.get(randomBug));
-                        game.sendAction(buttonAction);
                         HivePlacePieceAction placePiece = new HivePlacePieceAction(this, 6, 6, hand.get(randomBug));
                         game.sendAction(placePiece);
                         return;
@@ -384,7 +382,7 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                             if (test.board[i][j] == HiveGameState.piece.TARGET) {
                                 spaceCount += 1;
                             }
-                            if (spaceCount == randomLocation && test.board[i][j] == HiveGameState.piece.TARGET) {
+                            if (spaceCount == randomLocation) {
                                 HivePlacePieceAction placePiece = new HivePlacePieceAction(this, i, j, hand.get(randomBug));
                                 game.sendAction(placePiece);
                                 return;
