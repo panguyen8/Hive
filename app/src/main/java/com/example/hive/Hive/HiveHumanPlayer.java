@@ -177,9 +177,14 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
             if(placeButton) {
                 //reset targets if there are no pieces available to place
                 if (hgs.checkNumPieces(piecePlaced) != 0) {
-                    piecePlacement = true;
-                    game.sendAction(action);
-                    surfaceView.invalidate();
+                    if (!(hgs.getTurnCount() == 0)) {
+                        piecePlacement = true;
+                        game.sendAction(action);
+                        surfaceView.invalidate();
+                    } else {
+                        piecePlacement = true;
+                        surfaceView.invalidate();
+                    }
                 }
             }
             else {
