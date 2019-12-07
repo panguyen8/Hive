@@ -818,9 +818,9 @@ public class HiveGameState extends GameState {
      * @param islandArray: "copy" of board
      *
      *CITATION - CONNECTED COMPONENTS ALGORITHM/KORASAJU'S ALGORITHM
-     *      * Author: S. Rao Kosaraju and Micha Sharir. Kosaraju
-     *      * Date: 1978 discovered, heard about it from Dr. Tribelhorn
-     *      * Available: https://scienceblogs.com/goodmath/2007/10/30/computing-strongly-connected-c
+     * Author: S. Rao Kosaraju and Micha Sharir. Kosaraju
+     * Date: 1978 discovered, heard about it from Dr. Tribelhorn
+     * Available: https://scienceblogs.com/goodmath/2007/10/30/computing-strongly-connected-c
      *
      */
     public void checkIslandsRecursive(int row, int col, int islandCount, int[][] islandArray) {
