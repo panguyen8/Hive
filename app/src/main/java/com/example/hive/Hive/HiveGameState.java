@@ -328,7 +328,16 @@ public class HiveGameState extends GameState {
      * @param col: the new spot's col
      */
     public void highlightBee(piece[][] board, int row, int col) {
-        highlightSurrounding(board, row, col);
+        makeTarget(row, col);
+        for (int i = 1; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if(board[i][j] == piece.TARGET) {
+                    if (beeTargetRemoval(board, i, j)) {
+                        board[i][j] = piece.EMPTY;
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -611,6 +620,72 @@ public class HiveGameState extends GameState {
         }
     }
 
+    public boolean beeTargetRemoval(piece[][] board, int row, int col)
+    {
+        //checks to see if targets are valid
+        // if a beeTarget is only touching the bee, remove it
+
+        int count = 0;
+        if (col % 2 == 0) {
+            if (board[row + 1][col] == piece.EMPTY
+                || board[row + 1][col] == piece.TARGET) {
+                count++;
+            }
+            if (board[row - 1][col + 1] == piece.EMPTY
+                || board[row - 1][col + 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row][col + 1] == piece.EMPTY
+                || board[row][col + 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row][col - 1] == piece.EMPTY
+                || board[row][col - 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row - 1][col] == piece.EMPTY
+                || board[row - 1][col] == piece.TARGET) {
+                count++;
+            }
+            if (board[row - 1][col - 1] == piece.EMPTY
+                || board[row - 1][col - 1] == piece.EMPTY) {
+                count++;
+            }
+        }
+        else {
+            if (board[row + 1][col] == piece.EMPTY
+                || board[row + 1][col] == piece.TARGET) {
+                count++;
+            }
+            if (board[row + 1][col + 1] == piece.EMPTY
+                || board[row + 1][col + 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row][col + 1] == piece.EMPTY
+                || board[row][col + 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row][col - 1] == piece.EMPTY
+                || board[row][col - 1] == piece.TARGET) {
+                count++;
+            }
+            if (board[row - 1][col] == piece.EMPTY
+                || board[row - 1][col] == piece.TARGET) {
+                count++;
+            }
+            if (board[row + 1][col - 1] == piece.EMPTY
+                || board[row + 1][col - 1] == piece.TARGET) {
+                count++;
+            }
+        }
+
+        if (count == 5) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Get what turn it is (not whose turn it is,
      * but how many turns have been played)
@@ -837,4 +912,6 @@ public class HiveGameState extends GameState {
             }
         }
     }
+
+
 }
