@@ -446,7 +446,7 @@ public class HiveSmartComputerPlayer extends GameComputerPlayer {
                             if (test.board[i][j] == HiveGameState.piece.TARGET) {
                                 spaceCount += 1;
                             }
-                            if (spaceCount == randomLocation) {
+                            if (spaceCount == randomLocation && test.board[i][j] == HiveGameState.piece.TARGET) {
                                 HiveGameState.piece bug;
                                 if(hand.contains(HiveGameState.piece.BSPIDER)){
                                     bug = HiveGameState.piece.BSPIDER;
