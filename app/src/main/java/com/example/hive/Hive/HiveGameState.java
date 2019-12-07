@@ -642,7 +642,6 @@ public class HiveGameState extends GameState {
         {
             return true;
         }
-
         else {
             return false;
         }
@@ -663,7 +662,6 @@ public class HiveGameState extends GameState {
         {
             return true;
         }
-
         else {
             return false;
         }
@@ -720,11 +718,11 @@ public class HiveGameState extends GameState {
     /**
      *  Check Islands method which ensures that islands will not be made upon moving a piece
      *
-     * @param startRow
-     * @param startCol
-     * @param endRow
-     * @param endCol
-     * @return
+     * @param startRow: the starting row
+     * @param startCol: the starting col
+     * @param endRow: the ending row
+     * @param endCol: the ending col
+     * @return true if there are 2 or more islands, false otherwise
      */
     public boolean checkIslands(int startRow, int startCol, int endRow, int endCol) {
         int numIslands = 1;
@@ -762,10 +760,10 @@ public class HiveGameState extends GameState {
      * Method which is called recursively to mark the array to make sure
      * island won't be called
      *
-     * @param row
-     * @param col
-     * @param islandCount
-     * @param islandArray
+     * @param row: the current row
+     * @param col: the current col
+     * @param islandCount: how many islands there are
+     * @param islandArray: "copy" of board
      */
     public void checkIslandsRecursive(int row, int col, int islandCount, int[][] islandArray) {
         if (col % 2 == 0) {

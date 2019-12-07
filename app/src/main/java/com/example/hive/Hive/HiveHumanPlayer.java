@@ -19,6 +19,7 @@ import com.example.hive.game.utilities.Logger;
  *
  * @author Phuocan Nguyen
  * @author Marc Hilderbrand
+ * @author Samuel Nguyen
  */
 public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener{
 
@@ -30,6 +31,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
     TextView gHopperCount;
     TextView antCount;
     TextView beetleCount;
+    TextView bBeeCount;
+    TextView bBeetleCount;
+    TextView bAntCount;
+    TextView bSpiderCount;
+    TextView bGHopperCount;
 
     ImageButton queenButton;
     ImageButton beetleButton;
@@ -202,24 +208,32 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        // Error checking
         if (surfaceView == null) {
             return;
         }
         if (info instanceof IllegalMoveInfo) {
         }
-        else if (!(info instanceof HiveGameState))
+        else if (!(info instanceof HiveGameState)) {
             return;
+        }
         else {
             //update HiveGameState in the gui and HiveHumanPlayer
             surfaceView.setState((HiveGameState)info);
             hgs = new HiveGameState((HiveGameState) info);
 
             //Update unplaced piece count
-            beeCount.setText("   Bee: " + hgs.checkNumPieces(HiveGameState.piece.WBEE));
-            spiderCount.setText("   Spider: " + hgs.checkNumPieces(HiveGameState.piece.WSPIDER));
-            gHopperCount.setText("   Grasshopper: " + hgs.checkNumPieces(HiveGameState.piece.WGHOPPER));
-            antCount.setText("   Ant: " + hgs.checkNumPieces(HiveGameState.piece.WANT));
-            beetleCount.setText("   Beetle: " + hgs.checkNumPieces(HiveGameState.piece.WBEETLE));
+            beeCount.setText("   White Bee: " + hgs.checkNumPieces(HiveGameState.piece.WBEE));
+            spiderCount.setText("   White Spider: " + hgs.checkNumPieces(HiveGameState.piece.WSPIDER));
+            gHopperCount.setText("   White Grasshopper: " + hgs.checkNumPieces(HiveGameState.piece.WGHOPPER));
+            antCount.setText("   White Ant: " + hgs.checkNumPieces(HiveGameState.piece.WANT));
+            beetleCount.setText("   White Beetle: " + hgs.checkNumPieces(HiveGameState.piece.WBEETLE));
+
+            bBeeCount.setText("   Black Bee: " + hgs.checkNumPieces(HiveGameState.piece.BBEE));
+            bSpiderCount.setText("   Black Spider: " + hgs.checkNumPieces(HiveGameState.piece.BSPIDER));
+            bGHopperCount.setText("   Black Grasshopper: " + hgs.checkNumPieces(HiveGameState.piece.BGHOPPER));
+            bAntCount.setText("   Black Ant: " + hgs.checkNumPieces(HiveGameState.piece.BANT));
+            bBeetleCount.setText("   Black Beetle: " + hgs.checkNumPieces(HiveGameState.piece.BBEETLE));
 
             if(hgs.getTurnCount() > 7 && hgs.bugList.contains(HiveGameState.piece.WBEE)){
                 spiderButton.setImageAlpha(100);
@@ -263,8 +277,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         double x = event.getX();
         double y = event.getY();
 
-        int divider = 0;
-        divider = (int)(y/66);
+        int divider = (int)(y/66);
         yCoord =(int) y + 33*divider;
 
         yCoord = yCoord/100;
@@ -323,7 +336,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 else{
                     moveReady = false;
                 }
-            }else{
+            }
+            else{
                 if(hgs.checkIfBlack(xStart, yStart)) {
                     surfaceView.setSelectedCoords(xStart, yStart);
                     HiveSelectedPieceAction action = new HiveSelectedPieceAction(this, xStart, yStart);
@@ -335,7 +349,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     moveReady = false;
                 }
             }
-        } else if (moveReady) {
+        }
+        else if (moveReady) {
             xEnd = xCoord;
             yEnd = yCoord;
 
@@ -345,7 +360,8 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                 Logger.log("onTouch", "Deselect: " + xEnd + " " + yEnd);
                 HiveResetBoardAction action = new HiveResetBoardAction(this, true);
                 game.sendAction(action);
-            } else {
+            }
+            else {
                 HiveMoveAction action = new HiveMoveAction(this, xStart, yStart, xEnd, yEnd);
                 if (hgs.makeMove(action.endRow, action.endCol, hgs.board[action.endRow][action.endCol])
                     && hgs.checkIslands(action.startRow, action.startCol, action.endRow, action.endCol)) {
@@ -353,8 +369,10 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     createPieceText(hgs.board[xStart][yStart]);
                     game.sendAction(action);
                     moveReady = true;
-                    theText.append(pieceText + " has been moved from (" + xStart + ", " + yStart + ") to (" + xEnd + ", " + yEnd + ")\n");
-                } else {
+                    theText.append(pieceText + " has been moved from (" + xStart + ", " + yStart +
+                            ") to (" + xEnd + ", " + yEnd + ")\n");
+                }
+                else {
                     HiveResetBoardAction action3 = new HiveResetBoardAction(this, true);
                     game.sendAction(action3);
                     moveReady = false;
@@ -461,6 +479,11 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         gHopperCount = activity.findViewById(R.id.GHopperCount);
         antCount = activity.findViewById(R.id.AntCount);
         beetleCount = activity.findViewById(R.id.BeetleCount);
+        bBeeCount = activity.findViewById(R.id.BlackBeeCount);
+        bAntCount = activity.findViewById(R.id.BlackAntCount);
+        bBeetleCount = activity.findViewById(R.id.BlackBeetleCount);
+        bGHopperCount = activity.findViewById(R.id.BlackGHopperCount);
+        bSpiderCount = activity.findViewById(R.id.BlackSpiderCount);
 
         //Initialize the widget reference member variables
         surfaceView = (HiveView) activity.findViewById(R.id.hiveSurfaceView);

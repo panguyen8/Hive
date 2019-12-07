@@ -47,6 +47,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Bee: 1" />
+
+                <TextView
+                    android:id="@+id/BlackBeeCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Black Bee: 1" />
             </LinearLayout>
 
             <LinearLayout
@@ -68,6 +75,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Spider: 2" />
+
+                <TextView
+                    android:id="@+id/BlackSpiderCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Black Spider:2" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,6 +103,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="GrassHopper: 3" />
+
+                <TextView
+                    android:id="@+id/BlackGHopperCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Black Grasshopper: 3" />
             </LinearLayout>
 
             <LinearLayout
@@ -110,6 +131,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Ant: 3" />
+
+                <TextView
+                    android:id="@+id/BlackAntCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Black Ant: 3" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,6 +159,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Beetle: 2" />
+
+                <TextView
+                    android:id="@+id/BlackBeetleCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Black Beetle: 2" />
             </LinearLayout>
 
         </LinearLayout>
