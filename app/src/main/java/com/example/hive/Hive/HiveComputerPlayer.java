@@ -461,8 +461,9 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                         //finds the location of the valid action and send the HiveMoveAction
                         for (int i = 1; i < test.board.length - 1; i++) {
                             for (int j = 1; j < test.board[j].length - 1; j++) {
-                                if (test.board[i][j] == HiveGameState.piece.TARGET) {
-                                    if(spaceCount == randomLocation){
+                                if ((test.board[i][j] == HiveGameState.piece.TARGET)) {
+                                    if((spaceCount == randomLocation)
+                                            && test.checkIslands(startX, startY, i, j)) {
                                         HiveMoveAction moveAction = new HiveMoveAction(this, startX, startY, i, j);
                                         game.sendAction(moveAction);
                                         return;

@@ -160,6 +160,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
                     break;
                 case R.id.helpButton:
                     theText.append("To win, the opponent's bee must be surrounded.\n" +
+                            "The first player is allowed to place any piece anywhere on the first turn!" +
                             "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
                             "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
                             "Remember to place the bee within the first four moves, or it will be placed for you! \n" +
@@ -497,6 +498,7 @@ public class HiveHumanPlayer extends GameHumanPlayer implements View.OnTouchList
         Button help = (Button) activity.findViewById(R.id.helpButton);
 
         theText.append("Welcome to Hive! \n" +
+                "The first player is allowed to place any piece anywhere on the first turn!" +
                 "To win, the opponent's bee must be surrounded.\n" +
                 "To place a piece, tap its button, then tap a highlighted hexagon.\n" +
                 "To move a piece, tap the piece on the board, then tap a highlighted hexagon.\n" +
