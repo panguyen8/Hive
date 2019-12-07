@@ -382,7 +382,7 @@ public class HiveComputerPlayer extends GameComputerPlayer {
                             if (test.board[i][j] == HiveGameState.piece.TARGET) {
                                 spaceCount += 1;
                             }
-                            if (spaceCount == randomLocation) {
+                            if ((spaceCount == randomLocation) && test.checkIslandsPlace(i, j)) {
                                 HivePlacePieceAction placePiece = new HivePlacePieceAction(this, i, j, hand.get(randomBug));
                                 game.sendAction(placePiece);
                                 return;

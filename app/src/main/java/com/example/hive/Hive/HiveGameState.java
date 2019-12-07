@@ -757,6 +757,45 @@ public class HiveGameState extends GameState {
     }
 
     /**
+     *  Check Islands method which ensures that islands will not be made upon moving a piece
+     *
+     * @param endRow: the ending row
+     * @param endCol: the ending col
+     * @return true if there are 2 or more islands, false otherwise
+     */
+    public boolean checkIslandsPlace(int endRow, int endCol) {
+        int numIslands = 1;
+        HiveGameState check = new HiveGameState(this);
+        check.resetTarget();
+
+        int[][] islandArray = new int[board.length][board.length];
+        for (int gridRow = 0; gridRow < board.length; gridRow++) {
+            for (int gridCol = 0; gridCol < board.length; gridCol++) {
+                islandArray[gridRow][gridCol] = 0;
+            }
+        }
+
+        check.board[endRow][endCol] = piece.BBEE;
+
+        for (int gridRow = 1; gridRow < board.length - 1; gridRow++) {
+            for (int gridCol = 1; gridCol < board.length - 1; gridCol++) {
+                if(check.board[gridRow][gridCol] != piece.EMPTY && islandArray[gridRow][gridCol] == 0) {
+                    islandArray[gridRow][gridCol] = numIslands;
+                    check.checkIslandsRecursive(gridRow, gridCol, numIslands, islandArray);
+                    numIslands++;
+                }
+            }
+        }
+
+
+        if (numIslands > 2) {
+            return false;
+        }
+        return true;
+    }
+
+   
+    /**
      * Method which is called recursively to mark the array to make sure
      * island won't be called
      *
