@@ -1,12 +1,12 @@
 package com.example.hive.Hive;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
-        import com.example.hive.game.GameMainActivity;
-        import com.example.hive.game.GamePlayer;
-        import com.example.hive.game.LocalGame;
-        import com.example.hive.game.gameConfiguration.GameConfig;
-        import com.example.hive.game.gameConfiguration.GamePlayerType;
+import com.example.hive.game.GameMainActivity;
+import com.example.hive.game.GamePlayer;
+import com.example.hive.game.LocalGame;
+import com.example.hive.game.gameConfiguration.GameConfig;
+import com.example.hive.game.gameConfiguration.GamePlayerType;
 
 /**
  * This is original main activity file used to create game
